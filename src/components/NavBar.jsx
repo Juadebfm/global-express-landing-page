@@ -9,7 +9,9 @@ const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinkClass = ({ isActive }) =>
-    isActive ? "font-bold text-[#FF6600]" : "";
+    isActive
+      ? "font-bold text-[#FF6600] border-b-2 border-[#FF6600] pb-1"
+      : "pb-1";
 
   return (
     <div className=" w-full px-8 bg-[#232323] md:w-[92%] mx-auto absolute left-1/2 -translate-x-1/2 top-full lg:-mt-6 shadow-[0_4px_10px_rgba(255,255,255,0.80)] z-50">

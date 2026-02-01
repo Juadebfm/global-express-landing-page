@@ -37,28 +37,28 @@ const Clients = () => {
 
   return (
     <div
-      className="bg-cover bg-center bg-no-repeat h-[450px] mt-24  max-w-[92%] mx-auto relative mb-16"
+      className="bg-cover bg-center bg-no-repeat h-[450px] mt-24 max-w-[92%] mx-auto relative mb-16 max-md:h-auto max-md:mt-20 max-md:mb-12 max-sm:mt-16 max-sm:mb-8 max-sm:max-w-full max-sm:flex max-sm:items-center max-sm:justify-center max-sm:py-12"
       style={{ backgroundImage: `url(${storeImg})` }}
     >
-      <div className="bg-[#FFFFFF] w-[30%] absolute top-32 right-16">
-        <div className="pt-8 px-8">
-          <img src={quotation} alt="" />
-          <h4 className="font-extrabold mt-4 text-[24px]">
+      <div className="bg-[#FFFFFF] w-[30%] absolute top-32 right-16 max-md:w-[85%] max-md:right-[7.5%] max-md:top-12 max-sm:w-[90%] max-sm:relative max-sm:top-auto max-sm:right-auto">
+        <div className="pt-8 px-8 max-md:pt-6 max-md:px-6 max-sm:pt-6 max-sm:px-5">
+          <img src={quotation} alt="" className="max-sm:w-8" />
+          <h4 className="font-extrabold mt-4 text-[24px] max-md:text-[20px] max-sm:text-[18px]">
             {testimonials[activeSlide].title}
           </h4>
-          <p className="mt-4 text-[13px]">
+          <p className="mt-4 text-[13px] max-md:text-[14px] max-sm:text-[14px]">
             <span className="font-bold">
               {testimonials[activeSlide].highlight}
             </span>{" "}
             "{testimonials[activeSlide].text}"
           </p>
-          <p className="mt-4 font-bold text-[14px]">
+          <p className="mt-4 font-bold text-[14px] max-sm:text-[13px]">
             {testimonials[activeSlide].author}
           </p>
         </div>
 
         {/* Orange div with white dots at the right end - full width of parent */}
-        <div className="bg-[#FF6600] w-full h-[40px] mt-4 flex items-center justify-end px-8 gap-2">
+        <div className="bg-[#FF6600] w-full h-[40px] mt-4 flex items-center justify-end px-8 gap-2 max-sm:px-5 max-sm:h-[50px] max-sm:justify-center">
           {testimonials.map((_, index) => (
             <button
               key={index}

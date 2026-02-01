@@ -20,7 +20,7 @@ const Home = () => {
       <HomeServices />
       <Clients />
       <GetInTouch />
-      <Footer />
+      <Footer /> 
     </div>
   );
 };
