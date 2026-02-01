@@ -5,6 +5,9 @@ import Numbers from "../components/Numbers";
 import HomeAbout from "../components/HomeAbout";
 import Achievements from "../components/Achievements";
 import HomeServices from "../components/HomeServices";
+import Clients from "../components/Clients";
+import GetInTouch from "../components/GetInTouch";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -15,6 +18,9 @@ const Home = () => {
       <HomeAbout />
       <Achievements />
       <HomeServices />
+      <Clients />
+      <GetInTouch />
+      <Footer />
     </div>
   );
 };

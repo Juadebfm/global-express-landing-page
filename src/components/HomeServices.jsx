@@ -21,6 +21,9 @@ const HomeServices = () => {
       <div>
         <HoverCards />
       </div>
+      <div className="flex justify-center items-center">
+        <button className="px-8 rounded-lg py-2 bg-[#FF6600] mt-12">Explore All</button>
+      </div>
     </div>
   );
 };
