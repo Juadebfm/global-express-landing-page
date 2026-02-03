@@ -10,63 +10,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 const Footer = () => {
   return (
     <div className="mt-48 px-16 text-[#FFFFFF] max-md:px-6 max-md:mt-32 max-sm:px-4 max-sm:mt-24">
-      <div className="flex items-start max-md:flex-col max-md:gap-8 max-sm:gap-6">
-        <div className="max-md:w-full max-md:flex max-md:justify-center max-sm:justify-start">
-          <img
-            src={footerImage}
-            alt="Footer"
-            className="w-full h-auto max-md:max-w-[200px] max-sm:max-w-[180px]"
-          />
-        </div>
-        <div className="ml-16 flex items-start justify-between gap-32 max-md:ml-0 max-md:gap-8 max-md:w-full max-md:flex-wrap max-sm:flex-col max-sm:gap-6">
-          <div className="mt-3 max-md:mt-0">
-            <h6 className="text-sm mb-3 font-semibold">Company</h6>
-            <ul className="text-[13px] text-[#FFFF] flex flex-col gap-6 max-sm:gap-4">
-              <li>
-                <Link>Ship Management </Link>
-              </li>
-              <li>
-                <Link>Marine Logistics</Link>
-              </li>
-              <li>
-                <Link>Sailors Management </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="mt-3 max-md:mt-0">
-            <h6 className="text-sm mb-3 font-semibold">Solutions</h6>
-            <ul className="text-[13px] text-[#FFFF] flex flex-col gap-4">
-              <li>
-                <Link>Air Cargo</Link>
-              </li>
-              <li>
-                <Link>Courier Services (door-to-door)</Link>
-              </li>
-              <li>
-                <Link>Ocean Shipping</Link>
-              </li>
-              <li>
-                <Link>Packaging</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="mt-3 max-md:mt-0">
-            <h6 className="text-sm mb-3 font-semibold">Resources</h6>
-            <ul className="text-[13px] text-[#FFFF] flex flex-col gap-4">
-              <li>
-                <Link>Get a quote</Link>
-              </li>
-              <li>
-                <Link>Calculate Shipment</Link>
-              </li>
-              <li>
-                <Link>Blog</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div className="w-full h-[0.5px] bg-[#FF6600] mt-10 max-sm:mt-8"></div>
+    
       <div className="flex items-start mt-12 max-md:flex-col max-md:gap-8 max-md:mt-8 max-sm:gap-6">
         <div className="max-md:w-full max-md:flex max-md:justify-center max-sm:justify-start">
           <img
@@ -166,18 +110,7 @@ const Footer = () => {
           <FaLinkedinIn className="cursor-pointer hover:text-[#FF6600] transition max-sm:text-sm" />
         </div>
       </div>
-      <div className="flex items-center justify-between mt-8 pb-8 max-sm:flex-col max-sm:gap-4 max-sm:items-start max-sm:mt-6 max-sm:pb-6">
-        <small className="max-sm:text-[11px]">
-          Globalexpress@2026. All rights reserved.
-        </small>
-        <div className="flex items-center gap-6 max-sm:gap-4">
-          <FaYoutube className="cursor-pointer hover:text-[#FF6600] transition max-sm:text-sm" />
-          <FaFacebookF className="cursor-pointer hover:text-[#FF6600] transition max-sm:text-sm" />
-          <FaTwitter className="cursor-pointer hover:text-[#FF6600] transition max-sm:text-sm" />
-          <FaInstagram className="cursor-pointer hover:text-[#FF6600] transition max-sm:text-sm" />
-          <FaLinkedinIn className="cursor-pointer hover:text-[#FF6600] transition max-sm:text-sm" />
-        </div>
-      </div>
+      
     </div>
   );
 };

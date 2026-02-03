@@ -1,6 +1,7 @@
 import React from "react";
 import horizontal from "../assets/horizontal.png";
 import achievement from "../assets/achievement.png";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const Achievements = () => {
   return (
@@ -37,6 +38,78 @@ const Achievements = () => {
         </p>
 
         <p className="text-[14px] mt-4 max-sm:text-[15px]">We have:</p>
+        <div className="mt-4">
+          <div className="group flex items-center gap-3">
+            <FaArrowRightLong className="transition-transform duration-300 group-hover:rotate-90" />
+            <div className="relative cursor-pointer inline-block">
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #963113 0%, #FFA78D3D 100%)",
+                }}
+              />
+              <p className="z-10 px-3 py-2">
+                20+ Years of Uninterrupted Service Since 2003
+              </p>
+            </div>
+          </div>
+          <hr className="w-full border-gray-300 mt-2 md:w-[60%]" />
+        </div>
+        <div className="mt-4">
+          <div className="group flex items-center gap-3">
+            <FaArrowRightLong className="transition-transform duration-300 group-hover:rotate-90" />
+            <div className="relative cursor-pointer inline-block">
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #963113 0%, #FFA78D3D 100%)",
+                }}
+              />
+              <p className="z-10 px-3 py-2">
+                3 Global Hubs: Korea, China, and Nigeria
+              </p>
+            </div>
+          </div>
+          <hr className="w-full border-gray-300 mt-2 md:w-[60%]" />
+        </div>
+        <div className="mt-4">
+          <div className="group flex items-center gap-3">
+            <FaArrowRightLong className="transition-transform duration-300 group-hover:rotate-90" />
+            <div className="relative cursor-pointer inline-block">
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #963113 0%, #FFA78D3D 100%)",
+                }}
+              />
+              <p className="z-10 px-3 py-2">
+                98% On-Time Delivery Rate for Global Shipments
+              </p>
+            </div>
+          </div>
+          <hr className="w-full border-gray-300 mt-2 md:w-[60%]" />
+        </div>
+        <div className="mt-4">
+          <div className="group flex items-center gap-3">
+            <FaArrowRightLong className="transition-transform duration-300 group-hover:rotate-90" />
+            <div className="relative cursor-pointer inline-block">
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #963113 0%, #FFA78D3D 100%)",
+                }}
+              />
+              <p className="z-10 px-3 py-2">
+                0 Hitches: Seamless Nigerian Customs Clearing
+              </p>
+            </div>
+          </div>
+          <hr className="w-full border-gray-300 mt-2 md:w-[60%]" />
+        </div>
       </div>
 
       {/* IMAGE */}

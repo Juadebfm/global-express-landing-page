@@ -14,7 +14,7 @@ const NavBar = () => {
       : "pb-1";
 
   return (
-    <div className=" w-full px-8 bg-[#232323] md:w-[92%] mx-auto absolute left-1/2 -translate-x-1/2 top-full lg:-mt-6 shadow-[0_4px_10px_rgba(255,255,255,0.80)] z-50">
+    <div className=" w-full px-8 bg-[#232323] md:w-[92%] mx-auto absolute left-1/2 -translate-x-1/2 top-full lg:-mt-6 shadow-[0_4px_10px_rgba(128,128,128,0.5)] z-50">
       <nav className="flex items-center justify-between">
         {/* Desktop Layout - unchanged */}
         <div className="hidden lg:flex items-center justify-between gap-20">
