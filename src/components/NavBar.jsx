@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 import globallogo from "../assets/globallogo.png";
 import { NavLink } from "react-router-dom";
-import { GiMoon } from "react-icons/gi";
+import { FiMoon, FiSun } from "react-icons/fi";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
+import { useTheme } from "../contexts/theme-context";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const navLinkClass = ({ isActive }) =>
     isActive
-      ? "font-bold text-[#FF6600] border-b-2 border-[#FF6600] pb-1"
+      ? "font-bold text-[color:var(--accent)] border-b-2 border-[color:var(--accent)] pb-1"
       : "pb-1";
 
   return (
-    <div className=" w-full px-8 bg-[#232323] md:w-[92%] mx-auto absolute left-1/2 -translate-x-1/2 top-full lg:-mt-6 shadow-[0_4px_10px_rgba(128,128,128,0.5)] z-50">
+    <div className=" w-full px-8 bg-[color:var(--nav-bg)] md:w-[92%] mx-auto absolute left-1/2 -translate-x-1/2 top-full lg:-mt-6 shadow-[0_4px_10px_rgba(128,128,128,0.5)] z-50">
       <nav className="flex items-center justify-between">
         {/* Desktop Layout - unchanged */}
         <div className="hidden lg:flex items-center justify-between gap-20">
           <img className="" src={globallogo} alt="Global Express Logo" />
-          <ul className="text-[#FFFFFF] flex items-center gap-8 py-6 text-[13px] font-semibold">
+          <ul className="text-[color:var(--text)] flex items-center gap-8 py-6 text-[13px] font-semibold">
             <li>
               <NavLink to="/" className={navLinkClass}>
                 Home
@@ -58,17 +60,24 @@ const NavBar = () => {
           </ul>
         </div>
 
-        <div className="hidden lg:flex text-[#FFFFFF] text-[13px] font-semibold items-center gap-4">
+        <div className="hidden lg:flex text-[color:var(--text)] text-[13px] font-semibold items-center gap-4">
           <NavLink to="/track-shipment" className={navLinkClass}>
             Track your shipment
           </NavLink>
           <p>|</p>
           <button>Sign in</button>
-          <button className="bg-[#FF6600] px-4 py-2 rounded-lg">
+          <button className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg">
             Get Started
           </button>
           <p>|</p>
-          <GiMoon />
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="text-[color:var(--icon)] text-lg"
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? <FiSun /> : <FiMoon />}
+          </button>
         </div>
 
         {/* Mobile Layout - Logo and Menu side by side */}
@@ -81,7 +90,7 @@ const NavBar = () => {
             />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white text-3xl block"
+              className="text-[color:var(--text)] text-3xl block"
             >
               {isMenuOpen ? <IoClose /> : <HiMenuAlt3 />}
             </button>
@@ -92,7 +101,7 @@ const NavBar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="lg:hidden pb-6">
-          <ul className="text-[#FFFFFF] flex flex-col gap-4 text-[13px] font-semibold">
+          <ul className="text-[color:var(--text)] flex flex-col gap-4 text-[13px] font-semibold">
             <li>
               <NavLink
                 to="/"
@@ -159,7 +168,7 @@ const NavBar = () => {
           </ul>
 
           {/* Mobile actions - aligned and presentable */}
-          <div className="flex flex-col gap-3 mt-6 text-[#FFFFFF] text-[13px] font-semibold border-t border-gray-600 pt-4">
+          <div className="flex flex-col gap-3 mt-6 text-[color:var(--text)] text-[13px] font-semibold border-t border-gray-600 pt-4">
             <NavLink
               to="/track-shipment"
               className={navLinkClass}
@@ -171,15 +180,22 @@ const NavBar = () => {
               Sign in
             </button>
             <button
-              className="bg-[#FF6600] px-4 py-2 rounded-lg text-left"
+              className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg text-left"
               onClick={() => setIsMenuOpen(false)}
             >
               Get Started
             </button>
-            <div className="flex items-center gap-2 mt-2">
-              <GiMoon />
-              <span>Dark Mode</span>
-            </div>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex items-center gap-2 mt-2 text-[color:var(--icon)]"
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            >
+              {theme === "dark" ? <FiSun /> : <FiMoon />}
+              <span className="text-[color:var(--text)]">
+                {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              </span>
+            </button>
           </div>
         </div>
       )}

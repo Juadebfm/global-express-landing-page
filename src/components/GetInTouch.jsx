@@ -5,7 +5,7 @@ import { IoLocationOutline } from "react-icons/io5";
 
 const GetInTouch = () => {
   return (
-    <div className="mt-48 px-16 text-[#FFFFFF] max-md:px-6 max-md:mt-32 max-sm:px-4 max-sm:mt-24">
+    <div className="mt-48 px-16 text-[color:var(--text)] max-md:px-6 max-md:mt-32 max-sm:px-4 max-sm:mt-24">
       <div className="flex items-start justify-between gap-16 max-md:flex-col max-md:gap-8 max-sm:gap-6">
         {/* First Container - Image */}
         <div className="flex-shrink-0 max-md:w-full max-md:flex max-md:justify-center max-sm:justify-start">
@@ -34,7 +34,7 @@ const GetInTouch = () => {
           </div>
           <div className="space-y-4 max-sm:space-y-3">
             <div className="flex items-center gap-3 text-[13px] max-sm:text-[14px] max-sm:items-start">
-              <p className="bg-[#FF6600] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
+              <p className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
                 <IoLocationOutline className="text-[18px] max-sm:text-[16px]" />
               </p>
               <div>
@@ -49,13 +49,13 @@ const GetInTouch = () => {
               </div>
             </div>
             <div className="flex items-center gap-3 text-[13px] max-sm:text-[14px]">
-              <p className="bg-[#FF6600] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
+              <p className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
                 <IoLocationOutline className="text-[18px] max-sm:text-[16px]" />
               </p>
               <p>sales@globalexpress.kr</p>
             </div>
             <div className="flex items-center gap-3 text-[13px] max-sm:text-[14px] max-sm:items-start">
-              <p className="bg-[#FF6600] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
+              <p className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
                 <IoLocationOutline className="text-[18px] max-sm:text-[16px]" />
               </p>
               <div>

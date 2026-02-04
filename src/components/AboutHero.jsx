@@ -18,7 +18,7 @@ const AboutHero = () => {
       <div className="flex flex-col items-center justify-center w-full">
         <h1 
           className="
-            text-[#FFFFFF] font-extrabold text-center leading-tight
+            text-[color:var(--hero-text)] font-extrabold text-center leading-tight
             text-[75px]
             lg:text-[75px] lg:w-[90%]
             md:text-[55px] md:w-[95%]
@@ -30,7 +30,7 @@ const AboutHero = () => {
         </h1>
         <p 
           className="
-            text-[#FFFFFF] text-center leading-relaxed my-6
+            text-[color:var(--hero-text)] text-center leading-relaxed my-6
             text-[18px] w-[70%]
             lg:text-[18px] lg:w-[70%]
             md:text-[16px] md:w-[85%]

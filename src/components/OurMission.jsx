@@ -4,7 +4,7 @@ import horizontal from "../assets/horizontal.png";
 
 const OurMission = () => {
   return (
-    <div className="px-16 text-[#FFFFFF] flex justify-center items-center gap-8 mt-36 max-md:px-8 max-md:flex-col-reverse max-md:mt-16 max-sm:px-4 max-sm:mt-12 md:mb-48">
+    <div className="px-16 text-[color:var(--text)] flex justify-center items-center gap-8 mt-36 max-md:px-8 max-md:flex-col-reverse max-md:mt-16 max-sm:px-4 max-sm:mt-12 md:mb-48">
       <div className="flex-1 flex justify-center max-md:w-full">
         <img
           src={achievement}

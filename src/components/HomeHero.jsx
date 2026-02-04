@@ -35,7 +35,7 @@ const HomeHero = () => {
       >
         <h1
           className="
-            text-[#FFFFFF] text-[60px] font-extrabold w-[90%] leading-tight
+            text-[color:var(--hero-text)] text-[60px] font-extrabold w-[90%] leading-tight
             max-md:text-[42px] max-md:w-full
             max-sm:text-[32px] max-sm:text-center
             
@@ -47,7 +47,7 @@ const HomeHero = () => {
 
         <p
           className="
-            text-[#FFFFFF] text-[18px] w-[48%] my-6 leading-relaxed
+            text-[color:var(--hero-text)] text-[18px] w-[48%] my-6 leading-relaxed
             max-md:w-full max-md:text-[16px]
             max-sm:text-center
             
@@ -61,7 +61,7 @@ const HomeHero = () => {
 
         <button
           className="
-            bg-[#FF6600] px-10 py-3 rounded-lg text-[#FFFFFF] font-semibold
+            bg-[color:var(--accent)] px-10 py-3 rounded-lg text-[color:var(--accent-contrast)] font-semibold
             transition hover:bg-[#e65c00]
             max-sm:w-full max-sm:py-4
             

@@ -5,7 +5,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const Achievements = () => {
   return (
-    <div className="px-16 text-[#FFFFFF] mt-32 flex gap-12 max-md:px-6 max-md:flex-col max-md:gap-8 max-md:mt-20 max-sm:px-4 max-sm:mt-16">
+    <div className="px-16 text-[color:var(--text)] mt-32 flex gap-12 max-md:px-6 max-md:flex-col max-md:gap-8 max-md:mt-20 max-sm:px-4 max-sm:mt-16">
       {/* CONTENT */}
       <div className="flex-1">
         <div className="flex items-center gap-2">

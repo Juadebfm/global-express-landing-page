@@ -7,7 +7,7 @@ import shipment from "../assets/shipment.png";
 
 const HomeAbout = () => {
   return (
-    <div className="mt-24 text-[#FFFFFF] max-sm:mt-16">
+    <div className="mt-24 text-[color:var(--text)] max-sm:mt-16">
       <div className="px-16 flex justify-between max-md:px-6 max-md:flex-col max-md:gap-8 max-sm:px-4">
         <div className="w-1/2 max-md:w-full">
           <div className="flex items-center gap-2">

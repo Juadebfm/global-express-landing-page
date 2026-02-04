@@ -7,7 +7,7 @@ import clearing from "../assets/clearing.png";
 
 const AboutAbout = () => {
   return (
-    <div className="text-[#FFFFFF] px-16 mt-16 max-md:px-8 max-sm:px-4 max-sm:mt-8">
+    <div className="text-[color:var(--text)] px-16 mt-16 max-md:px-8 max-sm:px-4 max-sm:mt-8">
       <div>
         <div className="w-1/2 max-md:w-full">
           <div className="flex items-center gap-2">

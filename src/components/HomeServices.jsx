@@ -4,7 +4,7 @@ import HoverCards from "./HoverCards";
 
 const HomeServices = () => {
   return (
-    <div className="text-[#FFFFFF] mt-28 px-16 max-md:px-6 max-md:mt-20 max-sm:px-4 max-sm:mt-16">
+    <div className="text-[color:var(--text)] mt-28 px-16 max-md:px-6 max-md:mt-20 max-sm:px-4 max-sm:mt-16">
       <div className="flex flex-col justify-center items-center">
         <div className="flex items-center gap-2">
           <img src={horizontal} alt="horizontal line" />
@@ -22,7 +22,7 @@ const HomeServices = () => {
         <HoverCards />
       </div>
       <div className="flex justify-center items-center">
-        <button className="px-8 rounded-lg py-2 bg-[#FF6600] mt-12 max-sm:w-full max-sm:py-3 max-sm:mt-8 transition hover:bg-[#e65c00]">
+        <button className="px-8 rounded-lg py-2 bg-[color:var(--accent)] text-[color:var(--accent-contrast)] mt-12 max-sm:w-full max-sm:py-3 max-sm:mt-8 transition hover:bg-[#e65c00]">
           Explore All
         </button>
       </div>
