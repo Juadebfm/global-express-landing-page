@@ -5,7 +5,11 @@ import { IoLocationOutline } from "react-icons/io5";
 
 const GetInTouch = () => {
   return (
+<<<<<<< Updated upstream
     <div className="mt-48 px-16 text-[color:var(--text)] max-md:px-6 max-md:mt-32 max-sm:px-4 max-sm:mt-24">
+=======
+    <div className="pt-24 mt-48 px-16 text-[#FFFFFF] max-md:px-6 max-md:mt-32 max-sm:px-4 max-sm:mt-24">
+>>>>>>> Stashed changes
       <div className="flex items-start justify-between gap-16 max-md:flex-col max-md:gap-8 max-sm:gap-6">
         {/* First Container - Image */}
         <div className="flex-shrink-0 max-md:w-full max-md:flex max-md:justify-center max-sm:justify-start">
