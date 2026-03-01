@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import horizontal from "../assets/horizontal.png";
 import HoverCards from "./HoverCards";
 
@@ -22,9 +22,12 @@ const HomeServices = () => {
         <HoverCards />
       </div>
       <div className="flex justify-center items-center">
-        <button className="px-8 rounded-lg py-2 bg-[color:var(--accent)] text-[color:var(--accent-contrast)] mt-12 max-sm:w-full max-sm:py-3 max-sm:mt-8 transition hover:bg-[#e65c00]">
+        <Link
+          to="/services"
+          className="inline-block px-8 rounded-lg py-2 bg-[color:var(--accent)] text-[color:var(--accent-contrast)] mt-12 max-sm:w-full max-sm:py-3 max-sm:mt-8 max-sm:text-center transition hover:bg-[color:var(--accent-hover)]"
+        >
           Explore All
-        </button>
+        </Link>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import React from "react";
 import achievement from "../assets/achievement.png";
 import horizontal from "../assets/horizontal.png";
 

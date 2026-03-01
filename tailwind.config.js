@@ -5,8 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        body: ['"Lato"', "sans-serif"],
+        heading: ['"Montserrat"', "sans-serif"],
+      },
+    },
   },
   plugins: [],
 }
-

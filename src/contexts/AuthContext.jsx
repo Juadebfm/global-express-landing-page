@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { userApi } from '../api/userApi';
-import { AuthContext } from './auth-context';
+import { useState, useEffect, useMemo } from "react";
+import PropTypes from "prop-types";
+import { userApi } from "../api/userApi";
+import { AuthContext } from "./auth-context";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -13,14 +14,14 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem("authToken");
       if (token) {
         const userData = await userApi.getCurrentUser();
         setUser(userData);
       }
     } catch (err) {
-      console.error('Auth check failed:', err);
-      localStorage.removeItem('authToken');
+      console.error("Auth check failed:", err);
+      localStorage.removeItem("authToken");
     } finally {
       setLoading(false);
     }
@@ -31,11 +32,11 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       const data = await userApi.login(credentials);
-      localStorage.setItem('authToken', data.token);
+      localStorage.setItem("authToken", data.token);
       setUser(data.user);
       return data;
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || "Login failed");
       throw err;
     } finally {
       setLoading(false);
@@ -47,11 +48,11 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       const data = await userApi.register(userData);
-      localStorage.setItem('authToken', data.token);
+      localStorage.setItem("authToken", data.token);
       setUser(data.user);
       return data;
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError(err.response?.data?.message || "Registration failed");
       throw err;
     } finally {
       setLoading(false);
@@ -62,22 +63,29 @@ export const AuthProvider = ({ children }) => {
     try {
       await userApi.logout();
     } catch (err) {
-      console.error('Logout failed:', err);
+      console.error("Logout failed:", err);
     } finally {
-      localStorage.removeItem('authToken');
+      localStorage.removeItem("authToken");
       setUser(null);
     }
   };
 
-  const value = {
-    user,
-    loading,
-    error,
-    login,
-    register,
-    logout,
-    isAuthenticated: !!user,
-  };
+  const value = useMemo(
+    () => ({
+      user,
+      loading,
+      error,
+      login,
+      register,
+      logout,
+      isAuthenticated: !!user,
+    }),
+    [user, loading, error]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

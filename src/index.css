@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:wght@400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -13,8 +13,10 @@
   --heading: #232323;
   --border: #232323;
   --accent: #ff6600;
+  --accent-hover: #e65c00;
   --accent-contrast: #ffffff;
   --nav-bg: #ffffff;
+  --header-bg: #4a3328;
   --footer-bg: #232323;
   --footer-text: #ffffff;
   --hero-text: #ffffff;
@@ -23,6 +25,8 @@
   --inverse-muted: #d9d9d9;
   --icon: #232323;
   --link: #ff6600;
+  --achievement-gradient-start: #963113;
+  --achievement-gradient-end: #ffa78d3d;
 }
 
 [data-theme="dark"] {
@@ -34,8 +38,10 @@
   --heading: #ffffff;
   --border: #ffffff;
   --accent: #ff6600;
+  --accent-hover: #e65c00;
   --accent-contrast: #ffffff;
   --nav-bg: #232323;
+  --header-bg: #4a3328;
   --footer-bg: #232323;
   --footer-text: #ffffff;
   --hero-text: #ffffff;
@@ -44,12 +50,20 @@
   --inverse-muted: #5c5c5c;
   --icon: #ffffff;
   --link: #ff6600;
+  --achievement-gradient-start: #963113;
+  --achievement-gradient-end: #ffa78d3d;
 }
 
 body {
   font-family: "Lato", sans-serif;
   background-color: var(--bg);
   color: var(--text);
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat", sans-serif;
+  }
 }
 
 [data-theme="light"] .theme-number {

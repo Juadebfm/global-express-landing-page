@@ -1,4 +1,3 @@
-import React from "react";
 import cardImg from "../assets/card.png";
 
 const HoverCards = () => {
@@ -7,29 +6,32 @@ const HoverCards = () => {
       id: 1,
       title: "Air Freight",
       content:
-        "Discover breathtaking peaks and serene valleys. Experience the thrill of hiking through nature's most magnificent landscapes, where every trail offers a new adventure and stunning views await at every turn.",
+        "Fast, reliable air cargo services connecting Korea, China, and Nigeria. We handle time-sensitive shipments with precision, ensuring your goods arrive safely and on schedule through our trusted airline partnerships.",
       image: cardImg,
     },
     {
       id: 2,
-      title: "Air cargo door -to- door",
+      title: "Air Cargo Door-to-Door",
       content:
-        "Dive into crystal-clear waters and explore vibrant marine life. From snorkeling in coral reefs to sailing across vast blue horizons, the ocean holds endless possibilities for unforgettable experiences.",
-      image: cardImg,
+        "Complete end-to-end delivery from pickup to your final destination. Our seamless door-to-door service eliminates the hassle of coordinating multiple carriers, giving you a single point of contact for your entire shipment.",
+      image:
+        "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
     },
     {
       id: 3,
       title: "Packaging",
       content:
-        "Navigate bustling cityscapes filled with culture and innovation. Discover hidden gems in vibrant neighborhoods, taste exotic cuisines, and immerse yourself in the energy of metropolitan life.",
-      image: cardImg,
+        "Professional packaging solutions designed to protect your cargo throughout its journey. From fragile electronics to heavy machinery, our expert team ensures every item is secured for safe transit across borders.",
+      image:
+        "https://images.unsplash.com/photo-1605732562742-3023a888e56e?auto=format&fit=crop&w=800&q=80",
     },
     {
       id: 4,
       title: "Fund Transfer",
       content:
-        "Journey through golden dunes and ancient landscapes. Experience the mystique of endless sands, star-filled nights, and the unique beauty of life thriving in the harshest conditions.",
-      image: cardImg,
+        "Secure international fund transfer services to facilitate your global trade operations. We streamline cross-border payments between Korea, China, and Nigeria so your business transactions flow without interruption.",
+      image:
+        "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
     },
   ];
 
@@ -38,44 +40,38 @@ const HoverCards = () => {
       {cards.map((card) => (
         <div
           key={card.id}
-          className="group relative w-full h-96  overflow-hidden transition-all duration-300"
+          className="group relative w-full h-96 overflow-hidden transition-all duration-300"
         >
-          {/* Background Image - stays visible on hover */}
+          {/* Background Image */}
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat r"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${card.image})` }}
           ></div>
 
-          {/* Dark overlay - stays visible on hover */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 "></div>
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
 
           {/* Title and Button at Bottom - Default State */}
           <div className="absolute bottom-0 left-0 right-0 p-6 transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:invisible z-10">
             <h2 className="text-xl font-bold text-white mb-3">{card.title}</h2>
-            <div className="w-full h-[2px] bg-white/30 mb-2"></div>
-            <button className="py-3  text-[#FFFFFF] text-[13px] font-semibold rounded-lg transition-colors duration-200 shadow-lg">
-              Read More
-            </button>
+            <div className="w-full h-[2px] bg-white/30"></div>
           </div>
 
           {/* Content - Swipes up on Hover */}
-          <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out flex flex-col justify-center items-center p-6 z-20">
+          <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out flex flex-col justify-center items-center p-6 z-20 bg-black/85">
             <h2
               className="text-xl font-bold text-white mb-4"
               style={{ textShadow: "0 2px 10px rgba(0,0,0,0.8)" }}
             >
               {card.title}
             </h2>
-            <div className="w-full h-[2px] bg-white/50 "></div>
+            <div className="w-full h-[2px] bg-white/50"></div>
             <p
-              className="text-white mb-6 leading-relaxed flex-grow flex items-center"
+              className="text-white leading-relaxed flex-grow flex items-center"
               style={{ textShadow: "0 2px 10px rgba(0,0,0,0.8)" }}
             >
               {card.content}
             </p>
-            <button className="py-3 text-[#FFFFFF] font-semibold rounded-lg  transition-colors duration-200 shadow-lg">
-              Read More
-            </button>
           </div>
         </div>
       ))}

@@ -1,75 +1,53 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import globallogo from "../assets/globallogo.png";
 import { NavLink } from "react-router-dom";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { useTheme } from "../contexts/theme-context";
+import { NAV_LINKS } from "../constants/siteData";
 
-const NavBar = () => {
+const NavBar = ({ isScrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   const navLinkClass = ({ isActive }) =>
     isActive
       ? "font-bold text-[color:var(--accent)] border-b-2 border-[color:var(--accent)] pb-1"
-      : "pb-1";
+      : "pb-1 hover:text-[color:var(--accent)] transition-colors";
 
   return (
-    <div className=" w-full px-8 bg-[color:var(--nav-bg)] md:w-[92%] mx-auto absolute left-1/2 -translate-x-1/2 top-full lg:-mt-6 shadow-[0_4px_10px_rgba(128,128,128,0.5)] z-50">
+    <div className={`w-full px-8 bg-[color:var(--nav-bg)] mx-auto absolute left-1/2 -translate-x-1/2 top-full ${isScrolled ? "lg:px-16" : "md:w-[92%] lg:-mt-6"} shadow-[0_4px_10px_rgba(128,128,128,0.5)] z-50 transition-[margin,width,padding] duration-300 ease-in-out`}>
       <nav className="flex items-center justify-between">
-        {/* Desktop Layout - unchanged */}
-        <div className="hidden lg:flex items-center justify-between gap-20">
-          <img className="" src={globallogo} alt="Global Express Logo" />
-          <ul className="text-[color:var(--text)] flex items-center gap-8 py-6 text-[13px] font-semibold">
-            <li>
-              <NavLink to="/" className={navLinkClass}>
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/about" className={navLinkClass}>
-                About Us
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/services" className={navLinkClass}>
-                Services
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/get-a-quote" className={navLinkClass}>
-                Get a quote
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/shipment-calculator" className={navLinkClass}>
-                Shipment Calculator
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/blog" className={navLinkClass}>
-                Blog
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/contact" className={navLinkClass}>
-                Contact Us
-              </NavLink>
-            </li>
+        {/* Desktop Layout */}
+        <div className="hidden lg:flex items-center justify-between gap-16">
+          <img src={globallogo} alt="Global Express Logo" />
+          <ul className="text-[color:var(--text)] flex items-center gap-6 py-6 text-[13px] font-heading font-medium whitespace-nowrap">
+            {NAV_LINKS.map((link) => (
+              <li key={link.to}>
+                <NavLink to={link.to} className={navLinkClass}>
+                  {link.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
 
-        <div className="hidden lg:flex text-[color:var(--text)] text-[13px] font-semibold items-center gap-4">
+        <div className="hidden lg:flex text-[color:var(--text)] text-[13px] font-heading font-medium items-center gap-4 whitespace-nowrap">
           <NavLink to="/track-shipment" className={navLinkClass}>
             Track your shipment
           </NavLink>
-          <p>|</p>
-          <button>Sign in</button>
-          <button className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg">
+          <p className="text-[color:var(--text-muted)]">|</p>
+          <NavLink to="/sign-in" className="pb-1 hover:text-[color:var(--accent)] transition-colors">
+            Sign in
+          </NavLink>
+          <NavLink
+            to="/get-started"
+            className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-5 py-2 rounded-lg hover:bg-[color:var(--accent-hover)] transition-colors"
+          >
             Get Started
-          </button>
-          <p>|</p>
+          </NavLink>
+          <p className="text-[color:var(--text-muted)]">|</p>
           <button
             type="button"
             onClick={toggleTheme}
@@ -80,7 +58,7 @@ const NavBar = () => {
           </button>
         </div>
 
-        {/* Mobile Layout - Logo and Menu side by side */}
+        {/* Mobile Layout */}
         <div className="lg:hidden w-full">
           <div className="flex items-center justify-between py-4">
             <img
@@ -91,6 +69,7 @@ const NavBar = () => {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-[color:var(--text)] text-3xl block"
+              aria-label="Toggle navigation menu"
             >
               {isMenuOpen ? <IoClose /> : <HiMenuAlt3 />}
             </button>
@@ -101,74 +80,22 @@ const NavBar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="lg:hidden pb-6">
-          <ul className="text-[color:var(--text)] flex flex-col gap-4 text-[13px] font-semibold">
-            <li>
-              <NavLink
-                to="/"
-                className={navLinkClass}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/about"
-                className={navLinkClass}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About Us
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/services"
-                className={navLinkClass}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Services
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/get-a-quote"
-                className={navLinkClass}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Get a quote
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/shipment-calculator"
-                className={navLinkClass}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Shipment Calculator
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/blog"
-                className={navLinkClass}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Blog
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/contact"
-                className={navLinkClass}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact Us
-              </NavLink>
-            </li>
+          <ul className="text-[color:var(--text)] flex flex-col gap-4 text-sm font-heading font-medium">
+            {NAV_LINKS.map((link) => (
+              <li key={link.to}>
+                <NavLink
+                  to={link.to}
+                  className={navLinkClass}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
 
-          {/* Mobile actions - aligned and presentable */}
-          <div className="flex flex-col gap-3 mt-6 text-[color:var(--text)] text-[13px] font-semibold border-t border-gray-600 pt-4">
+          {/* Mobile actions */}
+          <div className="flex flex-col gap-3 mt-6 text-[color:var(--text)] text-sm font-heading font-medium border-t border-gray-600 pt-4">
             <NavLink
               to="/track-shipment"
               className={navLinkClass}
@@ -176,15 +103,20 @@ const NavBar = () => {
             >
               Track your shipment
             </NavLink>
-            <button className="text-left" onClick={() => setIsMenuOpen(false)}>
+            <NavLink
+              to="/sign-in"
+              className="text-left"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Sign in
-            </button>
-            <button
-              className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg text-left"
+            </NavLink>
+            <NavLink
+              to="/get-started"
+              className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg text-left hover:bg-[color:var(--accent-hover)] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Get Started
-            </button>
+            </NavLink>
             <button
               type="button"
               onClick={toggleTheme}

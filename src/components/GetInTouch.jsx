@@ -1,7 +1,8 @@
-import React from "react";
 import intouch from "../assets/intouch.png";
 import horizontal from "../assets/horizontal.png";
 import { IoLocationOutline } from "react-icons/io5";
+import { FaPhoneVolume } from "react-icons/fa6";
+import { CONTACT } from "../constants/siteData";
 
 const GetInTouch = () => {
   return (
@@ -24,7 +25,7 @@ const GetInTouch = () => {
           </div>
           <div className="mt-4">
             <h4 className="text-3xl font-bold mb-4 max-w-[80%] max-md:text-2xl max-md:max-w-full max-sm:text-xl">
-              WE ARE YOUR RELIABLE PARTNERS FOR THE BEST ENERGY SOLUTIONS
+              WE ARE YOUR RELIABLE PARTNERS FOR THE BEST LOGISTICS SOLUTIONS
             </h4>
             <p className="mb-6 max-w-[80%] max-md:max-w-full max-sm:text-[15px]">
               Whether you have a specific shipping requirement or need help
@@ -33,37 +34,33 @@ const GetInTouch = () => {
             </p>
           </div>
           <div className="space-y-4 max-sm:space-y-3">
-            <div className="flex items-center gap-3 text-[13px] max-sm:text-[14px] max-sm:items-start">
+            <div className="flex items-center gap-3 text-base max-sm:items-start">
               <p className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
                 <IoLocationOutline className="text-[18px] max-sm:text-[16px]" />
               </p>
               <div>
                 <p>
-                  <span className="font-bold">NIGERIA:</span> 6, Akinola
-                  Sholanke Str., Ajao Estate Lagos.
+                  <span className="font-bold">NIGERIA:</span>{" "}
+                  {CONTACT.addresses.nigeria}
                 </p>
                 <p className="max-sm:mt-1">
-                  <span className="font-bold">KOREA:</span> 1977-4, Daehwa-dong,
-                  Ilsanseo-gu, Goyang-si
+                  <span className="font-bold">KOREA:</span>{" "}
+                  {CONTACT.addresses.korea}
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-[13px] max-sm:text-[14px]">
+            <div className="flex items-center gap-3 text-base max-sm:items-start">
               <p className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
-                <IoLocationOutline className="text-[18px] max-sm:text-[16px]" />
-              </p>
-              <p>sales@globalexpress.kr</p>
-            </div>
-            <div className="flex items-center gap-3 text-[13px] max-sm:text-[14px] max-sm:items-start">
-              <p className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
-                <IoLocationOutline className="text-[18px] max-sm:text-[16px]" />
+                <FaPhoneVolume className="text-[18px] max-sm:text-[16px]" />
               </p>
               <div>
                 <p>
-                  <span className="font-bold">KR:</span> +82 (0)70 4142 5371
+                  <span className="font-bold">KR:</span>{" "}
+                  <a href={`tel:${CONTACT.phones.koreaRaw}`}>{CONTACT.phones.korea}</a>
                 </p>
                 <p className="max-sm:mt-1">
-                  <span className="font-bold">NG:</span> +234 (0)906 000 0193
+                  <span className="font-bold">NG:</span>{" "}
+                  <a href={`tel:${CONTACT.phones.nigeriaRaw}`}>{CONTACT.phones.nigeria}</a>
                 </p>
               </div>
             </div>
