@@ -10,12 +10,12 @@ const SLIDES = [
   },
   {
     image:
-      "https://images.unsplash.com/photo-1436491865332-7a61a109db05?auto=format&fit=crop&w=1920&q=80",
+      "https://images.unsplash.com/photo-1606768666853-403c90a981ad?auto=format&fit=crop&w=1920&q=80",
     alt: "Cargo airplane in flight",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1494412574643-ff11b0a5eb19?auto=format&fit=crop&w=1920&q=80",
+      "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1920&q=80",
     alt: "Container ship on ocean",
   },
   {
