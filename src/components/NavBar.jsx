@@ -5,7 +5,7 @@ import { FiMoon, FiSun } from "react-icons/fi";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { useTheme } from "../contexts/theme-context";
-import { NAV_LINKS } from "../constants/siteData";
+import { NAV_LINKS, DASHBOARD_URL } from "../constants/siteData";
 
 const NavBar = ({ isScrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,15 +38,15 @@ const NavBar = ({ isScrolled }) => {
             Track your shipment
           </NavLink>
           <p className="text-[color:var(--text-muted)]">|</p>
-          <NavLink to="/sign-in" className="pb-1 hover:text-[color:var(--accent)] transition-colors">
+          <a href={`${DASHBOARD_URL}/sign-in`} className="pb-1 hover:text-[color:var(--accent)] transition-colors">
             Sign in
-          </NavLink>
-          <NavLink
-            to="/get-started"
+          </a>
+          <a
+            href={`${DASHBOARD_URL}/sign-up`}
             className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-5 py-2 rounded-lg hover:bg-[color:var(--accent-hover)] transition-colors"
           >
             Get Started
-          </NavLink>
+          </a>
           <p className="text-[color:var(--text-muted)]">|</p>
           <button
             type="button"
@@ -103,20 +103,20 @@ const NavBar = ({ isScrolled }) => {
             >
               Track your shipment
             </NavLink>
-            <NavLink
-              to="/sign-in"
+            <a
+              href={`${DASHBOARD_URL}/sign-in`}
               className="text-left"
               onClick={() => setIsMenuOpen(false)}
             >
               Sign in
-            </NavLink>
-            <NavLink
-              to="/get-started"
+            </a>
+            <a
+              href={`${DASHBOARD_URL}/sign-up`}
               className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg text-left hover:bg-[color:var(--accent-hover)] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Get Started
-            </NavLink>
+            </a>
             <button
               type="button"
               onClick={toggleTheme}

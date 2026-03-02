@@ -1,3 +1,7 @@
+export const DASHBOARD_URL =
+  import.meta.env.VITE_DASHBOARD_URL ||
+  "https://global-express-dashboard-test-serve.vercel.app";
+
 export const CONTACT = {
   addresses: {
     nigeria: "58B Awoniyi Elemo Street, Ajao Estate Lagos",

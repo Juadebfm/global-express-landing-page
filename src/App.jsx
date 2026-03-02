@@ -9,8 +9,6 @@ import GetaQuote from "./pages/GetaQuote";
 import Services from "./pages/Services";
 import ShipmentCalculator from "./pages/ShipmentCalculator";
 import TrackYourShipments from "./pages/TrackYourShipments";
-import SignIn from "./pages/SignIn";
-import GetStarted from "./pages/GetStarted";
 import Blog from "./pages/Blog";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
@@ -48,8 +46,6 @@ function App() {
             <Route path="/shipment-calculator" element={<ShipmentCalculator />} />
             <Route path="/track-shipment" element={<TrackYourShipments />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/get-started" element={<GetStarted />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-and-conditions" element={<TermsConditions />} />
             <Route path="*" element={<NotFound />} />

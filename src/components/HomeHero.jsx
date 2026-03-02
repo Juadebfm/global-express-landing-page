@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import HomeHeroImage from "../assets/HomeHero.png";
+import { DASHBOARD_URL } from "../constants/siteData";
 
 const HomeHero = () => {
   return (
@@ -65,8 +66,8 @@ const HomeHero = () => {
         </p>
 
         <div className="flex gap-4 max-sm:flex-col max-sm:w-full">
-          <Link
-            to="/get-started"
+          <a
+            href={`${DASHBOARD_URL}/sign-up`}
             className="
               inline-block bg-[color:var(--accent)] px-10 py-3 rounded-lg text-[color:var(--accent-contrast)] font-semibold
               transition hover:bg-[color:var(--accent-hover)]
@@ -75,7 +76,7 @@ const HomeHero = () => {
             "
           >
             Get Started
-          </Link>
+          </a>
           <Link
             to="/shipment-calculator"
             className="
