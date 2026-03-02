@@ -54,7 +54,7 @@ const Header = () => {
             <span>KR: {CONTACT.phones.korea}</span>
           </a>
           <span>|</span>
-          <a href={`tel:${CONTACT.phones.nigeriaRaw}`} className="flex items-center gap-2 hover:underline">
+          <a href={`https://wa.me/${CONTACT.phones.nigeriaRaw.replace('+', '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline">
             <FaPhoneVolume className="text-base flex-shrink-0" />
             <span>NG: {CONTACT.phones.nigeria}</span>
           </a>
