@@ -1,6 +1,6 @@
 export const DASHBOARD_URL =
   import.meta.env.VITE_DASHBOARD_URL ||
-  "https://global-express-dashboard-test-serve.vercel.app";
+  "https://app.globalexpress.kr";
 
 export const CONTACT = {
   addresses: {

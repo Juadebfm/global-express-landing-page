@@ -1,5 +1,5 @@
 import { useState } from "react";
-import globallogo from "../assets/globallogo.png";
+import globallogo from "../assets/globallogo.svg";
 import { NavLink } from "react-router-dom";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { HiMenuAlt3 } from "react-icons/hi";
