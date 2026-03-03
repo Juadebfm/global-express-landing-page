@@ -11,13 +11,13 @@ const Footer = () => {
           <img
             src={footerImage}
             alt="Global Express"
-            className="w-full h-auto max-md:max-w-[200px] max-sm:max-w-[180px]"
+            className="footer-logo w-full h-auto max-md:max-w-[200px] max-sm:max-w-[180px]"
           />
         </div>
         <div className="flex-1 min-w-0 ml-16 flex items-start justify-between gap-16 max-md:ml-0 max-md:gap-8 max-md:w-full max-md:flex-wrap max-sm:flex-col max-sm:gap-6">
           <div className="mt-3 max-md:mt-0">
-            <h6 className="text-sm mb-3 font-semibold">Company</h6>
-            <ul className="text-[13px] text-[color:var(--footer-text)] flex flex-col gap-6 max-sm:gap-4">
+            <h6 className="text-sm mb-3 font-semibold font-[Montserrat]">Company</h6>
+            <ul className="text-[14px] text-[color:var(--footer-text)] font-[Lato] flex flex-col gap-6 max-sm:gap-4">
               <li>
                 <Link to="/about">About Us</Link>
               </li>
@@ -33,8 +33,8 @@ const Footer = () => {
             </ul>
           </div>
           <div className="mt-3 max-md:mt-0">
-            <h6 className="text-sm mb-3 font-semibold">Resources</h6>
-            <ul className="text-[13px] text-[color:var(--footer-text)] flex flex-col gap-6 max-sm:gap-4">
+            <h6 className="text-sm mb-3 font-semibold font-[Montserrat]">Resources</h6>
+            <ul className="text-[14px] text-[color:var(--footer-text)] font-[Lato] flex flex-col gap-6 max-sm:gap-4">
               <li>
                 <Link to="/shipment-calculator">Shipment Calculator</Link>
               </li>
@@ -44,8 +44,8 @@ const Footer = () => {
             </ul>
           </div>
           <div className="mt-3 max-md:mt-0">
-            <h6 className="text-sm mb-3 font-semibold">Legal</h6>
-            <ul className="text-[13px] text-[color:var(--footer-text)] flex flex-col gap-6 max-sm:gap-4">
+            <h6 className="text-sm mb-3 font-semibold font-[Montserrat]">Legal</h6>
+            <ul className="text-[14px] text-[color:var(--footer-text)] font-[Lato] flex flex-col gap-6 max-sm:gap-4">
               <li>
                 <Link to="/privacy-policy">Privacy Policy</Link>
               </li>
@@ -55,9 +55,9 @@ const Footer = () => {
             </ul>
           </div>
           <div className="mt-3 ml-3 max-md:ml-0 max-md:mt-0 max-md:w-full max-sm:w-full">
-            <h6 className="text-sm mb-3 font-semibold">Contact us</h6>
-            <p className="text-[12px]">KR: {CONTACT.phones.korea}</p>
-            <p className="text-[12px] mt-2">NG: {CONTACT.phones.nigeria}</p>
+            <h6 className="text-sm mb-3 font-semibold font-[Montserrat]">Contact us</h6>
+            <p className="text-[14px] font-[Lato]">KR: {CONTACT.phones.korea}</p>
+            <p className="text-[14px] font-[Lato] mt-2">NG: {CONTACT.phones.nigeria}</p>
             <div className="mt-3 flex flex-col">
               <h6 className="text-[color:var(--accent)]">Newsletter</h6>
               <label htmlFor="newsletter-email" className="sr-only">
@@ -68,7 +68,7 @@ const Footer = () => {
                 name="newsletter-email"
                 id="newsletter-email"
                 placeholder="Your Email"
-                className="w-full min-w-[280px] border border-[color:var(--border)] rounded-md px-4 py-4 bg-transparent mt-2 placeholder:text-[14px] max-sm:py-3 max-sm:min-w-0"
+                className="w-full min-w-[280px] border border-[color:var(--footer-border)] rounded-md px-4 py-4 bg-transparent mt-2 placeholder:text-[14px] max-sm:py-3 max-sm:min-w-0"
               />
               <button className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] mt-3 px-4 py-2 rounded-lg w-[50%] max-md:w-[40%] max-sm:w-full transition hover:bg-[color:var(--accent-hover)]">
                 Subscribe

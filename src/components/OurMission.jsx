@@ -1,14 +1,16 @@
-import achievement from "../assets/achievement.png";
 import horizontal from "../assets/horizontal.png";
+
+const MISSION_IMAGE =
+  "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80";
 
 const OurMission = () => {
   return (
     <div className="px-16 text-[color:var(--text)] flex justify-center items-center gap-8 mt-36 max-md:px-8 max-md:flex-col-reverse max-md:mt-16 max-sm:px-4 max-sm:mt-12 md:mb-48">
       <div className="flex-1 flex justify-center max-md:w-full">
         <img
-          src={achievement}
-          alt="achievement"
-          className="w-[75%] h-auto max-md:w-full"
+          src={MISSION_IMAGE}
+          alt="Business partnership"
+          className="w-[75%] h-auto max-md:w-full rounded-full object-cover aspect-square"
         />
       </div>
       <div className="flex-1 max-md:w-full">

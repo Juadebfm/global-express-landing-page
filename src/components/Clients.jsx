@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import storeImg from "../assets/store.png";
 import quotation from "../assets/quotation.png";
+
+const BG_IMAGE =
+  "https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1920&q=80";
 
 const Clients = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -38,21 +40,21 @@ const Clients = () => {
   return (
     <div
       className="bg-cover bg-center bg-no-repeat h-[450px] mt-24 max-w-[92%] mx-auto relative mb-16 max-md:h-auto max-md:mt-20 max-md:mb-12 max-sm:mt-16 max-sm:mb-8 max-sm:max-w-full max-sm:flex max-sm:items-center max-sm:justify-center max-sm:py-12"
-      style={{ backgroundImage: `url(${storeImg})` }}
+      style={{ backgroundImage: `url(${BG_IMAGE})` }}
     >
       <div className="bg-[color:var(--inverse-surface)] text-[color:var(--inverse-text)] w-[30%] absolute top-32 right-16 max-md:w-[85%] max-md:right-[7.5%] max-md:top-12 max-sm:w-[90%] max-sm:relative max-sm:top-auto max-sm:right-auto">
         <div className="pt-8 px-8 max-md:pt-6 max-md:px-6 max-sm:pt-6 max-sm:px-5">
           <img src={quotation} alt="Quotation mark" className="max-sm:w-8" />
-          <h4 className="font-extrabold mt-4 text-[24px] max-md:text-[20px] max-sm:text-[18px] text-[color:var(--inverse-text)]">
+          <h4 className="font-extrabold mt-4 text-[24px] max-md:text-[20px] max-sm:text-[18px] text-[color:var(--inverse-text)] font-[Montserrat]">
             {testimonials[activeSlide].title}
           </h4>
-          <p className="mt-4 text-[13px] max-md:text-[14px] max-sm:text-[14px] text-[color:var(--inverse-muted)]">
+          <p className="mt-4 text-[13px] max-md:text-[14px] max-sm:text-[14px] text-[color:var(--inverse-muted)] font-[Lato]">
             <span className="font-bold text-[color:var(--inverse-text)]">
               {testimonials[activeSlide].highlight}
             </span>{" "}
             &ldquo;{testimonials[activeSlide].text}&rdquo;
           </p>
-          <p className="mt-4 font-bold text-[14px] max-sm:text-[13px] text-[color:var(--inverse-text)]">
+          <p className="mt-4 font-bold text-[14px] max-sm:text-[13px] text-[color:var(--inverse-text)] font-[Montserrat]">
             {testimonials[activeSlide].author}
           </p>
         </div>
