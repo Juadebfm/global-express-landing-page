@@ -2,8 +2,6 @@ import React from "react";
 import horizontal from "../assets/horizontal.png";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import store from "../assets/store.png";
-import { FaRegFilePdf } from "react-icons/fa6";
-import { IoDocumentTextOutline } from "react-icons/io5";
 import two from "../assets/two.png";
 import help from "../assets/help.png";
 import { FaPhoneVolume } from "react-icons/fa6";
@@ -32,19 +30,7 @@ const OurServices = () => {
           <div className="bg-[#2B2A2A] rounded-md px-4 py-8">
             <div className="flex items-center bg-[#262626] rounded-lg hover:bg-[#FF6600] transition-colors duration-300 cursor-pointer">
               <button className="text-[#FFFFFF] px-4 py-3 w-full text-start font-semibold text-sm">
-                Track Your Shipment
-              </button>
-              <MdKeyboardArrowRight className="text-[#FFFFFF] text-2xl mr-4" />
-            </div>
-            <div className="flex items-center bg-[#262626] rounded-lg mt-2 hover:bg-[#FF6600] transition-colors duration-300 cursor-pointer">
-              <button className="text-[#FFFFFF] px-4 py-3 w-full text-start font-semibold text-sm">
-                Air cargo door -to- door
-              </button>
-              <MdKeyboardArrowRight className="text-[#FFFFFF] text-2xl mr-4" />
-            </div>
-            <div className="flex items-center bg-[#262626] rounded-lg mt-2 hover:bg-[#FF6600] transition-colors duration-300 cursor-pointer">
-              <button className="text-[#FFFFFF] px-4 py-3 w-full text-start font-semibold text-sm">
-                Worldwide Courier Service
+                Air Cargo (South Korea to Nigeria)
               </button>
               <MdKeyboardArrowRight className="text-[#FFFFFF] text-2xl mr-4" />
             </div>
@@ -62,40 +48,9 @@ const OurServices = () => {
             </div>
             <div className="flex items-center bg-[#262626] rounded-lg mt-2 hover:bg-[#FF6600] transition-colors duration-300 cursor-pointer">
               <button className="text-[#FFFFFF] px-4 py-3 w-full text-start font-semibold text-sm">
-                Storage services
-              </button>
-              <MdKeyboardArrowRight className="text-[#FFFFFF] text-2xl mr-4" />
-            </div>
-            <div className="flex items-center bg-[#262626] rounded-lg mt-2 hover:bg-[#FF6600] transition-colors duration-300 cursor-pointer">
-              <button className="text-[#FFFFFF] px-4 py-3 w-full text-start font-semibold text-sm">
-                Product sourcing and buying
-              </button>
-              <MdKeyboardArrowRight className="text-[#FFFFFF] text-2xl mr-4" />
-            </div>
-            <div className="flex items-center bg-[#262626] rounded-lg mt-2 hover:bg-[#FF6600] transition-colors duration-300 cursor-pointer">
-              <button className="text-[#FFFFFF] px-4 py-3 w-full text-start font-semibold text-sm">
                 Fund Transfer
               </button>
               <MdKeyboardArrowRight className="text-[#FFFFFF] text-2xl mr-4" />
-            </div>
-          </div>
-          <div className="bg-[#2B2A2A] rounded-md px-4 py-8 mt-8">
-            <h4 className="font-bold">Brochures</h4>
-            <div className="flex items-center bg-[#686868] rounded-md mt-4">
-              <div className="bg-[#FF6600] p-3 rounded-l-md">
-                <FaRegFilePdf className="text-2xl text-[#FFFFFF]" />
-              </div>
-              <button className="text-sm text-[#FFFFFF] py-3 px-4 w-full text-center">
-                Download.pdf
-              </button>
-            </div>
-            <div className="flex items-center bg-[#686868] rounded-md mt-4">
-              <div className="bg-[#FF6600] p-3 rounded-l-md">
-                <IoDocumentTextOutline className="text-2xl text-[#FFFFFF]" />
-              </div>
-              <button className="text-sm text-[#FFFFFF] py-3 px-4 w-full text-center">
-                Download.pdf
-              </button>
             </div>
           </div>
           <div className="bg-[#2B2A2A] rounded-md mt-8">
@@ -135,42 +90,6 @@ const OurServices = () => {
               systems, providing the customer with complete shipment
               information.
             </p>
-          </div>
-          <div className="mt-6 flex items-start justify-center gap-8 max-md:flex-col max-md:gap-6">
-            <div className="flex gap-3 items-start max-sm:flex-col">
-              <img
-                className="w-[250px] h-[160px] object-cover max-sm:w-full max-sm:h-auto"
-                src={store}
-                alt="image"
-              />
-              <div className="mt-6 max-sm:mt-3">
-                <h6 className="font-semibold text-lg mb-2 max-sm:text-base">
-                  Best Solution
-                </h6>
-                <p className="text-[12px] leading-relaxed">
-                  We combine direct IATA airline contracts with market-leading
-                  rates to deliver your cargo to any destination, on time and on
-                  budget.
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-3 items-start max-sm:flex-col">
-              <img
-                className="w-[250px] h-[160px] object-cover max-sm:w-full max-sm:h-auto"
-                src={store}
-                alt="image"
-              />
-              <div className="mt-6 max-sm:mt-3">
-                <h6 className="font-semibold text-lg mb-2 max-sm:text-base">
-                  Planning Strategy
-                </h6>
-                <p className="text-[12px] leading-relaxed">
-                  Leveraging fixed schedules and advanced data management, we
-                  engineer the most efficient routes to ensure your complex
-                  shipments move without friction.
-                </p>
-              </div>
-            </div>
           </div>
           <p className="mt-8 text-sm max-sm:text-[13px]">
             The main element of our freight management service is the ability to
