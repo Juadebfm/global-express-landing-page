@@ -42,6 +42,9 @@ const Clients = () => {
       className="bg-cover bg-center bg-no-repeat h-[450px] mt-24 max-w-[92%] mx-auto relative mb-16 max-md:h-auto max-md:mt-20 max-md:mb-12 max-sm:mt-16 max-sm:mb-8 max-sm:max-w-full max-sm:flex max-sm:items-center max-sm:justify-center max-sm:py-12"
       style={{ backgroundImage: `url(${BG_IMAGE})` }}
     >
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/40" />
+
       <div className="bg-[color:var(--inverse-surface)] text-[color:var(--inverse-text)] w-[30%] absolute top-32 right-16 max-md:w-[85%] max-md:right-[7.5%] max-md:top-12 max-sm:w-[90%] max-sm:relative max-sm:top-auto max-sm:right-auto">
         <div className="pt-8 px-8 max-md:pt-6 max-md:px-6 max-sm:pt-6 max-sm:px-5">
           <img src={quotation} alt="Quotation mark" className="max-sm:w-8" />

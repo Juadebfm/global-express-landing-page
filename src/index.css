@@ -81,3 +81,16 @@ body {
 [data-theme="dark"] .footer-logo {
   filter: none;
 }
+
+/* Service section reveal animation */
+.service-section {
+  opacity: 0;
+  transform: translateY(3rem);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
