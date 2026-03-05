@@ -5,6 +5,7 @@ const ServiceHero = () => {
   return (
     <div
       className="
+            relative
             bg-cover bg-center bg-no-repeat
             min-h-screen
             px-16
@@ -16,12 +17,15 @@ const ServiceHero = () => {
           "
       style={{ backgroundImage: `url(${service})` }}
     >
+      {/* Dark gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+
       <div
-        className="flex flex-col items-start justify-start w-full 
-                      px-16 
-                      lg:px-12 
-                      md:px-0 
-                      sm:px-0 
+        className="relative flex flex-col items-start justify-start w-full
+                      px-16
+                      lg:px-12
+                      md:px-0
+                      sm:px-0
                       max-sm:px-0"
       >
         <h1
