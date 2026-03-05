@@ -27,15 +27,14 @@ const features = [
 
 const Numbers = () => {
   return (
-    <div className="mx-16 mt-6 grid grid-cols-4 grid-rows-1 border-t border-b border-[color:var(--border)] max-md:mx-6 max-md:grid-cols-2 max-md:grid-rows-[auto] max-sm:mx-4 max-sm:grid-cols-1">
+    <div className="mx-16 mt-6 grid grid-cols-4 border-t border-b border-[color:var(--border)] max-md:mx-6 max-md:grid-cols-2 max-sm:mx-4 max-sm:grid-cols-1">
       {features.map((feature, index) => (
         <div
           key={feature.number}
           className={`flex flex-col p-6 py-12 max-sm:text-center
             ${index < 3 ? "border-r border-[color:var(--border)]" : ""}
-            ${index === 2 ? "max-md:border-r-0" : ""}
-            ${index < 3 ? "max-md:border-b" : ""}
-            ${index === 3 ? "max-md:border-l-0" : ""}
+            ${index % 2 !== 0 ? "max-md:border-r-0" : ""}
+            ${index < 2 ? "max-md:border-b" : ""}
             max-sm:border-r-0
             ${index < 3 ? "max-sm:border-b" : ""}
           `}

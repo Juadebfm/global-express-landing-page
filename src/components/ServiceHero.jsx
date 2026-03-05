@@ -21,12 +21,7 @@ const ServiceHero = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
 
       <div
-        className="relative flex flex-col items-start justify-start w-full
-                      px-16
-                      lg:px-12
-                      md:px-0
-                      sm:px-0
-                      max-sm:px-0"
+        className="relative flex flex-col items-start justify-start w-full max-w-[1200px]"
       >
         <h1
           className="
@@ -43,7 +38,7 @@ const ServiceHero = () => {
         <p
           className="
             text-[color:var(--hero-text)] text-start leading-relaxed my-6
-            text-[18px] w-[70%]
+            text-[18px] w-[70%] max-w-[600px]
             lg:text-[17px] lg:w-[75%]
             md:text-[16px] md:w-full
             sm:text-[15px] sm:w-full

@@ -4,7 +4,7 @@ import track from "../assets/track.png";
 
 const TrackYourShipments = () => {
   return (
-    <div className="px-8 md:px-16 text-[#FFFFFF] pt-32 ">
+    <div className="px-8 md:px-16 text-[color:var(--text)] pt-32 max-sm:pt-20">
       <div className="flex items-center justify-between gap-16 max-lg:flex-col max-lg:gap-10">
         <div className="flex-1 max-lg:w-full">
           <div className="max-md:w-full">
@@ -30,11 +30,11 @@ const TrackYourShipments = () => {
             </label>
             <div className="mt-2 flex max-sm:flex-col max-sm:gap-2">
               <input
-                className="px-4 py-3 w-[60%] border border-[#FFFFFF] bg-transparent rounded-l-lg placeholder:text-gray-400 text-[12px] max-sm:w-full max-sm:rounded-lg max-sm:text-xs"
+                className="px-4 py-3 w-[60%] border border-[color:var(--border)] bg-transparent rounded-l-lg placeholder:text-gray-400 text-[12px] max-sm:w-full max-sm:rounded-lg max-sm:text-xs"
                 type="text"
                 placeholder="e.g., GE-123456789"
               />
-              <button className="bg-[#FF6600] px-4 py-3 rounded-r-lg max-sm:rounded-lg max-sm:text-sm max-sm:py-3">
+              <button className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-3 rounded-r-lg max-sm:rounded-lg max-sm:text-sm max-sm:py-3">
                 Track Shipment
               </button>
             </div>

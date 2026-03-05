@@ -10,7 +10,7 @@ const OurMission = () => {
         <img
           src={MISSION_IMAGE}
           alt="Business partnership"
-          className="w-[75%] h-auto max-md:w-full rounded-full object-cover aspect-square"
+          className="w-[75%] max-w-[500px] h-auto max-md:w-full max-md:max-w-[400px] rounded-full object-cover aspect-square"
         />
       </div>
       <div className="flex-1 max-md:w-full">

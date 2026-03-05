@@ -25,7 +25,7 @@ const HomeAbout = () => {
         <ServiceCards cards={SERVICE_CARDS} className="gap-32 max-md:gap-8" />
       </div>
 
-      <div className="w-[800px] mx-auto mt-24 max-md:w-full max-md:px-6 max-sm:px-4 max-sm:mt-16">
+      <div className="w-full max-w-[800px] mx-auto mt-24 px-16 max-md:px-6 max-sm:px-4 max-sm:mt-16">
         <img src={shipment} alt="shipment" className="w-full" />
       </div>
     </div>

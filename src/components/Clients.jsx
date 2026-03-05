@@ -45,7 +45,7 @@ const Clients = () => {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40" />
 
-      <div className="bg-[color:var(--inverse-surface)] text-[color:var(--inverse-text)] w-[30%] absolute top-32 right-16 max-md:w-[85%] max-md:right-[7.5%] max-md:top-12 max-sm:w-[90%] max-sm:relative max-sm:top-auto max-sm:right-auto">
+      <div className="bg-[color:var(--inverse-surface)] text-[color:var(--inverse-text)] w-[35%] absolute top-16 right-16 z-10 max-lg:w-[45%] max-md:w-[85%] max-md:right-[7.5%] max-md:top-12 max-sm:w-[90%] max-sm:relative max-sm:top-auto max-sm:right-auto">
         <div className="pt-8 px-8 max-md:pt-6 max-md:px-6 max-sm:pt-6 max-sm:px-5">
           <img src={quotation} alt="Quotation mark" className="max-sm:w-8" />
           <h4 className="font-extrabold mt-4 text-[24px] max-md:text-[20px] max-sm:text-[18px] text-[color:var(--inverse-text)] font-[Montserrat]">

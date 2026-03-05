@@ -64,7 +64,7 @@ const BlogPosts = () => {
   };
 
   return (
-    <div className="mt-12 md:mt-16 lg:mt-24 px-6 md:px-12 lg:px-24">
+    <div className="mt-12 md:mt-16 lg:mt-24 px-6 md:px-12 lg:px-24 text-[color:var(--text)]">
       <h4 className="font-bold text-xl md:text-2xl mb-8">Recent blog posts</h4>
 
       {/* Blog Grid - 2 rows × 3 columns */}
@@ -77,7 +77,7 @@ const BlogPosts = () => {
               className="w-full h-44 md:h-52 object-cover rounded-lg lg:rounded-none"
             />
 
-            <p className="text-[#FF6600] text-[11px] mt-3 font-semibold">
+            <p className="text-[color:var(--accent)] text-[11px] mt-3 font-semibold">
               {post.date}
             </p>
 
@@ -85,7 +85,7 @@ const BlogPosts = () => {
               {post.title}
             </h6>
 
-            <p className="mt-2 text-sm text-[#C0C5D0] line-clamp-3">
+            <p className="mt-2 text-sm text-[color:var(--text-muted)] line-clamp-3">
               {post.description}
             </p>
 
@@ -112,8 +112,8 @@ const BlogPosts = () => {
           aria-label="Previous"
           className={`${
             currentPage === 1
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-gray-600 hover:text-black"
+              ? "text-[color:var(--text-muted)] opacity-30 cursor-not-allowed"
+              : "text-[color:var(--text-muted)] hover:text-[color:var(--text)]"
           } transition`}
         >
           <FaArrowLeft size={28} />
@@ -123,7 +123,7 @@ const BlogPosts = () => {
         <div className="flex items-center gap-2">
           {getPageNumbers().map((pageNumber, index) =>
             pageNumber === "..." ? (
-              <span key={index} className="px-3 py-2 text-gray-500">
+              <span key={index} className="px-3 py-2 text-[color:var(--text-muted)]">
                 ...
               </span>
             ) : (
@@ -132,8 +132,8 @@ const BlogPosts = () => {
                 onClick={() => handlePageChange(pageNumber)}
                 className={`px-3 md:px-4 py-2 rounded-lg ${
                   currentPage === pageNumber
-                    ? "bg-[#FF6600] text-white font-semibold"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-[color:var(--accent)] text-[color:var(--accent-contrast)] font-semibold"
+                    : "text-[color:var(--text-muted)] hover:bg-[color:var(--surface)]"
                 }`}
               >
                 {pageNumber}
@@ -149,8 +149,8 @@ const BlogPosts = () => {
           aria-label="Next"
           className={`${
             currentPage === totalPages
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-gray-600 hover:text-black"
+              ? "text-[color:var(--text-muted)] opacity-30 cursor-not-allowed"
+              : "text-[color:var(--text-muted)] hover:text-[color:var(--text)]"
           } transition`}
         >
           <FaArrowRight size={20} />

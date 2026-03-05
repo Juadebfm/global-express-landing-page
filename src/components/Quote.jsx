@@ -23,10 +23,10 @@ const Quote = () => {
   };
 
   return (
-    <div className="px-8 md:px-16 text-[#FFFFFF] pt-32 flex justify-between gap-8 max-lg:flex-col max-md:pt-24 max-sm:pt-16 max-sm:px-4 max-sm:gap-6">
+    <div className="px-8 md:px-16 text-[color:var(--text)] pt-32 flex justify-between gap-8 max-lg:flex-col max-md:pt-24 max-sm:pt-16 max-sm:px-4 max-sm:gap-6">
       <div className="w-[50%] max-lg:w-full">
         <div className="mb-8 max-sm:mb-6">
-          <h1 className="text-[#FF6600] text-[40px] font-bold max-md:text-3xl max-sm:text-2xl">
+          <h1 className="text-[color:var(--accent)] text-[40px] font-bold max-md:text-3xl max-sm:text-2xl">
             Shipping Calculator
           </h1>
           <p className="max-sm:text-sm">
@@ -50,21 +50,21 @@ const Quote = () => {
                 value={formData.logisticType}
                 onChange={handleChange}
                 required
-                className="w-[90%] px-4 py-4 border border-[#FFFFFF]/30 bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none text-[#FFFFFF] max-lg:w-full max-sm:py-3 max-sm:text-sm"
+                className="w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none text-[color:var(--text)] max-lg:w-full max-sm:py-3 max-sm:text-sm"
                 style={{
-                  colorScheme: "dark",
+                  colorScheme: "auto",
                 }}
               >
-                <option value="" style={{ backgroundColor: "#1a1a1a" }}>
+                <option value="" style={{ backgroundColor: "var(--surface)" }}>
                   Select logistic type
                 </option>
-                <option value="air" style={{ backgroundColor: "#1a1a1a" }}>
+                <option value="air" style={{ backgroundColor: "var(--surface)" }}>
                   Air
                 </option>
-                <option value="sea" style={{ backgroundColor: "#1a1a1a" }}>
+                <option value="sea" style={{ backgroundColor: "var(--surface)" }}>
                   Sea
                 </option>
-                <option value="land" style={{ backgroundColor: "#1a1a1a" }}>
+                <option value="land" style={{ backgroundColor: "var(--surface)" }}>
                   Land
                 </option>
               </select>
@@ -86,7 +86,7 @@ const Quote = () => {
                 onChange={handleChange}
                 placeholder="20kg"
                 required
-                className="w-[90%] px-4 py-4 border border-[#FFFFFF]/30 bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
+                className="w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
               />
             </div>
 
@@ -106,7 +106,7 @@ const Quote = () => {
                 onChange={handleChange}
                 placeholder="e.g General goods"
                 required
-                className="w-[90%] px-4 py-4 border border-[#FFFFFF]/30 bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
+                className="w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
               />
             </div>
 

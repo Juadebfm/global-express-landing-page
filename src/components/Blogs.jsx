@@ -6,7 +6,7 @@ import ship4 from "../assets/ship4.png";
 
 const Blogs = () => {
   return (
-    <div className="mt-12 md:mt-16 lg:mt-24 px-6 md:px-12 lg:px-24">
+    <div className="mt-12 md:mt-16 lg:mt-24 px-6 md:px-12 lg:px-24 text-[color:var(--text)]">
       <h4 className="font-bold text-xl md:text-2xl lg:text-2xl">
         Recent blog posts
       </h4>
@@ -21,18 +21,18 @@ const Blogs = () => {
               alt="Ship 1"
               className="w-full rounded-lg lg:rounded-none"
             />
-            <p className="text-[#FF6600] text-[12px] mt-4 md:mt-5 lg:mt-6 font-semibold">
+            <p className="text-[color:var(--accent)] text-[12px] mt-4 md:mt-5 lg:mt-6 font-semibold">
               Sunday , 1 Jan 2023
             </p>
             <h6 className="text-lg md:text-xl lg:text-xl font-semibold mt-3 lg:mt-4">
               UX review presentations
             </h6>
-            <p className="mt-3 lg:mt-4 text-sm w-full text-[#C0C5D0]">
+            <p className="mt-3 lg:mt-4 text-sm w-full text-[color:var(--text-muted)]">
               How do you create compelling presentations that wow your
               colleagues and impress your managers?
             </p>
             <div className="flex items-center flex-wrap lg:flex-nowrap gap-3 lg:gap-4 mt-4 lg:mt-6 text-xs md:text-sm lg:text-sm">
-              <button className="text-[#FF6600] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
+              <button className="text-[color:var(--accent)] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
                 Design
               </button>
               <button className="text-[#3538CD] bg-[#EEF4FF] px-3 lg:px-4 py-1 rounded-2xl">
@@ -57,18 +57,18 @@ const Blogs = () => {
               />
             </div>
             <div className="flex-1">
-              <p className="text-[#FF6600] text-[12px] font-semibold">
+              <p className="text-[color:var(--accent)] text-[12px] font-semibold">
                 Sunday , 1 Jan 2023
               </p>
               <h6 className="text-base md:text-lg lg:text-xl font-semibold mt-2 md:mt-3 lg:mt-4">
                 Migrating to Linear 101
               </h6>
-              <p className="mt-2 md:mt-3 lg:mt-4 text-xs md:text-sm lg:text-sm w-full text-[#C0C5D0]">
+              <p className="mt-2 md:mt-3 lg:mt-4 text-xs md:text-sm lg:text-sm w-full text-[color:var(--text-muted)]">
                 Linear helps streamline software projects, sprints, tasks, and
                 bug tracking. Here's how to get...
               </p>
               <div className="flex flex-wrap gap-2 md:gap-3 lg:gap-4 mt-3 md:mt-4 lg:mt-6 text-xs md:text-sm lg:text-sm">
-                <button className="text-[#FF6600] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
+                <button className="text-[color:var(--accent)] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
                   Design
                 </button>
                 <button className="text-[#C14315] bg-[#FDF2FA] px-3 lg:px-4 py-1 rounded-2xl">
@@ -88,18 +88,18 @@ const Blogs = () => {
               />
             </div>
             <div className="flex-1">
-              <p className="text-[#FF6600] text-[12px] font-semibold">
+              <p className="text-[color:var(--accent)] text-[12px] font-semibold">
                 Sunday , 1 Jan 2023
               </p>
               <h6 className="text-base md:text-lg lg:text-xl font-semibold mt-2 md:mt-3 lg:mt-4">
                 Migrating to Linear 101
               </h6>
-              <p className="mt-2 md:mt-3 lg:mt-4 text-xs md:text-sm lg:text-sm w-full text-[#C0C5D0]">
+              <p className="mt-2 md:mt-3 lg:mt-4 text-xs md:text-sm lg:text-sm w-full text-[color:var(--text-muted)]">
                 Linear helps streamline software projects, sprints, tasks, and
                 bug tracking. Here's how to get...
               </p>
               <div className="flex flex-wrap gap-2 md:gap-3 lg:gap-4 mt-3 md:mt-4 lg:mt-6 text-xs md:text-sm lg:text-sm">
-                <button className="text-[#FF6600] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
+                <button className="text-[color:var(--accent)] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
                   Design
                 </button>
                 <button className="text-[#C14315] bg-[#FDF2FA] px-3 lg:px-4 py-1 rounded-2xl">
@@ -119,13 +119,13 @@ const Blogs = () => {
           alt="Ship 4"
         />
         <div className="w-full md:w-1/2">
-          <p className="text-[#FF6600] text-[12px] font-semibold">
+          <p className="text-[color:var(--accent)] text-[12px] font-semibold">
             Sunday , 1 Jan 2023
           </p>
           <h6 className="text-lg md:text-xl lg:text-xl font-semibold mt-3 lg:mt-4">
             Grid system for better Design User Interface
           </h6>
-          <p className="mt-3 lg:mt-4 text-sm w-full text-[#C0C5D0]">
+          <p className="mt-3 lg:mt-4 text-sm w-full text-[color:var(--text-muted)]">
             A grid system is a design tool used to arrange content on a webpage.
             It is a series of vertical and horizontal lines that create a matrix
             of intersecting points, which can be used to align and organize page
@@ -134,7 +134,7 @@ const Blogs = () => {
             appealing and easier to navigate.
           </p>
           <div className="flex flex-wrap gap-3 lg:gap-4 mt-4 md:mt-6 lg:mt-8 text-xs md:text-sm lg:text-sm">
-            <button className="text-[#FF6600] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
+            <button className="text-[color:var(--accent)] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
               Design
             </button>
             <button className="text-[#C14315] bg-[#FDF2FA] px-3 lg:px-4 py-1 rounded-2xl">

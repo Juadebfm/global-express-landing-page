@@ -168,7 +168,7 @@ const OurServices = () => {
         </div>
 
         {/* Service sections */}
-        <div className="w-[70%] max-lg:w-full flex flex-col gap-24 max-sm:gap-16">
+        <div className="w-[70%] max-lg:w-full flex flex-col gap-24 max-md:gap-16 max-sm:gap-12">
           {SERVICES.map((s) => (
             <div
               key={s.id}
