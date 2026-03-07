@@ -52,7 +52,6 @@ const TermsConditions = () => {
               items={[
                 "Air freight forwarding (international and domestic)",
                 "Ocean freight shipping (FCL and LCL)",
-                "Door-to-door courier services",
                 "Packaging and crating services",
                 "Warehousing and storage solutions",
                 "Product sourcing and procurement assistance",

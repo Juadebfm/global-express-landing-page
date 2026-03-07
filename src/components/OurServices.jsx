@@ -25,13 +25,13 @@ const SERVICES = [
     id: "ocean-shipping",
     title: "Ocean Shipping to Nigeria",
     description:
-      "Our ocean freight service offers reliable, cost-effective shipping from South Korea and China to Nigeria. Whether you're shipping full containers (FCL) or less-than-container loads (LCL), we handle customs clearance, documentation, and door-to-port or door-to-door delivery.",
+      "Our ocean freight service offers reliable, cost-effective shipping from South Korea and China to Nigeria. Whether you're shipping full containers (FCL) or less-than-container loads (LCL), we handle customs clearance, documentation, and delivery.",
     details:
       "With strong relationships at Lagos ports and a deep understanding of Nigerian customs processes, we ensure your cargo clears quickly and without delays. Our team coordinates every step from origin to final delivery, keeping you informed with real-time updates throughout the voyage.",
     highlights: [
       "FCL & LCL shipping options",
       "Fast customs clearance at Lagos ports",
-      "Door-to-port and door-to-door delivery",
+      "Port-to-port and full delivery options",
       "Real-time cargo tracking",
     ],
   },
@@ -47,20 +47,6 @@ const SERVICES = [
       "International shipping standard compliance",
       "Damage prevention for fragile goods",
       "Palletization and crating services",
-    ],
-  },
-  {
-    id: "fund-transfer",
-    title: "Fund Transfer",
-    description:
-      "Global Express offers convenient payment and fund transfer options to streamline your international trade transactions. Whether you need to pay suppliers, settle customs duties, or manage cross-border payments, we provide instant and proof-of-delivery payment solutions.",
-    details:
-      "Our fund transfer service eliminates the complexity of international payments, giving you a single trusted channel to handle financial transactions alongside your logistics. Fast, secure, and fully documented for your records.",
-    highlights: [
-      "Instant payment processing",
-      "Proof-of-delivery payment options",
-      "Supplier payment facilitation",
-      "Fully documented transactions",
     ],
   },
 ];

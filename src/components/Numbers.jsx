@@ -19,9 +19,9 @@ const features = [
   },
   {
     number: "04",
-    title: "Door Step Delivery",
+    title: "Reliable Delivery",
     description:
-      "Our door to door cargo and ocean shipping service is fast, safe, efficient and highly effective. We can arrange for your consignment to be picked up from anywhere in the South Korea and have it delivered to your specified destination.",
+      "Our cargo and ocean shipping service is fast, safe, efficient and highly effective. We can arrange for your consignment to be picked up from anywhere in South Korea and have it delivered to your specified destination.",
   },
 ];
 

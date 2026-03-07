@@ -11,9 +11,9 @@ const HoverCards = () => {
     },
     {
       id: 2,
-      title: "Air Cargo Door-to-Door",
+      title: "Air Cargo",
       content:
-        "Complete end-to-end delivery from pickup to your final destination. Our seamless door-to-door service eliminates the hassle of coordinating multiple carriers, giving you a single point of contact for your entire shipment.",
+        "Complete end-to-end delivery from pickup to your final destination. Our seamless service eliminates the hassle of coordinating multiple carriers, giving you a single point of contact for your entire shipment.",
       image:
         "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
     },
@@ -25,18 +25,10 @@ const HoverCards = () => {
       image:
         "https://images.unsplash.com/photo-1605732562742-3023a888e56e?auto=format&fit=crop&w=800&q=80",
     },
-    {
-      id: 4,
-      title: "Fund Transfer",
-      content:
-        "Secure international fund transfer services to facilitate your global trade operations. We streamline cross-border payments between Korea, China, and Nigeria so your business transactions flow without interruption.",
-      image:
-        "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
-    },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
       {cards.map((card) => (
         <div
           key={card.id}
