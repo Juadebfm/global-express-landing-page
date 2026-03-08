@@ -59,11 +59,6 @@ const Header = () => {
             <FaPhoneVolume className="text-base flex-shrink-0" />
             <span>NG: {CONTACT.phones.nigeria}</span>
           </a>
-          <span>|</span>
-          <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 hover:underline">
-            <CiMail className="text-base flex-shrink-0" />
-            <span>{CONTACT.email}</span>
-          </a>
         </div>
       </div>
       <NavBar isScrolled={isScrolled} />
