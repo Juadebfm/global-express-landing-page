@@ -3,6 +3,12 @@ import horizontal from "../assets/horizontal.png";
 import track from "../assets/track.png";
 import apiClient from "../api/apiConfig";
 
+const formatStatus = (str) =>
+  str
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
 const TrackYourShipments = () => {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [result, setResult] = useState(null);
@@ -84,7 +90,7 @@ const TrackYourShipments = () => {
               <div className="flex items-center justify-between">
                 <h5 className="font-bold text-lg">Shipment Status</h5>
                 <span className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] text-xs font-semibold px-3 py-1 rounded-full uppercase">
-                  {result.status}
+                  {formatStatus(result.status)}
                 </span>
               </div>
 
@@ -123,13 +129,13 @@ const TrackYourShipments = () => {
                     {result.timeline.map((event, i) => (
                       <div key={i} className="flex gap-3 text-sm">
                         <div className="flex flex-col items-center">
-                          <div className={`w-3 h-3 rounded-full flex-shrink-0 ${i === 0 ? "bg-[color:var(--accent)]" : "bg-[color:var(--border)]"}`} />
+                          <div className={`w-3 h-3 rounded-full flex-shrink-0 ${i < result.timeline.length - 1 ? "bg-[color:var(--accent)]" : "bg-[color:var(--border)]"}`} />
                           {i < result.timeline.length - 1 && (
                             <div className="w-px flex-1 bg-[color:var(--border)] mt-1" />
                           )}
                         </div>
                         <div className="pb-3">
-                          <p className="font-semibold">{event.status || event.title}</p>
+                          <p className="font-semibold">{formatStatus(event.status || event.title)}</p>
                           {event.location && <p className="text-[color:var(--text-muted)] text-xs">{event.location}</p>}
                           {event.date && <p className="text-[color:var(--text-muted)] text-xs">{new Date(event.date).toLocaleString()}</p>}
                           {event.timestamp && <p className="text-[color:var(--text-muted)] text-xs">{new Date(event.timestamp).toLocaleString()}</p>}
