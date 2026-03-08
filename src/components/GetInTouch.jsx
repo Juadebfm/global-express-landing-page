@@ -2,6 +2,7 @@ import intouch from "../assets/intouch.png";
 import horizontal from "../assets/horizontal.png";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaPhoneVolume } from "react-icons/fa6";
+import { CiMail } from "react-icons/ci";
 import { CONTACT } from "../constants/siteData";
 
 const GetInTouch = () => {
@@ -63,6 +64,12 @@ const GetInTouch = () => {
                   <a href={`tel:${CONTACT.phones.nigeriaRaw}`}>{CONTACT.phones.nigeria}</a>
                 </p>
               </div>
+            </div>
+            <div className="flex items-center gap-3 text-base max-sm:items-start">
+              <p className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] py-2 p-3 max-sm:py-2.5 max-sm:px-2.5 flex-shrink-0">
+                <CiMail className="text-[18px] max-sm:text-[16px]" />
+              </p>
+              <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
             </div>
           </div>
         </div>

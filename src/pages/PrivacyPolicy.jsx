@@ -130,6 +130,7 @@ const PrivacyPolicy = () => {
             </P>
             <UL
               items={[
+                `Email: ${CONTACT.email}`,
                 `South Korea: ${CONTACT.phones.korea}`,
                 `Nigeria: ${CONTACT.phones.nigeria}`,
                 `Korea Office: ${CONTACT.addresses.korea}`,

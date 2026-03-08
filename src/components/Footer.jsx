@@ -58,6 +58,7 @@ const Footer = () => {
             <h6 className="text-sm mb-3 font-semibold font-[Montserrat]">Contact us</h6>
             <p className="text-[14px] font-[Lato]">KR: {CONTACT.phones.korea}</p>
             <p className="text-[14px] font-[Lato] mt-2">NG: {CONTACT.phones.nigeria}</p>
+            <a href={`mailto:${CONTACT.email}`} className="text-[14px] font-[Lato] mt-2 block hover:text-[color:var(--accent)] transition-colors">{CONTACT.email}</a>
             <div className="mt-3 flex flex-col">
               <h6 className="text-[color:var(--accent)]">Newsletter</h6>
               <label htmlFor="newsletter-email" className="sr-only">

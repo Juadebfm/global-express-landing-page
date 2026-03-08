@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaPhoneVolume } from "react-icons/fa6";
+import { CiMail } from "react-icons/ci";
 import NavBar from "../components/NavBar";
 import { CONTACT } from "../constants/siteData";
 
@@ -57,6 +58,11 @@ const Header = () => {
           <a href={`https://wa.me/${CONTACT.phones.nigeriaRaw.replace('+', '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline">
             <FaPhoneVolume className="text-base flex-shrink-0" />
             <span>NG: {CONTACT.phones.nigeria}</span>
+          </a>
+          <span>|</span>
+          <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 hover:underline">
+            <CiMail className="text-base flex-shrink-0" />
+            <span>{CONTACT.email}</span>
           </a>
         </div>
       </div>

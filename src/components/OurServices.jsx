@@ -5,6 +5,7 @@ import two from "../assets/two.png";
 import help from "../assets/help.png";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { CiMail } from "react-icons/ci";
+import { CONTACT } from "../constants/siteData";
 
 const SERVICES = [
   {
@@ -147,7 +148,7 @@ const OurServices = () => {
               </div>
               <div className="flex items-center justify-center gap-2 mt-6 mb-8">
                 <CiMail />
-                <small className="text-[12px]">sales@globalexpress.kr</small>
+                <a href={`mailto:${CONTACT.email}`} className="text-[12px] hover:underline">{CONTACT.email}</a>
               </div>
             </div>
           </div>

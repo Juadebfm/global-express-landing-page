@@ -13,6 +13,7 @@ export const CONTACT = {
     koreaRaw: "+8207041425371",
     nigeriaRaw: "+2349060000193",
   },
+  email: "sales@globalexpress.kr",
 };
 
 export const NAV_LINKS = [
