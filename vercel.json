@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/api/:path*", "destination": "https://snowy-waterfall-9062.fly.dev/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
