@@ -50,7 +50,7 @@ const Quote = () => {
                 value={formData.logisticType}
                 onChange={handleChange}
                 required
-                className="w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none text-[color:var(--text)] max-lg:w-full max-sm:py-3 max-sm:text-sm"
+                className="w-full max-w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none max-md:max-w-full text-[color:var(--text)] max-lg:w-full max-sm:py-3 max-sm:text-sm"
                 style={{
                   colorScheme: "auto",
                 }}
@@ -86,7 +86,7 @@ const Quote = () => {
                 onChange={handleChange}
                 placeholder="20kg"
                 required
-                className="w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
+                className="w-full max-w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none max-md:max-w-full placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
               />
             </div>
 
@@ -106,14 +106,14 @@ const Quote = () => {
                 onChange={handleChange}
                 placeholder="e.g General goods"
                 required
-                className="w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
+                className="w-full max-w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none max-md:max-w-full placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
               />
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-[90%] bg-[#FF6600] text-white font-medium py-3 px-4 rounded-lg hover:bg-[#e55a00] transition-colors duration-200 max-lg:w-full max-sm:text-sm"
+              className="w-full max-w-[90%] bg-[#FF6600] text-white font-medium py-3 px-4 rounded-lg hover:bg-[#e55a00] transition-colors duration-200 max-md:max-w-full max-sm:text-sm"
             >
               Check Cost
             </button>

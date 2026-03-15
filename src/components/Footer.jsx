@@ -59,22 +59,6 @@ const Footer = () => {
             <p className="text-[14px] font-[Lato]">KR: {CONTACT.phones.korea}</p>
             <p className="text-[14px] font-[Lato] mt-2">NG: {CONTACT.phones.nigeria}</p>
             <a href={`mailto:${CONTACT.email}`} className="text-[14px] font-[Lato] mt-2 block hover:text-[color:var(--accent)] transition-colors">{CONTACT.email}</a>
-            <div className="mt-3 flex flex-col">
-              <h6 className="text-[color:var(--accent)]">Newsletter</h6>
-              <label htmlFor="newsletter-email" className="sr-only">
-                Email address
-              </label>
-              <input
-                type="email"
-                name="newsletter-email"
-                id="newsletter-email"
-                placeholder="Your Email"
-                className="w-full min-w-[280px] border border-[color:var(--footer-border)] rounded-md px-4 py-4 bg-transparent mt-2 placeholder:text-[14px] max-sm:py-3 max-sm:min-w-0"
-              />
-              <button className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] mt-3 px-4 py-2 rounded-lg w-[50%] max-md:w-[40%] max-sm:w-full transition hover:bg-[color:var(--accent-hover)]">
-                Subscribe
-              </button>
-            </div>
           </div>
         </div>
       </div>

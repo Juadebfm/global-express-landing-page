@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import horizontal from "../assets/horizontal.png";
-import track from "../assets/track.png";
+const trackImage =
+  "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80";
 import apiClient from "../api/apiConfig";
 
 const formatStatus = (str) =>
@@ -49,13 +50,13 @@ const TrackYourShipments = () => {
                 alt="horizontal line"
                 className="max-sm:w-8"
               />
-              <p className="text-sm max-sm:text-xs">Track Shipment</p>
+              <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide max-sm:text-xs">Track Shipment</p>
             </div>
-            <h4 className="text-[40px] font-bold max-md:text-3xl max-sm:text-2xl">
+            <h4 className="text-[32px] font-bold max-md:text-[28px] max-sm:text-[24px]">
               WHERE IS YOUR CARGO?
             </h4>
           </div>
-          <p className="mt-4 w-[80%] max-lg:w-full max-sm:text-sm">
+          <p className="mt-4 text-[17px] text-[color:var(--text-muted)] w-[80%] max-lg:w-full max-sm:text-[15px]">
             Get real-time updates on your shipment's journey from our hubs in
             Seoul and Guangzhou to its destination.
           </p>
@@ -63,9 +64,9 @@ const TrackYourShipments = () => {
             <label className="text-[13px] max-sm:text-xs">
               Enter your Tracking Number
             </label>
-            <div className="mt-2 flex max-sm:flex-col max-sm:gap-2">
+            <div className="mt-2 flex max-md:flex-col max-md:gap-2">
               <input
-                className="px-4 py-3 w-[60%] border border-[color:var(--border)] bg-transparent rounded-l-lg placeholder:text-gray-400 text-[12px] max-sm:w-full max-sm:rounded-lg max-sm:text-xs"
+                className="px-4 py-3 w-[60%] border border-[color:var(--border)] bg-transparent rounded-l-lg placeholder:text-gray-400 text-[12px] max-md:w-full max-md:rounded-lg max-sm:text-xs"
                 type="text"
                 placeholder="e.g., GEX-20260307-164E284A"
                 value={trackingNumber}
@@ -74,7 +75,7 @@ const TrackYourShipments = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-3 rounded-r-lg max-sm:rounded-lg max-sm:text-sm max-sm:py-3 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-3 rounded-r-lg max-md:rounded-lg max-md:w-full max-sm:text-sm disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {loading ? "Tracking..." : "Track Shipment"}
               </button>
@@ -157,7 +158,7 @@ const TrackYourShipments = () => {
           )}
         </div>
         <div className="flex-1 max-lg:w-full">
-          <img src={track} alt="Track your shipment" className="w-full" />
+          <img src={trackImage} alt="Track your shipment" className="w-full rounded-lg" />
         </div>
       </div>
     </div>

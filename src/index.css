@@ -31,32 +31,6 @@
   --achievement-gradient-end: #ffa78d3d;
 }
 
-[data-theme="dark"] {
-  --bg: #232323;
-  --surface: #232323;
-  --surface-2: #1a1a1a;
-  --text: #ffffff;
-  --text-muted: #d6d6d6;
-  --heading: #ffffff;
-  --border: #ffffff;
-  --accent: #ff6600;
-  --accent-hover: #e65c00;
-  --accent-contrast: #ffffff;
-  --nav-bg: #232323;
-  --header-bg: #4a3328;
-  --footer-bg: #232323;
-  --footer-text: #ffffff;
-  --footer-muted: #d9d9d9;
-  --footer-border: rgba(255, 255, 255, 0.3);
-  --hero-text: #ffffff;
-  --inverse-surface: #ffffff;
-  --inverse-text: #232323;
-  --inverse-muted: #5c5c5c;
-  --icon: #ffffff;
-  --link: #ff6600;
-  --achievement-gradient-start: #963113;
-  --achievement-gradient-end: #ffa78d3d;
-}
 
 body {
   font-family: "Lato", sans-serif;
@@ -70,16 +44,12 @@ body {
   }
 }
 
-[data-theme="light"] .theme-number {
+.theme-number {
   filter: invert(1);
 }
 
-:root .footer-logo {
+.footer-logo {
   filter: brightness(0);
-}
-
-[data-theme="dark"] .footer-logo {
-  filter: none;
 }
 
 /* Service section reveal animation */

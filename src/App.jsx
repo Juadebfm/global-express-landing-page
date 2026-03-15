@@ -1,5 +1,4 @@
 import { AuthProvider } from "./contexts/AuthContext";
-import { ThemeProvider } from "./contexts/ThemeContext";
 import {
   BrowserRouter as Router,
   Routes,
@@ -49,26 +48,24 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<ContactUS />} />
-            <Route path="/get-a-quote" element={<GetaQuote />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/shipment-calculator" element={<ShipmentCalculator />} />
-            <Route path="/track-shipment" element={<TrackYourShipments />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-and-conditions" element={<TermsConditions />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <Router>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<ContactUS />} />
+          <Route path="/get-a-quote" element={<GetaQuote />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/shipment-calculator" element={<ShipmentCalculator />} />
+          <Route path="/track-shipment" element={<TrackYourShipments />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsConditions />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

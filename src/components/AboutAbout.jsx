@@ -1,4 +1,5 @@
-import started from "../assets/started.png";
+const aboutImage =
+  "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=900&q=80";
 import ServiceCards from "./ServiceCards";
 import { SERVICE_CARDS } from "../constants/siteData";
 
@@ -21,9 +22,9 @@ const AboutAbout = () => {
       <div className="flex mt-12 max-md:flex-col max-md:gap-8 max-sm:mt-8">
         <div className="w-1/2 max-md:w-full">
           <img
-            src={started}
-            alt="Global Express team"
-            className="w-full md:w-[95%] h-auto object-cover"
+            src={aboutImage}
+            alt="Shipping containers at port"
+            className="w-full md:w-[95%] h-auto object-cover rounded-lg"
           />
         </div>
         <div className="w-1/2 mt-16 max-md:w-full max-md:mt-0">

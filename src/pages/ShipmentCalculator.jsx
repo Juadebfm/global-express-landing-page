@@ -274,7 +274,7 @@ const ShipmentCalculator = () => {
             <img
               src={calculator}
               alt="Shipment calculator"
-              className="w-full h-auto"
+              className="w-full max-h-[500px] object-contain object-top"
             />
 
             {rates && (

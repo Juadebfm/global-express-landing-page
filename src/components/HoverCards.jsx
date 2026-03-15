@@ -32,7 +32,7 @@ const HoverCards = () => {
       {cards.map((card) => (
         <div
           key={card.id}
-          className="group relative w-full h-96 max-md:h-80 max-sm:h-72 overflow-hidden transition-all duration-300"
+          className="group relative w-full h-96 md:h-80 lg:h-96 max-sm:h-72 overflow-hidden transition-all duration-300"
         >
           {/* Background Image */}
           <div

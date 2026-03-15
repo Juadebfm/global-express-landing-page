@@ -1,17 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import HomeHeroImage from "../assets/HomeHero.png";
 import { DASHBOARD_URL } from "../constants/siteData";
 
 const SLIDES = [
   {
-    image: HomeHeroImage,
-    alt: "Container port with cargo ship",
-  },
-  {
     image:
-      "https://images.unsplash.com/photo-1606768666853-403c90a981ad?auto=format&fit=crop&w=1920&q=80",
-    alt: "Cargo airplane in flight",
+      "https://images.pexels.com/photos/11213541/pexels-photo-11213541.jpeg",
+    alt: "Cargo logistics",
   },
   {
     image:
@@ -41,12 +36,12 @@ const HomeHero = () => {
     <div
       className="
         relative overflow-hidden
-        min-h-screen
+        min-h-[85vh]
         px-16
         max-md:px-6 max-sm:px-4
         max-sm:flex max-sm:flex-col max-sm:justify-center max-sm:items-center
-        max-sm:pt-16 max-sm:pb-8 max-sm:min-h-[85vh]
-        md:min-h-screen
+        max-sm:pt-16 max-sm:pb-8 max-sm:min-h-[65vh]
+        md:min-h-[85vh]
       "
     >
       {/* Slide images */}
@@ -63,7 +58,7 @@ const HomeHero = () => {
       ))}
 
       {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+      <div className="absolute inset-0 bg-black/60" />
 
       {/* Content */}
       <div
@@ -79,7 +74,7 @@ const HomeHero = () => {
       >
         <h1
           className="
-            text-[color:var(--hero-text)] text-[60px] font-extrabold w-[90%] leading-tight
+            text-[color:var(--hero-text)] text-[60px] font-extrabold w-[90%] leading-tight drop-shadow-lg
             max-md:text-[42px] max-md:w-full
             max-sm:text-[32px] max-sm:text-center
             md:text-[48px] md:w-[95%]
@@ -90,10 +85,10 @@ const HomeHero = () => {
 
         <p
           className="
-            text-[color:var(--hero-text)] text-[18px] w-[48%] my-6 leading-relaxed
-            max-md:w-full max-md:text-[16px]
+            text-[color:var(--hero-text)] text-[16px] w-full my-6 leading-relaxed drop-shadow-lg
             max-sm:text-center
-            md:w-[85%] md:text-[17px]
+            md:text-[17px] md:w-[85%]
+            lg:text-[22px] lg:w-[65%]
           "
         >
           Real-time tracking, upfront pricing, and customs clearance handled

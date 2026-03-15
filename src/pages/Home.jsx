@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import HomeHero from "../components/HomeHero";
 import Numbers from "../components/Numbers";
 import HomeAbout from "../components/HomeAbout";
-import Achievements from "../components/Achievements";
+
 import HomeServices from "../components/HomeServices";
 import Clients from "../components/Clients";
 import GetInTouch from "../components/GetInTouch";
@@ -15,7 +15,6 @@ const Home = () => {
       <HomeHero />
       <Numbers />
       <HomeAbout />
-      <Achievements />
       <HomeServices />
       <Clients />
       <GetInTouch />

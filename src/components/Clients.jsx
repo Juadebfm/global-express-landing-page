@@ -45,19 +45,19 @@ const Clients = () => {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40" />
 
-      <div className="bg-[color:var(--inverse-surface)] text-[color:var(--inverse-text)] w-[35%] absolute top-16 right-16 z-10 max-lg:w-[45%] max-md:w-[85%] max-md:right-[7.5%] max-md:top-12 max-sm:w-[90%] max-sm:relative max-sm:top-auto max-sm:right-auto">
+      <div className="bg-white text-[#232323] w-[35%] absolute top-16 right-16 z-10 max-lg:w-[45%] max-md:w-[85%] max-md:right-[7.5%] max-md:top-12 max-sm:w-[90%] max-sm:relative max-sm:top-auto max-sm:right-auto shadow-xl">
         <div className="pt-8 px-8 max-md:pt-6 max-md:px-6 max-sm:pt-6 max-sm:px-5">
           <img src={quotation} alt="Quotation mark" className="max-sm:w-8" />
-          <h4 className="font-extrabold mt-4 text-[24px] max-md:text-[20px] max-sm:text-[18px] text-[color:var(--inverse-text)] font-[Montserrat]">
+          <h4 className="font-extrabold mt-4 text-[24px] max-md:text-[20px] max-sm:text-[18px] text-[#232323] font-[Montserrat]">
             {testimonials[activeSlide].title}
           </h4>
-          <p className="mt-4 text-[13px] max-md:text-[14px] max-sm:text-[14px] text-[color:var(--inverse-muted)] font-[Lato]">
-            <span className="font-bold text-[color:var(--inverse-text)]">
+          <p className="mt-4 text-[13px] max-md:text-[14px] max-sm:text-[14px] text-[#5c5c5c] font-[Lato]">
+            <span className="font-bold text-[#232323]">
               {testimonials[activeSlide].highlight}
             </span>{" "}
             &ldquo;{testimonials[activeSlide].text}&rdquo;
           </p>
-          <p className="mt-4 font-bold text-[14px] max-sm:text-[13px] text-[color:var(--inverse-text)] font-[Montserrat]">
+          <p className="mt-4 font-bold text-[14px] max-sm:text-[13px] text-[#232323] font-[Montserrat]">
             {testimonials[activeSlide].author}
           </p>
         </div>

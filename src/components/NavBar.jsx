@@ -1,15 +1,12 @@
 import { useState } from "react";
 import globallogo from "../assets/globallogo.svg";
 import { NavLink } from "react-router-dom";
-import { FiMoon, FiSun } from "react-icons/fi";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
-import { useTheme } from "../contexts/theme-context";
 import { NAV_LINKS, DASHBOARD_URL } from "../constants/siteData";
 
 const NavBar = ({ isScrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
   const navLinkClass = ({ isActive }) =>
     isActive
@@ -47,15 +44,6 @@ const NavBar = ({ isScrolled }) => {
           >
             Get Started
           </a>
-          <p className="text-[color:var(--text-muted)]">|</p>
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="text-[color:var(--icon)] text-lg"
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          >
-            {theme === "dark" ? <FiSun /> : <FiMoon />}
-          </button>
         </div>
 
         {/* Mobile Layout */}
@@ -117,17 +105,6 @@ const NavBar = ({ isScrolled }) => {
             >
               Get Started
             </a>
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="flex items-center gap-2 mt-2 text-[color:var(--icon)]"
-              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            >
-              {theme === "dark" ? <FiSun /> : <FiMoon />}
-              <span className="text-[color:var(--text)]">
-                {theme === "dark" ? "Light Mode" : "Dark Mode"}
-              </span>
-            </button>
           </div>
         </div>
       )}

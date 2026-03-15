@@ -8,12 +8,12 @@ const HomeServices = () => {
       <div className="flex flex-col justify-center items-center">
         <div className="flex items-center gap-2">
           <img src={horizontal} alt="horizontal line" />
-          <p>Our Services</p>
+          <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide">Our Services</p>
         </div>
-        <h4 className="text-[40px] font-bold leading-tight max-w-[60%] text-center mt-5 max-md:text-[32px] max-md:max-w-[80%] max-sm:text-[28px] max-sm:max-w-full">
+        <h4 className="text-[32px] font-bold leading-tight max-w-[60%] text-center mt-3 max-md:text-[28px] max-md:max-w-[80%] max-sm:text-[24px] max-sm:max-w-full">
           PROVIDING THE BEST SERVICES FOR OUR CUSTOMERS
         </h4>
-        <p className="mt-2 max-md:text-center max-md:max-w-[90%] max-sm:text-[15px] max-sm:max-w-full max-sm:px-2">
+        <p className="mt-2 text-[17px] text-[color:var(--text-muted)] max-md:text-center max-md:max-w-[90%] max-sm:text-[15px] max-sm:max-w-full max-sm:px-2">
           From the factory floor to your warehouse door, we provide a seamless
           link between global markets and your business.
         </p>

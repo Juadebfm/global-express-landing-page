@@ -17,18 +17,18 @@ const OurMission = () => {
         <div className="max-md:w-full">
           <div className="flex items-center gap-2">
             <img src={horizontal} alt="horizontal line" />
-            <p className="text-sm max-sm:text-[13px]">About Us</p>
+            <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide max-sm:text-[13px]">About Us</p>
           </div>
-          <h4 className="text-[40px] font-bold leading-tight max-md:text-[32px] max-sm:text-[28px]">
+          <h4 className="text-[32px] font-bold leading-tight max-md:text-[28px] max-sm:text-[24px]">
             TWO DECADES OF LOGISTICS EXCELLENCE
           </h4>
-          <p className="mt-4 text-base max-sm:text-[15px] leading-relaxed">
+          <p className="mt-4 text-[17px] text-[color:var(--text-muted)] max-sm:text-[15px] leading-relaxed">
             Our mission is to tailor our business to the requirements of our
             clients -large and small- by providing accurate data management,
             administrative support, and creative expertise to meet
             transportation needs of all kinds.
           </p>
-          <p className="mt-6 max-sm:mt-4 text-base max-sm:text-[15px] leading-relaxed">
+          <p className="mt-6 max-sm:mt-4 text-[17px] text-[color:var(--text-muted)] max-sm:text-[15px] leading-relaxed">
             Global Express provides a unique blend of experience with air,
             ocean, barge, rail, and truck transportation for the execution of
             the most demanding shipping requirements.

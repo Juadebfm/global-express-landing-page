@@ -1,4 +1,4 @@
-import intouch from "../assets/intouch.png";
+const contactImage = "/customer.png";
 import horizontal from "../assets/horizontal.png";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaPhoneVolume } from "react-icons/fa6";
@@ -10,25 +10,25 @@ const GetInTouch = () => {
     <div className="mt-48 px-16 text-[color:var(--text)] max-md:px-6 max-md:mt-32 max-sm:px-4 max-sm:mt-24">
       <div className="flex items-start justify-between gap-16 max-md:flex-col max-md:gap-8 max-sm:gap-6">
         {/* First Container - Image */}
-        <div className="flex-shrink-0 max-md:w-full max-md:flex max-md:justify-center max-sm:justify-start">
+        <div className="flex-1 max-md:w-full">
           <img
-            src={intouch}
-            alt="Get in Touch"
-            className="w-auto h-auto max-md:max-w-[400px] max-sm:max-w-full"
+            src={contactImage}
+            alt="Contact us"
+            className="w-full h-auto rounded-lg object-cover max-md:max-h-[350px] max-sm:max-h-[250px]"
           />
         </div>
 
         {/* Second Container - Content */}
-        <div className="flex-1 max-w-2xl mt-24 max-md:mt-0 max-md:max-w-full">
+        <div className="flex-1 max-w-2xl mt-24 max-lg:mt-12 max-md:mt-0 max-md:max-w-full">
           <div className="flex items-center gap-2">
             <img src={horizontal} alt="horizontal line" />
-            <p>Get in Touch</p>
+            <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide">Get in Touch</p>
           </div>
           <div className="mt-4">
-            <h4 className="text-3xl font-bold mb-4 max-w-[80%] max-md:text-2xl max-md:max-w-full max-sm:text-xl">
+            <h4 className="text-[32px] font-bold mb-4 max-w-[80%] max-md:text-[28px] max-md:max-w-full max-sm:text-[24px]">
               WE ARE YOUR RELIABLE PARTNERS FOR THE BEST LOGISTICS SOLUTIONS
             </h4>
-            <p className="mb-6 max-w-[80%] max-md:max-w-full max-sm:text-[15px]">
+            <p className="mb-6 text-[17px] text-[color:var(--text-muted)] max-w-[80%] max-md:max-w-full max-sm:text-[15px]">
               Whether you have a specific shipping requirement or need help
               navigating Nigerian Customs, we're here to help. Contact our
               offices in Seoul, Guangzhou, or Lagos to get started.

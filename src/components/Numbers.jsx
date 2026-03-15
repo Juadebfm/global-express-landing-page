@@ -39,7 +39,7 @@ const Numbers = () => {
             ${index < 3 ? "max-sm:border-b" : ""}
           `}
         >
-          <p className="text-[80px] font-heading font-extrabold leading-none text-[color:var(--accent)] opacity-30 max-sm:text-[60px]">
+          <p className="text-[80px] font-heading font-extrabold leading-none text-[color:var(--accent)] max-sm:text-[60px]">
             {feature.number}
           </p>
           <h3 className="mt-6 text-[color:var(--text)] text-xl font-heading font-bold">
