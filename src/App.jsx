@@ -1,4 +1,3 @@
-import { AuthProvider } from "./contexts/AuthContext";
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,6 +17,7 @@ import TrackYourShipments from "./pages/TrackYourShipments";
 import Blog from "./pages/Blog";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
+import PublicGallery from "./pages/PublicGallery";
 
 function NotFound() {
   return (
@@ -48,24 +48,23 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<ContactUS />} />
-          <Route path="/get-a-quote" element={<GetaQuote />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/shipment-calculator" element={<ShipmentCalculator />} />
-          <Route path="/track-shipment" element={<TrackYourShipments />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-and-conditions" element={<TermsConditions />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<ContactUS />} />
+        <Route path="/get-a-quote" element={<GetaQuote />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/shipment-calculator" element={<ShipmentCalculator />} />
+        <Route path="/track-shipment" element={<TrackYourShipments />} />
+        <Route path="/gallery" element={<PublicGallery />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-and-conditions" element={<TermsConditions />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
   );
 }
 

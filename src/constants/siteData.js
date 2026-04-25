@@ -20,7 +20,7 @@ export const NAV_LINKS = [
   { label: "Home", to: "/" },
   { label: "About Us", to: "/about" },
   { label: "Services", to: "/services" },
-
+  { label: "Gallery", to: "/gallery" },
   { label: "Shipment Calculator", to: "/shipment-calculator" },
   { label: "Contact Us", to: "/contact" },
 ];

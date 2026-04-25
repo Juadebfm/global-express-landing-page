@@ -1,11 +1,61 @@
+import { useState } from "react";
 import footerImage from "../assets/footerImage.png";
 import { Link } from "react-router-dom";
 import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { CONTACT, SOCIAL_LINKS } from "../constants/siteData";
+import { publicApi } from "../api/publicApi";
 
-const Footer = () => {
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterState, setNewsletterState] = useState({
+    loading: false,
+    type: "",
+    message: "",
+  });
+
+  const handleNewsletterSubmit = async (event) => {
+    event.preventDefault();
+    const email = newsletterEmail.trim();
+
+    if (!email || !EMAIL_PATTERN.test(email)) {
+      setNewsletterState({
+        loading: false,
+        type: "error",
+        message: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    try {
+      setNewsletterState({
+        loading: true,
+        type: "",
+        message: "",
+      });
+      await publicApi.subscribeNewsletter(email);
+      setNewsletterEmail("");
+      setNewsletterState({
+        loading: false,
+        type: "success",
+        message: "You are subscribed. We will share updates soon.",
+      });
+    } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "Unable to subscribe right now. Please try again.";
+      setNewsletterState({
+        loading: false,
+        type: "error",
+        message,
+      });
+    }
+  };
+
   return (
-    <div className="mt-48 w-full overflow-hidden px-16 pb-8 text-[color:var(--footer-text)] bg-[color:var(--footer-bg)] max-md:px-6 max-md:mt-32 max-sm:px-4 max-sm:mt-24">
+    <div className={`${topSpacingClass} w-full overflow-hidden px-16 pb-8 text-[color:var(--footer-text)] bg-[color:var(--footer-bg)] max-md:px-6 max-sm:px-4`}>
       <div className="flex items-start mt-12 max-md:flex-col max-md:gap-8 max-md:mt-8 max-sm:gap-6">
         <div className="shrink-0 max-md:w-full max-md:flex max-md:justify-center max-sm:justify-start">
           <img
@@ -59,6 +109,37 @@ const Footer = () => {
             <p className="text-[14px] font-[Lato]">KR: {CONTACT.phones.korea}</p>
             <p className="text-[14px] font-[Lato] mt-2">NG: {CONTACT.phones.nigeria}</p>
             <a href={`mailto:${CONTACT.email}`} className="text-[14px] font-[Lato] mt-2 block hover:text-[color:var(--accent)] transition-colors">{CONTACT.email}</a>
+          </div>
+          <div className="mt-3 max-md:mt-0 max-md:w-full">
+            <h6 className="text-sm mb-3 font-semibold font-[Montserrat]">Newsletter</h6>
+            <p className="text-[14px] font-[Lato] text-[color:var(--footer-muted)] mb-3">
+              Get shipment updates and route alerts in your inbox.
+            </p>
+            <form onSubmit={handleNewsletterSubmit} className="space-y-2 max-w-[280px]">
+              <input
+                type="email"
+                value={newsletterEmail}
+                onChange={(event) => setNewsletterEmail(event.target.value)}
+                placeholder="Enter your email"
+                className="w-full px-3 py-2 rounded-md border border-[color:var(--footer-border)] bg-transparent text-[14px] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
+              />
+              <button
+                type="submit"
+                disabled={newsletterState.loading}
+                className="w-full bg-[color:var(--accent)] text-[color:var(--accent-contrast)] text-sm font-semibold px-4 py-2 rounded-md transition-colors hover:bg-[color:var(--accent-hover)] disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {newsletterState.loading ? "Subscribing..." : "Subscribe"}
+              </button>
+            </form>
+            {newsletterState.message && (
+              <p
+                className={`mt-2 text-xs ${
+                  newsletterState.type === "success" ? "text-green-300" : "text-red-300"
+                }`}
+              >
+                {newsletterState.message}
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import horizontal from "../assets/horizontal.png";
+import { publicApi } from "../api/publicApi";
+
 const trackImage =
   "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80";
-import apiClient from "../api/apiConfig";
 
-const formatStatus = (str) =>
-  str
+const formatStatus = (value) => {
+  if (!value || typeof value !== "string") return "Unknown";
+  return value
     .replace(/_/g, " ")
     .toLowerCase()
     .replace(/\b\w/g, (c) => c.toUpperCase());
+};
+
+const formatDate = (value) => {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString();
+};
 
 const TrackYourShipments = () => {
   const [trackingNumber, setTrackingNumber] = useState("");
@@ -29,11 +39,19 @@ const TrackYourShipments = () => {
     setLoading(true);
 
     try {
-      const response = await apiClient.get(`/api/v1/orders/track/${encodeURIComponent(trimmed)}`);
-      setResult(response.data.data || response.data);
+      const response = await publicApi.trackShipment(trimmed);
+      setResult(response?.data || response);
     } catch (err) {
-      const msg = err.response?.data?.message || err.response?.data?.error || "Shipment not found. Please check your tracking number and try again.";
-      setError(msg);
+      const upper = trimmed.toUpperCase();
+      if (err.response?.status === 404 && upper.startsWith("GEX-MASTER-")) {
+        setError("Master tracking references are internal and cannot be tracked on the public page.");
+      } else {
+        const msg =
+          err.response?.data?.message ||
+          err.response?.data?.error ||
+          "Shipment not found. Please check your tracking number and try again.";
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
@@ -50,7 +68,9 @@ const TrackYourShipments = () => {
                 alt="horizontal line"
                 className="max-sm:w-8"
               />
-              <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide max-sm:text-xs">Track Shipment</p>
+              <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide max-sm:text-xs">
+                Track Shipment
+              </p>
             </div>
             <h4 className="text-[32px] font-bold max-md:text-[28px] max-sm:text-[24px]">
               WHERE IS YOUR CARGO?
@@ -82,44 +102,115 @@ const TrackYourShipments = () => {
             </div>
           </form>
 
-          {error && (
-            <p className="mt-4 text-red-500 text-sm">{error}</p>
-          )}
+          {error && <p className="mt-4 text-red-500 text-sm">{error}</p>}
 
           {result && (
             <div className="mt-6 border border-[color:var(--border)] rounded-lg p-5 max-sm:p-4 space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3">
                 <h5 className="font-bold text-lg">Shipment Status</h5>
-                <span className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] text-xs font-semibold px-3 py-1 rounded-full uppercase">
-                  {formatStatus(result.status)}
+                <span className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] text-xs font-semibold px-3 py-1 rounded-full uppercase text-right">
+                  {result.statusLabel || formatStatus(result.status)}
                 </span>
               </div>
 
               {result.trackingNumber && (
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-sm gap-3">
                   <span className="text-[color:var(--text-muted)]">Tracking Number</span>
-                  <span className="font-semibold">{result.trackingNumber}</span>
+                  <span className="font-semibold text-right">{result.trackingNumber}</span>
                 </div>
               )}
 
               {result.origin && (
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-sm gap-3">
                   <span className="text-[color:var(--text-muted)]">Origin</span>
-                  <span className="font-semibold">{result.origin}</span>
+                  <span className="font-semibold text-right">{result.origin}</span>
                 </div>
               )}
 
               {result.destination && (
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-sm gap-3">
                   <span className="text-[color:var(--text-muted)]">Destination</span>
-                  <span className="font-semibold">{result.destination}</span>
+                  <span className="font-semibold text-right">{result.destination}</span>
                 </div>
               )}
 
               {result.lastLocation && (
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-sm gap-3">
                   <span className="text-[color:var(--text-muted)]">Last Location</span>
-                  <span className="font-semibold">{result.lastLocation}</span>
+                  <span className="font-semibold text-right">{result.lastLocation}</span>
+                </div>
+              )}
+
+              {result.lastUpdate && (
+                <div className="flex justify-between text-sm gap-3">
+                  <span className="text-[color:var(--text-muted)]">Last Update</span>
+                  <span className="font-semibold text-right">{result.lastUpdate}</span>
+                </div>
+              )}
+
+              {result.estimatedDelivery && (
+                <div className="flex justify-between text-sm gap-3">
+                  <span className="text-[color:var(--text-muted)]">Estimated Delivery</span>
+                  <span className="font-semibold text-right">{result.estimatedDelivery}</span>
+                </div>
+              )}
+
+              {result.paymentStatus && (
+                <div className="flex justify-between text-sm gap-3">
+                  <span className="text-[color:var(--text-muted)]">Payment Status</span>
+                  <span className="font-semibold text-right">
+                    {formatStatus(result.paymentStatus)}
+                  </span>
+                </div>
+              )}
+
+              {result.shipmentCost && (
+                <div className="pt-4 border-t border-[color:var(--border)] space-y-2">
+                  <h6 className="font-bold text-sm">Shipment Cost</h6>
+                  <div className="flex justify-between text-sm gap-3">
+                    <span className="text-[color:var(--text-muted)]">USD</span>
+                    <span className="font-semibold text-right">
+                      ${result.shipmentCost.usd || "0.00"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm gap-3">
+                    <span className="text-[color:var(--text-muted)]">NGN</span>
+                    <span className="font-semibold text-right">
+                      ₦{result.shipmentCost.ngn || "0.00"}
+                    </span>
+                  </div>
+                  {result.shipmentCost.invoiceStatus && (
+                    <div className="flex justify-between text-sm gap-3">
+                      <span className="text-[color:var(--text-muted)]">Invoice</span>
+                      <span className="font-semibold text-right">
+                        {formatStatus(result.shipmentCost.invoiceStatus)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {result.cargoMetrics && (
+                <div className="pt-4 border-t border-[color:var(--border)] space-y-2">
+                  <h6 className="font-bold text-sm">Cargo Metrics</h6>
+                  <div className="flex justify-between text-sm gap-3">
+                    <span className="text-[color:var(--text-muted)]">Packages</span>
+                    <span className="font-semibold text-right">
+                      {result.cargoMetrics.packageCount ?? 0}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm gap-3">
+                    <span className="text-[color:var(--text-muted)]">Total Weight (kg)</span>
+                    <span className="font-semibold text-right">
+                      {result.cargoMetrics.totalWeightKg || "0.000"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm gap-3">
+                    <span className="text-[color:var(--text-muted)]">Total CBM</span>
+                    <span className="font-semibold text-right">
+                      {result.cargoMetrics.totalCbm || "0.000000"}
+                    </span>
+                  </div>
                 </div>
               )}
 
@@ -130,16 +221,32 @@ const TrackYourShipments = () => {
                     {result.timeline.map((event, i) => (
                       <div key={i} className="flex gap-3 text-sm">
                         <div className="flex flex-col items-center">
-                          <div className={`w-3 h-3 rounded-full flex-shrink-0 ${i < result.timeline.length - 1 ? "bg-[color:var(--accent)]" : "bg-[color:var(--border)]"}`} />
+                          <div
+                            className={`w-3 h-3 rounded-full flex-shrink-0 ${
+                              i < result.timeline.length - 1
+                                ? "bg-[color:var(--accent)]"
+                                : "bg-[color:var(--border)]"
+                            }`}
+                          />
                           {i < result.timeline.length - 1 && (
                             <div className="w-px flex-1 bg-[color:var(--border)] mt-1" />
                           )}
                         </div>
                         <div className="pb-3">
-                          <p className="font-semibold">{formatStatus(event.status || event.title)}</p>
-                          {event.location && <p className="text-[color:var(--text-muted)] text-xs">{event.location}</p>}
-                          {event.date && <p className="text-[color:var(--text-muted)] text-xs">{new Date(event.date).toLocaleString()}</p>}
-                          {event.timestamp && <p className="text-[color:var(--text-muted)] text-xs">{new Date(event.timestamp).toLocaleString()}</p>}
+                          <p className="font-semibold">
+                            {event.statusLabel ||
+                              formatStatus(event.status || event.title)}
+                          </p>
+                          {event.location && (
+                            <p className="text-[color:var(--text-muted)] text-xs">
+                              {event.location}
+                            </p>
+                          )}
+                          {(event.timestamp || event.date) && (
+                            <p className="text-[color:var(--text-muted)] text-xs">
+                              {formatDate(event.timestamp || event.date)}
+                            </p>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -149,7 +256,10 @@ const TrackYourShipments = () => {
 
               <button
                 type="button"
-                onClick={() => { setResult(null); setTrackingNumber(""); }}
+                onClick={() => {
+                  setResult(null);
+                  setTrackingNumber("");
+                }}
                 className="w-full mt-2 text-sm text-[color:var(--accent)] hover:underline"
               >
                 Track another shipment

@@ -56,7 +56,8 @@ public/
 4. Update the environment variables in `.env`:
 
    ```md
-   VITE_API_BASE_URL=http://localhost:3000/api
+   VITE_API_BASE_URL=http://localhost:3000/api/v1
+   VITE_DASHBOARD_URL=https://app.globalexpress.kr
    ```
 
 ### Development
@@ -116,7 +117,8 @@ function MyComponent() {
 
 Create a `.env` file with:
 
-- `VITE_API_BASE_URL` - Backend API base URL
+- `VITE_API_BASE_URL` - Backend API base URL. Use `/api/v1` suffix (for example `http://localhost:3000/api/v1`)
+- `VITE_DASHBOARD_URL` - Dashboard app base URL used by Sign in / Sign up buttons (for example `https://app.globalexpress.kr`)
 
 ## License
 
