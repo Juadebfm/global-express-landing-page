@@ -33,6 +33,10 @@ const TrackYourShipments = () => {
       setError("Please enter a tracking number.");
       return;
     }
+    if (trimmed.toUpperCase().startsWith("GEX-MASTER-")) {
+      setError("Master tracking references are internal and cannot be tracked on the public page.");
+      return;
+    }
 
     setError("");
     setResult(null);

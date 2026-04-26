@@ -1,117 +1,134 @@
 # Public Website API Migration Checklist
 
-Date: 2026-04-22
+Date: 2026-04-25  
+Source: FE Public Endpoints Consumption Checklist (shared 2026-04-25)
 
-Use this checklist to migrate the public website to the current backend API contracts.
+How to read this:
+- `[x]` = done and aligned
+- `[ ]` = remaining work
 
-## 1) Base URL and Routing Strategy
+## 1) Global Integration Checklist
 
-- [x] Confirm canonical backend prefix is `/api/v1/...`.
-- [x] Set and verify `VITE_API_BASE_URL` strategy:
-  - [x] Option A: `VITE_API_BASE_URL=https://<host>/api/v1` and FE paths like `/auth/login`, `/users/me`.
-  - [ ] Option B: `VITE_API_BASE_URL=https://<host>` and FE paths like `/api/v1/auth/login`, `/api/v1/users/me`.
-- [x] Remove any double-prefix risk (`/api/api/v1/...`).
-- [x] Update `.env.example` with the final expected base URL format.
-- [x] Update `README.md` env docs to match the chosen strategy.
+- [x] Use backend base URL + `/api/v1` prefix.
+- [x] Send `Content-Type: application/json` for JSON requests.
+- [x] Do not send auth headers for public endpoints.
+- [ ] Handle both response envelopes consistently in all public UI flows.  
+  Current gap: some flows still rely on generic success messages instead of envelope-aware parsing.
+- [ ] Handle validation errors (`errors: []`) consistently across all public forms.  
+  Current gap: calculator handles this better than gallery/newsletter/purchase flows.
 
-## 2) Existing Endpoint Migration (Current FE Usage -> Current Backend)
+## 2) Public Routes (`/api/v1/public/*`)
 
-### Public Calculator + Tracking
+### 2.1 `GET /api/v1/public/shipment-types`
 
-- [x] `GET /api/v1/public/calculator/rates` remains active.
-  - [x] Confirm FE reads response shape: `data.air`, `data.sea`.
-- [x] `POST /api/v1/public/calculator/estimate` remains active with enhanced shape.
-  - [x] Ensure request supports `shipmentType`, `weightKg`, `lengthCm`, `widthCm`, `heightCm`, optional `cbm`.
-  - [x] Ensure UI handles `d2d` mode where `estimatedCostUsd` can be `null`.
-  - [x] Ensure UI can render optional `intake` / `d2dIntake` block.
-- [x] `GET /api/v1/orders/track/:trackingNumber` remains active with richer response.
-  - [x] Ensure UI uses `statusLabel`, `estimatedDelivery`, `lastUpdate`, `shipmentCost`, `cargoMetrics` when present.
-  - [x] Keep handling timeline events from `timeline[]`.
-  - [x] Handle intentional `404` for `GEX-MASTER-*` tracking numbers with user-friendly message.
+- [x] Call on calculator page load.
+- [x] Use returned `key` for shipment-type selection and estimate submission.
 
-### Auth + User
+### 2.2 `GET /api/v1/public/calculator/rates`
 
-- [x] `POST /api/v1/auth/login` remains active (internal operator login only).
-  - [x] Update FE token extraction to `tokens.accessToken` (not `token`).
-  - [x] Keep user extraction from `user`.
-- [x] `POST /api/v1/auth/register` now returns Clerk info helper.
-  - [x] Remove/avoid legacy registration flow assumptions for customer signup.
-- [x] `GET /api/v1/users/me` remains active (auth required).
-  - [x] Ensure bearer token is attached.
-  - [x] Support new permission flags in profile response.
-- [x] `PATCH /api/v1/users/:id` replaces old `PUT /users/:userId`.
-  - [x] Change method from `PUT` to `PATCH`.
-  - [x] Keep payload partial (all fields optional).
-  - [x] Update path param name handling to `:id`.
-- [x] `POST /api/v1/auth/logout` remains active (auth required).
+- [x] Endpoint integrated and called.
+- [x] Render full public rate cards/table from response.
 
-## 3) New Endpoint Adoption Checklist
+### 2.3 `POST /api/v1/public/calculator/estimate`
 
-### Shipment Type + D2D Intake
+- [x] Endpoint integrated and submits `shipmentType` from shipment-types.
+- [x] FE sends estimate payload including dimensions and computed CBM.
+- [x] Support ocean-like mode as `cbm` OR dimensions (without over-requiring unrelated fields).
+- [ ] Ensure all backend validation/business messages are surfaced clearly.
+- [ ] Optional: support intake-guidance response path from estimate for intake-mode types.
 
-- [x] Integrate `GET /api/v1/public/shipment-types` to drive dynamic shipment type options.
-- [x] Integrate `POST /api/v1/public/d2d/intake` submission flow.
-  - [x] Build form using required fields from `intake.requiredFields`.
-  - [x] Handle `201` response with `order`, `ticket`, and `contact`.
+### 2.4 `POST /api/v1/public/newsletter/subscribe`
 
-### Newsletter
+- [x] Endpoint integrated in footer newsletter form.
+- [x] Duplicate email success is treated as success UX state.
 
-- [x] Integrate `POST /api/v1/public/newsletter/subscribe`.
-  - [x] Validate email before submit.
-  - [x] Handle success/error messaging.
+### 2.5 `GET /api/v1/public/gallery`
 
-### Public Gallery
+- [x] Endpoint integrated with `limitPerSection`.
+- [x] Gallery sections are rendered from response.
 
-- [x] Integrate `GET /api/v1/public/gallery?limitPerSection=<n>`.
-- [x] Integrate `GET /api/v1/public/gallery/adverts?limit=<n>`.
-- [x] Integrate `POST /api/v1/public/gallery/claims/presign`.
-  - [x] Upload proof asset directly to returned `uploadUrl`.
-  - [x] Persist `uploadToken` and `r2Key/publicUrl`.
-- [x] Integrate `POST /api/v1/public/gallery/anonymous/:trackingNumber/claim`.
-  - [x] Submit claim details + `uploadToken` + `proofR2Keys`.
-- [x] Integrate `POST /api/v1/public/gallery/cars/:trackingNumber/purchase-attempt`.
+### 2.6 `GET /api/v1/public/gallery/adverts`
 
-## 4) Customer Auth Flow Migration (Clerk-first)
+- [x] Endpoint integrated with `limit`.
+- [x] Adverts widget/section is rendered.
 
-- [x] Replace customer signup/signin entrypoints with Clerk UI/SDK.
-  - [x] Landing page now links users to dashboard `sign-in` / `sign-up` pages (no in-landing auth flow).
-- [x] After Clerk auth, call `POST /api/v1/auth/sync` with Clerk bearer token.
-- [x] Handle `200` sync success by hydrating local user state.
-- [x] Handle `409` sync conflicts with clear support/escalation UX.
-- [x] Ensure authenticated calls (`/users/me`, etc.) use Clerk-derived bearer token strategy.
+### 2.7 `POST /api/v1/public/gallery/claims/presign`
 
-## 5) FE Code Changes Checklist (Current Repo)
+- [x] Presign endpoint integrated.
+- [x] Direct upload to returned URL is implemented.
+- [x] `uploadToken` and `r2Key` are captured for later claim submit.
+- [x] Align request body fields to current contract (`originalFileName`, etc.).
+- [x] Support multi-file proof flow (1-5 files) instead of single file only.
 
-- [x] `src/api/apiConfig.js`
-  - [x] Verify baseURL strategy.
-  - [x] Confirm 401 redirect behavior still intended for public site.
-- [x] `src/api/userApi.js`
-  - [x] Switch `updateProfile` to `PATCH /users/:id`.
-  - [x] Review login/register/logout contracts against current backend.
-- [x] `src/contexts/AuthContext.jsx`
-  - [x] Update login token parsing to `tokens.accessToken`.
-  - [x] Rework/remove legacy customer register flow if Clerk-first is required.
-- [x] `src/pages/ShipmentCalculator.jsx`
-  - [x] Support shipment type expansion (`d2d`) and intake UX.
-- [x] `src/components/Track.jsx`
-  - [x] Support richer tracking response fields.
-- [x] Add API service modules for new public endpoints.
+### 2.8 `POST /api/v1/public/gallery/anonymous/:trackingNumber/claim`
 
-## 6) Validation and QA
+- [x] Endpoint integrated and submits `uploadToken` + `proofR2Keys`.
+- [x] Align payload to required fields (`fullName`, `email`, `phone`, `city`, `country`, `message`, `uploadToken`, `proofR2Keys`).
+- [x] Remove fallback/legacy payload shapes once backend contract is final.
+- [x] Support 1-5 proof keys.
+- [x] Show returned claim + ticket reference in success UI.
 
-- [ ] Manual smoke tests for all active current endpoints.
-- [ ] Manual tests for each newly added endpoint integration.
-- [ ] Verify auth-required endpoints reject missing/invalid tokens as expected.
-- [ ] Verify loading/error states for 4xx/5xx responses.
-- [x] Verify no broken route links to dashboard (`sign-in`, `sign-up`).
-- [ ] Verify production env variables are set consistently with chosen base URL strategy.
+### 2.9 `POST /api/v1/public/gallery/cars/:trackingNumber/purchase-attempt`
 
-## 7) Rollout Order (Recommended)
+- [x] Endpoint integrated and submit flow is active.
+- [x] Align request payload with current contract (`fullName`, `email`, `phone`, `city`, `country`, `message`).
+- [x] Show returned ticket reference in success UI.
 
-- [x] Step 1: Base URL normalization + existing endpoint contract fixes.
-- [x] Step 2: Auth flow alignment (token parsing, register behavior, Clerk sync path).
-- [x] Step 3: Shipment calculator (`shipment-types`, `d2d` intake) updates.
-- [x] Step 4: Tracking response UX enhancements.
-- [x] Step 5: Newsletter + gallery feature integration.
-- [ ] Step 6: Full regression + deployment checklist.
+### 2.10 `POST /api/v1/public/d2d/intake`
 
+- [x] Endpoint integrated and used by intake-mode calculator flow.
+- [x] `consentAcknowledgement` required by FE before submit.
+- [x] Optional delivery fields can be sent empty from FE.
+- [x] Surface backend `409` conflict message directly and clearly.
+
+## 3) Other Public/No-Auth Routes Outside `/public`
+
+### 3.1 `GET /api/v1/orders/track/:trackingNumber`
+
+- [x] Endpoint integrated on tracking page.
+- [x] Rich response fields and timeline are rendered.
+- [x] 404 is handled.
+- [x] Block `GEX-MASTER-*` on FE before sending request.
+
+### 3.2 `GET /health`
+
+- [x] Not used for business UI (aligned with checklist).
+
+## 4) End-to-End FE Flow Checklist (Anonymous Goods Claim)
+
+- [x] Call `GET /api/v1/public/gallery` and render sections.
+- [ ] Tie claim flow to selected anonymous item directly (instead of manual tracking number entry).
+- [x] For each proof file, call `POST /api/v1/public/gallery/claims/presign`.
+- [x] Upload each proof file via `PUT` to `uploadUrl`.
+- [x] Submit claim with matching `uploadToken` and all `proofR2Keys`.
+- [x] Show claim + ticket number from claim response.
+
+## 5) What Is Left (Priority)
+
+### P0: Contract correctness
+
+- [x] Stop attaching `Authorization` on public endpoints.
+- [x] Align anonymous claim payload to current backend schema.
+- [x] Align car purchase attempt payload to current backend schema.
+- [x] Fix calculator mode validation (`air` vs ocean-like `cbm`/dimensions logic).
+
+### P1: UX + flow parity
+
+- [x] Add multi-file proof upload (1-5 files).
+- [x] Display claim and ticket references in success states.
+- [x] Render full calculator rates table/cards.
+- [x] Add FE pre-check for `GEX-MASTER-*`.
+- [x] Improve 409 and validation error messaging consistency.
+
+## 6) Files Reviewed
+
+- `src/api/apiConfig.js`
+- `src/api/publicApi.js`
+- `src/pages/ShipmentCalculator.jsx`
+- `src/pages/PublicGallery.jsx`
+- `src/components/Track.jsx`
+- `src/components/Footer.jsx`
+- `src/api/userApi.js`
+- `src/contexts/AuthContext.jsx`
+- `.env.example`
+- `README.md`

@@ -52,6 +52,7 @@ const LOCATIONS_API_BASE_URL = "https://countriesnow.space/api/v0.1";
 const KNOWN_FORM_FIELDS = new Set([
   "shipmentType",
   "weightKg",
+  "cbm",
   "lengthCm",
   "widthCm",
   "heightCm",
@@ -74,6 +75,8 @@ const KNOWN_FORM_FIELDS = new Set([
 const BACKEND_FIELD_ALIASES = {
   shipment_type: "shipmentType",
   weight_kg: "weightKg",
+  cbm: "cbm",
+  cbm_input: "cbm",
   length_cm: "lengthCm",
   width_cm: "widthCm",
   height_cm: "heightCm",
@@ -102,11 +105,14 @@ const BACKEND_FIELD_ALIASES = {
   landmark: "deliveryLandmark",
   estimatedWeightKg: "weightKg",
   estimated_weight_kg: "weightKg",
+  estimatedCbm: "cbm",
+  estimated_cbm: "cbm",
 };
 
 const FIELD_LABELS = {
   shipmentType: "shipment type",
   weightKg: "weight",
+  cbm: "cbm",
   lengthCm: "length",
   widthCm: "width",
   heightCm: "height",
@@ -142,6 +148,12 @@ const normalizeShipmentType = (item) => ({
 });
 
 const hasValue = (value) => value !== null && value !== undefined && value !== "";
+const hasTextValue = (value) => String(value ?? "").trim().length > 0;
+const parsePositiveNumber = (value) => {
+  if (!hasTextValue(value)) return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+};
 
 const formatNumber = (value, fractionDigits = 3) => {
   if (!hasValue(value)) return null;
@@ -264,6 +276,7 @@ const ShipmentCalculator = () => {
   const [formData, setFormData] = useState({
     shipmentType: DEFAULT_SHIPMENT_TYPES[0].key,
     weightKg: "",
+    cbm: "",
     lengthCm: "",
     widthCm: "",
     heightCm: "",
@@ -297,6 +310,12 @@ const ShipmentCalculator = () => {
   const isIntakeMode =
     activeShipmentType?.estimatorMode === "INTAKE" ||
     activeShipmentType?.key === "d2d";
+  const shipmentModeKey = String(
+    activeShipmentType?.coreShipmentType || activeShipmentType?.key || ""
+  ).toLowerCase();
+  const isAirLikeMode = shipmentModeKey.includes("air");
+  const isOceanLikeMode =
+    shipmentModeKey.includes("sea") || shipmentModeKey.includes("ocean");
 
   const intakeRequiredFields = useMemo(() => {
     const backendRequiredFields = Array.isArray(activeShipmentType?.intake?.requiredFields)
@@ -329,6 +348,23 @@ const ShipmentCalculator = () => {
       (mode === "sea" ? rates.ocean : null)
     );
   }, [rates, activeShipmentType]);
+
+  const publicRateCards = useMemo(() => {
+    if (!rates || typeof rates !== "object") return [];
+
+    return Object.entries(rates)
+      .map(([key, value]) => {
+        if (!value || typeof value !== "object") return null;
+        return {
+          key,
+          unit: value.unit || null,
+          tiers: Array.isArray(value.tiers) ? value.tiers : [],
+          flatRateUsdPerCbm:
+            typeof value.flatRateUsdPerCbm === "number" ? value.flatRateUsdPerCbm : null,
+        };
+      })
+      .filter(Boolean);
+  }, [rates]);
 
   useEffect(() => {
     let mounted = true;
@@ -537,6 +573,7 @@ const ShipmentCalculator = () => {
     setFormData((prev) => ({
       ...prev,
       weightKg: "",
+      cbm: "",
       lengthCm: "",
       widthCm: "",
       heightCm: "",
@@ -557,16 +594,23 @@ const ShipmentCalculator = () => {
     setResult(null);
     setIntakeResult(null);
 
-    const { shipmentType, weightKg, lengthCm, widthCm, heightCm } = formData;
+    const { shipmentType, weightKg, cbm: cbmInput, lengthCm, widthCm, heightCm } = formData;
+    const parsedWeightKg = parsePositiveNumber(weightKg);
+    const parsedCbmInput = parsePositiveNumber(cbmInput);
+    const parsedLengthCm = parsePositiveNumber(lengthCm);
+    const parsedWidthCm = parsePositiveNumber(widthCm);
+    const parsedHeightCm = parsePositiveNumber(heightCm);
+    const hasSomeDimensions =
+      hasTextValue(lengthCm) || hasTextValue(widthCm) || hasTextValue(heightCm);
+    const allDimensionsProvided =
+      parsedLengthCm !== null &&
+      parsedWidthCm !== null &&
+      parsedHeightCm !== null;
 
-    const allDimensionsProvided = weightKg && lengthCm && widthCm && heightCm;
-    const hasSomeDimensions = weightKg || lengthCm || widthCm || heightCm;
-
-    let cbm;
+    let derivedCbm = null;
     if (allDimensionsProvided) {
-      cbm =
-        (Number(lengthCm) * Number(widthCm) * Number(heightCm)) / 1000000;
-      if (!Number.isFinite(cbm) || cbm <= 0) {
+      derivedCbm = (parsedLengthCm * parsedWidthCm * parsedHeightCm) / 1000000;
+      if (!Number.isFinite(derivedCbm) || derivedCbm <= 0) {
         showError("Please enter valid dimensions greater than zero.", [
           "lengthCm",
           "widthCm",
@@ -574,15 +618,15 @@ const ShipmentCalculator = () => {
         ]);
         return;
       }
-    } else if (hasSomeDimensions && !isIntakeMode) {
-      showError("Please fill in all package dimensions and weight.", [
-        "weightKg",
-        "lengthCm",
-        "widthCm",
-        "heightCm",
-      ]);
+    } else if (hasSomeDimensions && !parsedCbmInput) {
+      showError(
+        "Provide all package dimensions or enter CBM directly.",
+        ["cbm", "lengthCm", "widthCm", "heightCm"]
+      );
       return;
     }
+
+    const resolvedCbm = parsedCbmInput ?? derivedCbm;
 
     if (isIntakeMode) {
       const intakeFieldValues = {
@@ -637,14 +681,29 @@ const ShipmentCalculator = () => {
         ]);
         return;
       }
-    } else if (!allDimensionsProvided) {
-      showError("Please fill in all package dimensions and weight.", [
-        ...(!weightKg ? ["weightKg"] : []),
-        ...(!lengthCm ? ["lengthCm"] : []),
-        ...(!widthCm ? ["widthCm"] : []),
-        ...(!heightCm ? ["heightCm"] : []),
-      ]);
-      return;
+    } else {
+      if (isAirLikeMode && !parsedWeightKg) {
+        showError("Weight is required and must be greater than zero for air shipments.", [
+          "weightKg",
+        ]);
+        return;
+      }
+
+      if (isOceanLikeMode && !resolvedCbm) {
+        showError(
+          "For ocean shipments, provide CBM or all three package dimensions.",
+          ["cbm", "lengthCm", "widthCm", "heightCm"]
+        );
+        return;
+      }
+
+      if (!isAirLikeMode && !isOceanLikeMode && !parsedWeightKg && !resolvedCbm) {
+        showError(
+          "Provide either weight or CBM (or full dimensions) to calculate an estimate.",
+          ["weightKg", "cbm", "lengthCm", "widthCm", "heightCm"]
+        );
+        return;
+      }
     }
 
     setLoading(true);
@@ -667,25 +726,32 @@ const ShipmentCalculator = () => {
           consentAcknowledgement: d2dForm.consentAcknowledgement,
         };
 
-        if (weightKg) {
-          payload.estimatedWeightKg = Number(weightKg);
+        if (parsedWeightKg) {
+          payload.estimatedWeightKg = parsedWeightKg;
         }
-        if (cbm) {
-          payload.estimatedCbm = Number(cbm.toFixed(6));
+        if (resolvedCbm) {
+          payload.estimatedCbm = Number(resolvedCbm.toFixed(6));
         }
 
         const response = await publicApi.submitD2DIntake(payload);
         setIntakeResult(response?.data || null);
         setToast({ visible: false, message: "" });
       } else {
-        const response = await publicApi.estimateShipment({
-          shipmentType,
-          weightKg: Number(weightKg),
-          lengthCm: Number(lengthCm),
-          widthCm: Number(widthCm),
-          heightCm: Number(heightCm),
-          cbm: Number(cbm.toFixed(6)),
-        });
+        const estimatePayload = { shipmentType };
+
+        if (parsedWeightKg) {
+          estimatePayload.weightKg = parsedWeightKg;
+        }
+        if (allDimensionsProvided) {
+          estimatePayload.lengthCm = parsedLengthCm;
+          estimatePayload.widthCm = parsedWidthCm;
+          estimatePayload.heightCm = parsedHeightCm;
+        }
+        if (resolvedCbm) {
+          estimatePayload.cbm = Number(resolvedCbm.toFixed(6));
+        }
+
+        const response = await publicApi.estimateShipment(estimatePayload);
         setResult(response?.data || null);
         setToast({ visible: false, message: "" });
       }
@@ -724,8 +790,12 @@ const ShipmentCalculator = () => {
       const primaryValidationMessage = mappedBackendErrors
         .map((entry) => getValidationDetailMessage(entry.item, entry.mappedField))
         .find(Boolean);
+      const backendMessage =
+        typeof responseData?.message === "string" ? responseData.message : null;
       const userFriendlyMessage = primaryValidationMessage
         ? primaryValidationMessage
+        : backendMessage
+        ? backendMessage
         : backendFields.length > 0
         ? `We couldn't submit your request yet. Please check ${formatFieldList(
             [...new Set(backendFields)]
@@ -1086,10 +1156,15 @@ const ShipmentCalculator = () => {
 
                 {!isIntakeMode && (
                   <>
+                    <p className="text-xs text-[color:var(--text-muted)] mb-4">
+                      Air shipments require weight. Ocean shipments require CBM or full
+                      dimensions (length, width, and height).
+                    </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-sm:gap-4">
                       <div>
                         <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-                          Weight (kg)<span className="text-red-700">*</span>
+                          Weight (kg)
+                          {isAirLikeMode && <span className="text-red-700">*</span>}
                         </label>
                         <input
                           type="number"
@@ -1104,7 +1179,26 @@ const ShipmentCalculator = () => {
                       </div>
                       <div>
                         <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-                          Length (cm)<span className="text-red-700">*</span>
+                          CBM
+                          {isOceanLikeMode && <span className="text-red-700">*</span>}
+                        </label>
+                        <input
+                          type="number"
+                          name="cbm"
+                          value={formData.cbm}
+                          onChange={handleChange}
+                          placeholder="Enter CBM directly (optional)"
+                          className={getInputClass("cbm")}
+                          min="0"
+                          step="any"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 max-sm:gap-4 max-sm:mt-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
+                          Length (cm)
                         </label>
                         <input
                           type="number"
@@ -1117,12 +1211,9 @@ const ShipmentCalculator = () => {
                           step="any"
                         />
                       </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 max-sm:gap-4 max-sm:mt-4">
                       <div>
                         <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-                          Width (cm)<span className="text-red-700">*</span>
+                          Width (cm)
                         </label>
                         <input
                           type="number"
@@ -1135,9 +1226,11 @@ const ShipmentCalculator = () => {
                           step="any"
                         />
                       </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 max-sm:gap-4 max-sm:mt-4">
                       <div>
                         <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-                          Height (cm)<span className="text-red-700">*</span>
+                          Height (cm)
                         </label>
                         <input
                           type="number"
@@ -1415,14 +1508,54 @@ const ShipmentCalculator = () => {
                   </div>
                 )}
 
-                {ratePreview && !isIntakeMode && (
-                  <p className="text-xs text-[color:var(--text-muted)] mt-4">
-                    {ratePreview.flatRateUsdPerCbm
-                      ? `Current flat rate: $${ratePreview.flatRateUsdPerCbm}/CBM`
-                      : ratePreview.tiers?.[0]?.rateUsdPerKg
-                      ? `Current rate starts at $${ratePreview.tiers[0].rateUsdPerKg}/kg`
-                      : "Current pricing table loaded from backend."}
-                  </p>
+                {!isIntakeMode && (
+                  <div className="mt-4 space-y-3">
+                    {ratePreview && (
+                      <p className="text-xs text-[color:var(--text-muted)]">
+                        {ratePreview.flatRateUsdPerCbm
+                          ? `Current flat rate: $${ratePreview.flatRateUsdPerCbm}/CBM`
+                          : ratePreview.tiers?.[0]?.rateUsdPerKg
+                          ? `Current rate starts at $${ratePreview.tiers[0].rateUsdPerKg}/kg`
+                          : "Current pricing table loaded from backend."}
+                      </p>
+                    )}
+
+                    {publicRateCards.length > 0 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {publicRateCards.map((card) => (
+                          <div
+                            key={card.key}
+                            className="rounded-lg border border-[color:var(--border)] p-3 bg-white/20"
+                          >
+                            <p className="text-sm font-semibold text-[color:var(--text)]">
+                              {formatShipmentTypeValue(card.key)}
+                            </p>
+                            {card.unit && (
+                              <p className="text-xs text-[color:var(--text-muted)] mt-1">
+                                Unit: {card.unit}
+                              </p>
+                            )}
+                            {card.flatRateUsdPerCbm !== null && (
+                              <p className="text-sm mt-2 text-[color:var(--text)]">
+                                Flat Rate: ${formatNumber(card.flatRateUsdPerCbm, 2)} / CBM
+                              </p>
+                            )}
+                            {card.tiers.length > 0 && (
+                              <div className="mt-2 space-y-1">
+                                {card.tiers.map((tier, index) => (
+                                  <p key={`${card.key}-tier-${index}`} className="text-xs">
+                                    {formatNumber(tier.minKg, 2)}kg to{" "}
+                                    {hasValue(tier.maxKg) ? `${formatNumber(tier.maxKg, 2)}kg` : "above"}: $
+                                    {formatNumber(tier.rateUsdPerKg, 2)} / kg
+                                  </p>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 )}
 
                 <div className="flex justify-center pt-10 max-sm:pt-6">
