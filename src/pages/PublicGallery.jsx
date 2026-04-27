@@ -169,20 +169,17 @@ const SkeletonCards = () => (
   </div>
 );
 
-const SafeImage = ({ src, alt, className, wrapperClassName, onError }) => {
-  const [resolvedSrc, setResolvedSrc] = useState(src || FALLBACK_IMG);
+const SafeImageInstance = ({ src, alt, className, wrapperClassName, onError }) => {
+  const [resolvedSrc, setResolvedSrc] = useState(src);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setResolvedSrc(src || FALLBACK_IMG);
-    setIsLoaded(false);
-
     const timeoutId = setTimeout(() => {
       setResolvedSrc((current) => (current === FALLBACK_IMG ? current : FALLBACK_IMG));
     }, IMAGE_TIMEOUT_MS);
 
     return () => clearTimeout(timeoutId);
-  }, [src]);
+  }, []);
 
   return (
     <div className={`relative overflow-hidden ${wrapperClassName || ""}`}>
@@ -206,6 +203,20 @@ const SafeImage = ({ src, alt, className, wrapperClassName, onError }) => {
         }}
       />
     </div>
+  );
+};
+
+const SafeImage = ({ src, alt, className, wrapperClassName, onError }) => {
+  const safeSrc = src || FALLBACK_IMG;
+  return (
+    <SafeImageInstance
+      key={safeSrc}
+      src={safeSrc}
+      alt={alt}
+      className={className}
+      wrapperClassName={wrapperClassName}
+      onError={onError}
+    />
   );
 };
 
