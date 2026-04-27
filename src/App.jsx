@@ -18,7 +18,6 @@ import Blog from "./pages/Blog";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import PublicGallery from "./pages/PublicGallery";
-import AnonymousGoodsClaim from "./pages/AnonymousGoodsClaim";
 
 function NotFound() {
   return (
@@ -60,10 +59,6 @@ function App() {
         <Route path="/shipment-calculator" element={<ShipmentCalculator />} />
         <Route path="/track-shipment" element={<TrackYourShipments />} />
         <Route path="/gallery" element={<PublicGallery />} />
-        <Route
-          path="/gallery/anonymous/:trackingNumber/claim"
-          element={<AnonymousGoodsClaim />}
-        />
         <Route path="/blog" element={<Blog />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsConditions />} />

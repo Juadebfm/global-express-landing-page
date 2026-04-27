@@ -27,3 +27,7 @@ dist-ssr
 .env
 .env.local
 .env.production
+
+# Markdown policy: only README.md is allowed to be tracked.
+*.md
+!README.md
