@@ -5,6 +5,7 @@ import {
   AUTH_TOKEN_STORAGE_KEY,
   CLERK_SYNC_CONFLICT_MESSAGE,
 } from "../constants/auth";
+import { getUserFacingApiError } from "../api/errorUtils";
 import { AuthContext } from "./auth-context";
 
 const resolveCurrentUser = (payload) => {
@@ -84,7 +85,7 @@ export const AuthProvider = ({ children }) => {
       setPermissions(resolvePermissions(data, authUser));
       return data;
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(getUserFacingApiError(err, "Login failed"));
       throw err;
     } finally {
       setLoading(false);
@@ -123,7 +124,7 @@ export const AuthProvider = ({ children }) => {
       if (err.response?.status === 409) {
         setError(CLERK_SYNC_CONFLICT_MESSAGE);
       } else {
-        setError(err.response?.data?.message || err.message || "Authentication sync failed");
+        setError(getUserFacingApiError(err, "Authentication sync failed"));
       }
       throw err;
     } finally {

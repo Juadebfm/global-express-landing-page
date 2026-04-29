@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { CONTACT, SOCIAL_LINKS } from "../constants/siteData";
 import { publicApi } from "../api/publicApi";
+import { getUserFacingApiError } from "../api/errorUtils";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -42,10 +43,10 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
         message: "You are subscribed. We will share updates soon.",
       });
     } catch (error) {
-      const message =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        "Unable to subscribe right now. Please try again.";
+      const message = getUserFacingApiError(
+        error,
+        "Unable to subscribe right now. Please try again."
+      );
       setNewsletterState({
         loading: false,
         type: "error",

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import horizontal from "../assets/horizontal.png";
 import { publicApi } from "../api/publicApi";
+import { getUserFacingApiError } from "../api/errorUtils";
 
 const trackImage =
   "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80";
@@ -50,10 +51,10 @@ const TrackYourShipments = () => {
       if (err.response?.status === 404 && upper.startsWith("GEX-MASTER-")) {
         setError("Master tracking references are internal and cannot be tracked on the public page.");
       } else {
-        const msg =
-          err.response?.data?.message ||
-          err.response?.data?.error ||
-          "Shipment not found. Please check your tracking number and try again.";
+        const msg = getUserFacingApiError(
+          err,
+          "Shipment not found. Please check your tracking number and try again."
+        );
         setError(msg);
       }
     } finally {

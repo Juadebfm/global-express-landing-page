@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { publicApi } from "../api/publicApi";
+import { extractRawApiError, getUserFacingApiError } from "../api/errorUtils";
 
 const ANONYMOUS_ITEMS_PER_PAGE = 10;
 const MAX_CLAIM_PROOF_FILES = 5;
@@ -11,11 +12,6 @@ const IMAGE_TIMEOUT_MS = 5000;
 
 const unwrapData = (payload) => payload?.data || payload || {};
 const toList = (value) => (Array.isArray(value) ? value : []);
-
-const formatApiError = (error, fallbackMessage) =>
-  error.response?.data?.message ||
-  error.response?.data?.error ||
-  fallbackMessage;
 
 const formatDate = (value) => {
   if (!value) return "-";
@@ -62,7 +58,12 @@ const normalizeAnonymousGoods = (payload) => {
 
 const normalizeAdverts = (payload) => {
   const data = unwrapData(payload);
-  const source = data?.adverts || data?.items || data;
+  const source =
+    data?.adverts ||
+    data?.sections?.adverts ||
+    data?.sections?.advertisements ||
+    data?.items ||
+    data;
 
   return toList(source).map((item, index) => ({
     id: item?.id || item?._id || `advert-${index}`,
@@ -268,22 +269,32 @@ const PublicGallery = () => {
       setLoading(true);
       setGalleryError("");
       try {
-        const [galleryResult, advertsResult] = await Promise.all([
+        const [galleryResult, advertsResult] = await Promise.allSettled([
           publicApi.getGallery(100),
           publicApi.getGalleryAdverts(8),
         ]);
 
         if (!mounted) return;
-        setGalleryResponse(galleryResult);
-        setAdvertsResponse(advertsResult);
-      } catch (error) {
-        if (!mounted) return;
-        setGalleryError(
-          formatApiError(
-            error,
-            "Unable to load gallery content right now. Please refresh and try again."
-          )
-        );
+
+        if (galleryResult.status === "fulfilled") {
+          setGalleryResponse(galleryResult.value);
+        } else {
+          setGalleryResponse(null);
+          setGalleryError(
+            getUserFacingApiError(
+              galleryResult.reason,
+              "Unable to load gallery content right now. Please refresh and try again."
+            )
+          );
+        }
+
+        if (advertsResult.status === "fulfilled") {
+          setAdvertsResponse(advertsResult.value);
+        } else if (galleryResult.status === "fulfilled") {
+          setAdvertsResponse(galleryResult.value);
+        } else {
+          setAdvertsResponse(null);
+        }
       } finally {
         if (mounted) {
           setLoading(false);
@@ -530,10 +541,7 @@ const PublicGallery = () => {
       setClaimState({ loading: false, type: "", message: "" });
       closeClaimModal();
     } catch (error) {
-      const backendMessage =
-        error?.response?.data?.message ||
-        error?.response?.data?.error ||
-        "";
+      const backendMessage = extractRawApiError(error);
 
       const isTrackingMismatch =
         error?.response?.status === 422 &&
@@ -546,7 +554,7 @@ const PublicGallery = () => {
         type: "error",
         message: isTrackingMismatch
           ? "Tracking number does not match selected item. Please recheck and try again."
-          : formatApiError(
+          : getUserFacingApiError(
               error,
               "Could not submit your claim right now. Please try again."
             ),
