@@ -408,6 +408,24 @@ const ShipmentCalculator = () => {
     };
   }, []);
 
+  const clearCalculatorInputs = useCallback(() => {
+    setFormData((prev) => ({
+      ...prev,
+      weightKg: "",
+      cbm: "",
+      lengthCm: "",
+      widthCm: "",
+      heightCm: "",
+    }));
+  }, []);
+
+  const resetEstimateToForm = useCallback(() => {
+    setResult(null);
+    clearCalculatorInputs();
+    setFieldErrors({});
+    setToast({ visible: false, message: "" });
+  }, [clearCalculatorInputs]);
+
   useEffect(() => {
     if (!result) return;
     const timer = setTimeout(() => {
@@ -568,24 +586,6 @@ const ShipmentCalculator = () => {
       message,
     });
   };
-
-  const clearCalculatorInputs = useCallback(() => {
-    setFormData((prev) => ({
-      ...prev,
-      weightKg: "",
-      cbm: "",
-      lengthCm: "",
-      widthCm: "",
-      heightCm: "",
-    }));
-  }, []);
-
-  const resetEstimateToForm = useCallback(() => {
-    setResult(null);
-    clearCalculatorInputs();
-    setFieldErrors({});
-    setToast({ visible: false, message: "" });
-  }, [clearCalculatorInputs]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
