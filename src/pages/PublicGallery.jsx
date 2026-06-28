@@ -1,579 +1,105 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  FiArrowLeft,
+  FiLock,
+  FiLogIn,
+  FiMapPin,
+  FiTruck,
+  FiUserPlus,
+  FiX,
+} from "react-icons/fi";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { publicApi } from "../api/publicApi";
-import { extractRawApiError, getUserFacingApiError } from "../api/errorUtils";
 
-const ANONYMOUS_ITEMS_PER_PAGE = 6;
-const MAX_CLAIM_PROOF_FILES = 5;
-const MAX_VISIBLE_ADVERTS = 3;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const FALLBACK_IMG = "/images/gallery-fallback.svg";
-const IMAGE_TIMEOUT_MS = 5000;
-const TEMPORARY_NOTICE = "That option is taking a quick breather right now. Please try again later.";
-
-const unwrapData = (payload) => payload?.data || payload || {};
-const toList = (value) => (Array.isArray(value) ? value : []);
-
-const formatDate = (value) => {
-  if (!value) return "-";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return String(value);
-  return date.toLocaleDateString();
-};
-
-const formatStatus = (value) => {
-  if (!value || typeof value !== "string") return "-";
-  return value
-    .replace(/_/g, " ")
-    .toLowerCase()
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-};
-
-const normalizeAnonymousGoods = (payload) => {
-  const data = unwrapData(payload);
-  const source =
-    data?.anonymousGoods ||
-    data?.sections?.anonymousGoods ||
-    data?.sections?.anonymous_goods ||
-    [];
-
-  return toList(source).map((item, index) => {
-    const trackingNumberMasked =
-      item?.trackingNumberMasked ||
-      item?.maskedTrackingNumber ||
-      item?.trackingNumber ||
-      "";
-
-    return {
-      id: item?.id || item?._id || `${trackingNumberMasked}-${index}`,
-      trackingNumberMasked,
-      title: item?.title || "Anonymous Goods",
-      description: item?.description || "",
-      status: item?.status || "",
-      previewImageUrl: item?.previewImageUrl || item?.imageUrl || item?.mediaUrls?.[0] || "",
-      mediaUrls: toList(item?.mediaUrls),
-      updatedAt: item?.updatedAt || null,
-    };
-  });
-};
-
-const normalizeAdverts = (payload) => {
-  const data = unwrapData(payload);
-  const source =
-    data?.adverts ||
-    data?.sections?.adverts ||
-    data?.sections?.advertisements ||
-    data?.items ||
-    data;
-
-  return toList(source).map((item, index) => ({
-    id: item?.id || item?._id || `advert-${index}`,
-    title: item?.title || "Featured Advert",
-    text: item?.description || "",
-    imageUrl: item?.previewImageUrl || item?.imageUrl || item?.mediaUrls?.[0] || "",
-    ctaLabel: item?.ctaLabel || "Learn More",
-    ctaUrl: item?.ctaUrl || "",
-  }));
-};
-
-const resolveUploadMetadata = (payload) => {
-  const data = unwrapData(payload);
-  return {
-    uploadUrl: data?.uploadUrl || data?.url || data?.presignedUrl || "",
-    method: String(data?.method || "PUT").toUpperCase(),
-    uploadToken: data?.uploadToken || data?.token || "",
-    r2Key: data?.r2Key || data?.key || data?.objectKey || "",
-    headers: data?.headers && typeof data.headers === "object" ? data.headers : {},
-    fields: data?.fields && typeof data.fields === "object" ? data.fields : null,
-  };
-};
-
-const uploadClaimFile = async (file, uploadMeta) => {
-  if (!uploadMeta.uploadUrl) {
-    throw new Error("Missing upload URL from claims presign endpoint.");
-  }
-
-  if (uploadMeta.method === "POST" && uploadMeta.fields) {
-    const body = new FormData();
-    Object.entries(uploadMeta.fields).forEach(([key, value]) => {
-      body.append(key, value);
-    });
-    body.append("file", file);
-
-    const response = await fetch(uploadMeta.uploadUrl, {
-      method: "POST",
-      body,
-    });
-
-    if (!response.ok) {
-      throw new Error("File upload failed.");
-    }
-    return;
-  }
-
-  const headers = { ...uploadMeta.headers };
-  if (!headers["Content-Type"] && !headers["content-type"] && file.type) {
-    headers["Content-Type"] = file.type;
-  }
-
-  const response = await fetch(uploadMeta.uploadUrl, {
-    method: uploadMeta.method || "PUT",
-    headers,
-    body: file,
-  });
-
-  if (!response.ok) {
-    throw new Error("File upload failed.");
-  }
-};
-
-const SkeletonTable = () => (
-  <div className="hidden md:block mt-6 overflow-x-auto rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)] animate-pulse">
-    <table className="w-full min-w-[640px] text-sm">
-      <thead className="bg-white/30">
-        <tr>
-          <th className="text-left px-4 py-3 font-semibold">Tracking Number</th>
-          <th className="text-left px-4 py-3 font-semibold">Title</th>
-          <th className="hidden lg:table-cell text-left px-4 py-3 font-semibold">Description</th>
-          <th className="text-left px-4 py-3 font-semibold">Status</th>
-          <th className="hidden lg:table-cell text-left px-4 py-3 font-semibold">Updated</th>
-          <th className="text-left px-4 py-3 font-semibold">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <tr key={`skeleton-row-${index}`} className="border-t border-[color:var(--border)]">
-            <td className="px-4 py-3"><div className="h-4 w-28 bg-gray-200 rounded" /></td>
-            <td className="px-4 py-3"><div className="h-4 w-44 bg-gray-200 rounded" /></td>
-            <td className="hidden lg:table-cell px-4 py-3"><div className="h-4 w-full max-w-[280px] bg-gray-200 rounded" /></td>
-            <td className="px-4 py-3"><div className="h-4 w-24 bg-gray-200 rounded" /></td>
-            <td className="hidden lg:table-cell px-4 py-3"><div className="h-4 w-24 bg-gray-200 rounded" /></td>
-            <td className="px-4 py-3"><div className="h-7 w-16 bg-gray-200 rounded" /></td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-);
-
-const SkeletonCards = () => (
-  <div className="mt-4 space-y-3 md:hidden animate-pulse">
-    {Array.from({ length: 4 }).map((_, index) => (
-      <article key={`skeleton-card-${index}`} className="rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)] p-4">
-        <div className="h-3 w-24 bg-gray-200 rounded" />
-        <div className="h-4 w-32 bg-gray-200 rounded mt-2" />
-        <div className="h-5 w-52 bg-gray-200 rounded mt-4" />
-        <div className="h-4 w-full bg-gray-200 rounded mt-2" />
-        <div className="h-4 w-2/3 bg-gray-200 rounded mt-2" />
-        <div className="h-7 w-16 bg-gray-200 rounded mt-4" />
-      </article>
-    ))}
-  </div>
-);
-
-const SafeImageInstance = ({ src, alt, className, wrapperClassName, onError }) => {
-  const [resolvedSrc, setResolvedSrc] = useState(src);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setResolvedSrc((current) => (current === FALLBACK_IMG ? current : FALLBACK_IMG));
-    }, IMAGE_TIMEOUT_MS);
-
-    return () => clearTimeout(timeoutId);
-  }, []);
-
-  return (
-    <div className={`relative overflow-hidden ${wrapperClassName || ""}`}>
-      {!isLoaded && (
-        <div className="absolute inset-0 animate-pulse bg-black/10" />
-      )}
-      <img
-        src={resolvedSrc}
-        alt={alt}
-        className={className}
-        loading="lazy"
-        onLoad={() => setIsLoaded(true)}
-        onError={(event) => {
-          const nextSrc = event.currentTarget.getAttribute("src");
-          if (nextSrc !== FALLBACK_IMG) {
-            setResolvedSrc(FALLBACK_IMG);
-          }
-          if (typeof onError === "function") {
-            onError();
-          }
-        }}
-      />
-    </div>
-  );
-};
-
-const SafeImage = ({ src, alt, className, wrapperClassName, onError }) => {
-  const safeSrc = src || FALLBACK_IMG;
-  return (
-    <SafeImageInstance
-      key={safeSrc}
-      src={safeSrc}
-      alt={alt}
-      className={className}
-      wrapperClassName={wrapperClassName}
-      onError={onError}
-    />
-  );
+const MODAL_CONTENT = {
+  gallery: {
+    icon: FiLock,
+    eyebrow: "Temporarily unavailable",
+    title: "The gallery is hidden for now.",
+    message:
+      "We have taken the public gallery offline for the moment. Please check back later or reach out to our team if you need help with an existing shipment.",
+    primaryLabel: "Back to home",
+    primaryAction: "home",
+    secondaryLabel: "Contact us",
+    secondaryAction: "contact",
+    dismissible: false,
+  },
+  signin: {
+    icon: FiLogIn,
+    eyebrow: "Portal update",
+    title: "Sign in is not available right now.",
+    message:
+      "We are making a few updates to the customer portal. Please try again later for account access.",
+    primaryLabel: "Okay, got it",
+    primaryAction: "close",
+    secondaryLabel: "Contact us",
+    secondaryAction: "contact",
+    dismissible: true,
+  },
+  signup: {
+    icon: FiUserPlus,
+    eyebrow: "Registration paused",
+    title: "Sign up is temporarily unavailable.",
+    message:
+      "New account creation is on pause while we finish a quick update. Please try again later.",
+    primaryLabel: "Okay, got it",
+    primaryAction: "close",
+    secondaryLabel: "Contact us",
+    secondaryAction: "contact",
+    dismissible: true,
+  },
+  track: {
+    icon: FiTruck,
+    eyebrow: "Tracking unavailable",
+    title: "Shipment tracking is temporarily unavailable.",
+    message:
+      "The public tracking flow is taking a short break while we refresh it. Please try again later.",
+    primaryLabel: "Okay, got it",
+    primaryAction: "close",
+    secondaryLabel: "Contact us",
+    secondaryAction: "contact",
+    dismissible: true,
+  },
 };
 
 const PublicGallery = () => {
-  const [loading, setLoading] = useState(true);
-  const [galleryError, setGalleryError] = useState("");
-  const [galleryResponse, setGalleryResponse] = useState(null);
-  const [advertsResponse, setAdvertsResponse] = useState(null);
-  const [page, setPage] = useState(1);
-  const [claimedItemIds, setClaimedItemIds] = useState(() => new Set());
-  const [toast, setToast] = useState({
-    visible: false,
-    type: "",
-    message: "",
-  });
-
-  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedItemImages, setSelectedItemImages] = useState([]);
-  const [activeImage, setActiveImage] = useState(FALLBACK_IMG);
-  const [proofFiles, setProofFiles] = useState([]);
-  const [claimForm, setClaimForm] = useState({
-    typedTrackingNumber: "",
-    fullName: "",
-    email: "",
-    phone: "",
-    city: "",
-    country: "",
-    message: "",
-  });
-  const [claimState, setClaimState] = useState({
-    loading: false,
-    type: "",
-    message: "",
-  });
+  const navigate = useNavigate();
+  const [activeModal, setActiveModal] = useState("gallery");
 
   useEffect(() => {
-    if (!toast.visible) return;
-    const timer = setTimeout(() => {
-      setToast({ visible: false, type: "", message: "" });
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [toast.visible, toast.message, toast.type]);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = activeModal ? "hidden" : previousOverflow;
 
-  useEffect(() => {
-    let mounted = true;
-
-    const loadGalleryData = async () => {
-      setLoading(true);
-      setGalleryError("");
-      try {
-        const [galleryResult, advertsResult] = await Promise.allSettled([
-          publicApi.getGallery(100),
-          publicApi.getGalleryAdverts(8),
-        ]);
-
-        if (!mounted) return;
-
-        if (galleryResult.status === "fulfilled") {
-          setGalleryResponse(galleryResult.value);
-        } else {
-          setGalleryResponse(null);
-          setGalleryError(
-            getUserFacingApiError(
-              galleryResult.reason,
-              "Unable to load gallery content right now. Please refresh and try again."
-            )
-          );
-        }
-
-        if (advertsResult.status === "fulfilled") {
-          setAdvertsResponse(advertsResult.value);
-        } else if (galleryResult.status === "fulfilled") {
-          setAdvertsResponse(galleryResult.value);
-        } else {
-          setAdvertsResponse(null);
-        }
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadGalleryData();
     return () => {
-      mounted = false;
+      document.body.style.overflow = previousOverflow;
     };
-  }, []);
+  }, [activeModal]);
 
-  const anonymousGoods = useMemo(
-    () => normalizeAnonymousGoods(galleryResponse),
-    [galleryResponse]
-  );
+  const modal = useMemo(() => MODAL_CONTENT[activeModal] || null, [activeModal]);
 
-  const adverts = useMemo(
-    () => normalizeAdverts(advertsResponse),
-    [advertsResponse]
-  );
-
-  const visibleAdverts = useMemo(
-    () => adverts.slice(0, MAX_VISIBLE_ADVERTS),
-    [adverts]
-  );
-
-  const totalPages = Math.max(
-    1,
-    Math.ceil(anonymousGoods.length / ANONYMOUS_ITEMS_PER_PAGE)
-  );
-
-  const paginatedAnonymousGoods = useMemo(() => {
-    const safePage = Math.min(page, totalPages);
-    const start = (safePage - 1) * ANONYMOUS_ITEMS_PER_PAGE;
-    return anonymousGoods.slice(start, start + ANONYMOUS_ITEMS_PER_PAGE);
-  }, [anonymousGoods, page, totalPages]);
-
-  useEffect(() => {
-    if (page > totalPages) {
-      setPage(totalPages);
-    }
-  }, [page, totalPages]);
-
-  const isItemProcessing = (item) => {
-    if (!item?.id) return false;
-    const normalizedStatus = String(item.status || "").toLowerCase();
-    return (
-      claimedItemIds.has(item.id) ||
-      normalizedStatus === "claim_pending" ||
-      normalizedStatus === "processing"
-    );
+  const openNoticeModal = (type) => {
+    setActiveModal(type);
   };
 
-  const openClaimModal = (item) => {
-    if (!item?.id || isItemProcessing(item)) return;
-    const images = [...new Set([item.previewImageUrl, ...toList(item.mediaUrls)].filter(Boolean))];
-
-    setSelectedItem(item);
-    setSelectedItemImages(images);
-    setActiveImage(images[0] || FALLBACK_IMG);
-    setClaimForm({
-      typedTrackingNumber: "",
-      fullName: "",
-      email: "",
-      phone: "",
-      city: "",
-      country: "",
-      message: "",
-    });
-    setProofFiles([]);
-    setClaimState({
-      loading: false,
-      type: "",
-      message: "",
-    });
-    setIsClaimModalOpen(true);
+  const closeModal = () => {
+    if (!modal?.dismissible) return;
+    setActiveModal(null);
   };
 
-  const closeClaimModal = () => {
-    if (claimState.loading) return;
-    setIsClaimModalOpen(false);
-    setSelectedItem(null);
-    setSelectedItemImages([]);
-    setActiveImage(FALLBACK_IMG);
-  };
-
-  const removeBrokenImage = (badUrl) => {
-    if (!badUrl) return;
-    setSelectedItemImages((prev) => {
-      const next = prev.filter((url) => url !== badUrl);
-      if (activeImage === badUrl) {
-        setActiveImage(next[0] || FALLBACK_IMG);
-      }
-      return next;
-    });
-  };
-
-  const handleClaimChange = (event) => {
-    const { name, value } = event.target;
-    setClaimForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const showTemporaryNotice = () => {
-    setToast({
-      visible: true,
-      type: "info",
-      message: TEMPORARY_NOTICE,
-    });
-  };
-
-  const handleSubmitClaim = async (event) => {
-    event.preventDefault();
-
-    if (!selectedItem?.id) {
-      setClaimState({
-        loading: false,
-        type: "error",
-        message: "No selected item found for this claim.",
-      });
+  const handleModalAction = (action) => {
+    if (action === "home") {
+      navigate("/");
       return;
     }
 
-    const typedTrackingNumber = claimForm.typedTrackingNumber.trim();
-    const payload = {
-      fullName: claimForm.fullName.trim(),
-      email: claimForm.email.trim(),
-      phone: claimForm.phone.trim(),
-      city: claimForm.city.trim(),
-      country: claimForm.country.trim(),
-      message: claimForm.message.trim(),
-    };
-
-    if (
-      !typedTrackingNumber ||
-      !payload.fullName ||
-      !payload.email ||
-      !payload.phone ||
-      !payload.city ||
-      !payload.country ||
-      !payload.message
-    ) {
-      setClaimState({
-        loading: false,
-        type: "error",
-        message: "Typed tracking number and all claim fields are required.",
-      });
+    if (action === "contact") {
+      navigate("/contact");
       return;
     }
 
-    if (!EMAIL_PATTERN.test(payload.email)) {
-      setClaimState({
-        loading: false,
-        type: "error",
-        message: "Please enter a valid email for the claim contact.",
-      });
-      return;
-    }
-
-    if (proofFiles.length === 0) {
-      setClaimState({
-        loading: false,
-        type: "error",
-        message: "Attach at least one proof file before submitting your claim.",
-      });
-      return;
-    }
-
-    if (proofFiles.length > MAX_CLAIM_PROOF_FILES) {
-      setClaimState({
-        loading: false,
-        type: "error",
-        message: `You can upload up to ${MAX_CLAIM_PROOF_FILES} proof files.`,
-      });
-      return;
-    }
-
-    try {
-      setClaimState({ loading: true, type: "", message: "" });
-
-      let uploadToken = "";
-      const proofR2Keys = [];
-
-      for (const file of proofFiles) {
-        const presignPayload = {
-          originalFileName: file.name,
-          contentType: file.type || "application/octet-stream",
-          ...(uploadToken ? { uploadToken } : {}),
-        };
-
-        const presignResponse = await publicApi.presignGalleryClaimUpload(presignPayload);
-        const uploadMeta = resolveUploadMetadata(presignResponse);
-
-        if (!uploadMeta.uploadToken) {
-          throw new Error("Missing upload token from presign response.");
-        }
-
-        if (!uploadToken) {
-          uploadToken = uploadMeta.uploadToken;
-        } else if (uploadMeta.uploadToken !== uploadToken) {
-          throw new Error("Upload session mismatch while preparing proof files.");
-        }
-
-        await uploadClaimFile(file, uploadMeta);
-
-        if (uploadMeta.r2Key) {
-          proofR2Keys.push(uploadMeta.r2Key);
-        }
-      }
-
-      if (!uploadToken || proofR2Keys.length === 0) {
-        throw new Error("Proof uploads are incomplete. Please re-upload and try again.");
-      }
-
-      const claimResponse = await publicApi.submitAnonymousGalleryClaim(
-        typedTrackingNumber,
-        {
-          itemId: selectedItem.id,
-          ...payload,
-          uploadToken,
-          proofR2Keys,
-        }
-      );
-
-      const claimData = unwrapData(claimResponse);
-      const ticketNumber = claimData?.ticket?.ticketNumber;
-      const claimId = claimData?.claim?.id;
-      const claimedItemId = claimData?.item?.id || claimData?.claim?.itemId || selectedItem.id;
-      const successMessage = ticketNumber
-        ? `Claim submitted. Ticket: ${ticketNumber}${claimId ? ` • Claim ID: ${claimId}` : ""}.`
-        : "Claim submitted successfully. Our team will contact you shortly.";
-
-      if (claimedItemId) {
-        setClaimedItemIds((prev) => {
-          const next = new Set(prev);
-          next.add(claimedItemId);
-          return next;
-        });
-      }
-      setToast({
-        visible: true,
-        type: "success",
-        message: successMessage,
-      });
-
-      setClaimForm({
-        typedTrackingNumber: "",
-        fullName: "",
-        email: "",
-        phone: "",
-        city: "",
-        country: "",
-        message: "",
-      });
-      setProofFiles([]);
-      setClaimState({ loading: false, type: "", message: "" });
-      closeClaimModal();
-    } catch (error) {
-      const backendMessage = extractRawApiError(error);
-
-      const isTrackingMismatch =
-        error?.response?.status === 422 &&
-        backendMessage
-          .toLowerCase()
-          .includes("tracking number does not match the selected gallery item");
-
-      setClaimState({
-        loading: false,
-        type: "error",
-        message: isTrackingMismatch
-          ? "Tracking number does not match selected item. Please recheck and try again."
-          : getUserFacingApiError(
-              error,
-              "Could not submit your claim right now. Please try again."
-            ),
-      });
+    if (action === "close") {
+      closeModal();
     }
   };
 
@@ -581,511 +107,118 @@ const PublicGallery = () => {
     <div className="min-h-screen bg-[color:var(--bg)] text-[color:var(--text)]">
       <Header
         navProps={{
-          onTrackShipmentClick: showTemporaryNotice,
-          onSignInClick: showTemporaryNotice,
-          onGetStartedClick: showTemporaryNotice,
+          onTrackShipmentClick: () => openNoticeModal("track"),
+          onSignInClick: () => openNoticeModal("signin"),
+          onGetStartedClick: () => openNoticeModal("signup"),
         }}
       />
+
       <main className="pt-24 lg:pt-20 max-sm:pt-16 px-4 sm:px-8 lg:px-16 pb-0">
-        <section>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div>
-              <h2 className="text-2xl font-bold">Anonymous Goods</h2>
-              <p className="mt-1 text-sm text-[color:var(--text-muted)]">
-                A shorter snapshot of recent unclaimed items.
+        <section className="min-h-[68vh] flex items-center justify-center py-10">
+          <div className="relative w-full max-w-5xl overflow-hidden rounded-[32px] border border-[color:var(--border)] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(247,241,236,0.92))] p-8 shadow-[0_28px_90px_rgba(15,23,42,0.12)] sm:p-10 lg:p-14">
+            <div className="absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,rgba(255,106,0,0.18),transparent_55%)] pointer-events-none" />
+            <div className="relative max-w-2xl">
+              <p className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--accent)]">
+                <FiLock className="text-sm" />
+                Access Pause
               </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => window.location.reload()}
-              className="text-sm px-4 py-2 rounded-lg border border-[color:var(--border)] hover:bg-white/10 transition-colors self-start sm:self-auto"
-            >
-              Refresh
-            </button>
-          </div>
-
-          {loading && (
-            <>
-              <SkeletonCards />
-              <SkeletonTable />
-            </>
-          )}
-
-          {!loading && galleryError && (
-            <p className="mt-4 text-sm text-red-500">{galleryError}</p>
-          )}
-
-          {!loading && !galleryError && anonymousGoods.length === 0 && (
-            <p className="mt-4 text-sm text-[color:var(--text-muted)]">
-              No anonymous goods are available right now.
-            </p>
-          )}
-
-          {!loading && !galleryError && anonymousGoods.length > 0 && (
-            <>
-              <div className="mt-4 space-y-3 md:hidden">
-                {paginatedAnonymousGoods.map((item) => (
-                  (() => {
-                    const processing = isItemProcessing(item);
-                    return (
-                  <article
-                    key={item.id}
-                    onClick={() => {
-                      if (!processing) {
-                        openClaimModal(item);
-                      }
-                    }}
-                    className={`rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)] p-4 ${
-                      processing ? "cursor-default" : "cursor-pointer"
-                    }`}
-                  >
-                    <p className="text-xs text-[color:var(--text-muted)]">Tracking Number</p>
-                    <p className="text-sm font-semibold text-[color:var(--accent)] mt-1">
-                      {item.trackingNumberMasked || "-"}
-                    </p>
-                    <p className="font-semibold mt-3">{item.title}</p>
-                    <p className="text-sm text-[color:var(--text-muted)] mt-1 line-clamp-2">
-                      {item.description || "-"}
-                    </p>
-                    <div className="mt-3 flex items-center justify-between gap-3 text-xs">
-                      <span>Status: {formatStatus(item.status)}</span>
-                      <span>Updated: {formatDate(item.updatedAt)}</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        if (!processing) {
-                          openClaimModal(item);
-                        }
-                      }}
-                      className={`mt-4 text-xs px-3 py-1.5 rounded-md ${
-                        processing
-                          ? "bg-amber-100 text-amber-700 cursor-default"
-                          : "bg-[color:var(--accent)] text-[color:var(--accent-contrast)] hover:bg-[color:var(--accent-hover)]"
-                      }`}
-                      disabled={!item.id || processing}
-                    >
-                      {processing ? "Processing" : "Claim"}
-                    </button>
-                  </article>
-                    );
-                  })()
-                ))}
-              </div>
-
-              <div className="hidden md:block mt-6 overflow-x-auto rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)]">
-                <table className="w-full min-w-[640px] text-sm">
-                  <thead className="bg-white/30">
-                    <tr>
-                      <th className="text-left px-4 py-3 font-semibold">Tracking Number</th>
-                      <th className="text-left px-4 py-3 font-semibold">Title</th>
-                      <th className="hidden lg:table-cell text-left px-4 py-3 font-semibold">Description</th>
-                      <th className="text-left px-4 py-3 font-semibold">Status</th>
-                      <th className="hidden lg:table-cell text-left px-4 py-3 font-semibold">Updated</th>
-                      <th className="text-left px-4 py-3 font-semibold">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {paginatedAnonymousGoods.map((item) => (
-                      (() => {
-                        const processing = isItemProcessing(item);
-                        return (
-                      <tr
-                        key={item.id}
-                        className={`border-t border-[color:var(--border)] ${
-                          processing ? "" : "hover:bg-white/20 cursor-pointer"
-                        }`}
-                        onClick={() => {
-                          if (!processing) {
-                            openClaimModal(item);
-                          }
-                        }}
-                      >
-                        <td className="px-4 py-3 font-semibold text-[color:var(--accent)]">
-                          {item.trackingNumberMasked || "-"}
-                        </td>
-                        <td className="px-4 py-3">{item.title}</td>
-                        <td className="hidden lg:table-cell px-4 py-3 text-[color:var(--text-muted)] max-w-[360px] truncate">
-                          {item.description || "-"}
-                        </td>
-                        <td className="px-4 py-3">{formatStatus(item.status)}</td>
-                        <td className="hidden lg:table-cell px-4 py-3">{formatDate(item.updatedAt)}</td>
-                        <td className="px-4 py-3">
-                          <button
-                            type="button"
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              if (!processing) {
-                                openClaimModal(item);
-                              }
-                            }}
-                            className={`text-xs px-3 py-1.5 rounded-md ${
-                              processing
-                                ? "bg-amber-100 text-amber-700 cursor-default"
-                                : "bg-[color:var(--accent)] text-[color:var(--accent-contrast)] hover:bg-[color:var(--accent-hover)]"
-                            }`}
-                            disabled={!item.id || processing}
-                          >
-                            {processing ? "Processing" : "Claim"}
-                          </button>
-                        </td>
-                      </tr>
-                        );
-                      })()
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <p className="text-xs text-[color:var(--text-muted)]">
-                  Page {Math.min(page, totalPages)} of {totalPages}
-                </p>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setPage((prev) => Math.max(1, prev - 1))}
-                    disabled={page <= 1}
-                    className="px-3 py-1.5 rounded-md border border-[color:var(--border)] text-sm disabled:opacity-50"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
-                    disabled={page >= totalPages}
-                    className="px-3 py-1.5 rounded-md border border-[color:var(--border)] text-sm disabled:opacity-50"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </section>
-
-        <section className="mt-10">
-          <h2 className="text-2xl font-bold">Adverts</h2>
-          {visibleAdverts.length === 0 ? (
-            <p className="mt-4 text-sm text-[color:var(--text-muted)]">
-              No adverts are available right now.
-            </p>
-          ) : (
-            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-              {visibleAdverts.map((advert) => (
-                <article
-                  key={advert.id}
-                  className="rounded-xl border border-[color:var(--border)] overflow-hidden bg-[color:var(--surface)]"
+              <h1 className="mt-6 text-4xl font-bold leading-tight text-[color:var(--text)] sm:text-5xl">
+                The public gallery is currently unavailable.
+              </h1>
+              <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--text-muted)] sm:text-lg">
+                We have hidden this page for now while updates are being made. If you need help with a shipment, our team can still help you directly.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  to="/"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[color:var(--accent)] px-6 py-3 font-semibold text-[color:var(--accent-contrast)] transition-colors hover:bg-[color:var(--accent-hover)]"
                 >
-                  <SafeImage
-                    src={advert.imageUrl}
-                    alt={advert.title}
-                    wrapperClassName="w-full h-32 bg-black/10"
-                    className="w-full h-32 object-cover"
-                  />
-                  <div className="p-4">
-                    <h3 className="font-semibold">{advert.title}</h3>
-                    {advert.text && (
-                      <p className="mt-2 text-sm text-[color:var(--text-muted)] line-clamp-3">
-                        {advert.text}
-                      </p>
-                    )}
-                    {advert.ctaUrl && (
-                      <a
-                        href={advert.ctaUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block mt-3 text-sm text-[color:var(--accent)] hover:underline"
-                      >
-                        {advert.ctaLabel}
-                      </a>
-                    )}
-                  </div>
-                </article>
-              ))}
+                  <FiArrowLeft className="text-base" />
+                  Back to home
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-[color:var(--border)] bg-white/70 px-6 py-3 font-semibold text-[color:var(--text)] transition-colors hover:bg-white"
+                >
+                  <FiMapPin className="text-base" />
+                  Contact our team
+                </Link>
+              </div>
             </div>
-          )}
+          </div>
         </section>
       </main>
 
-      {isClaimModalOpen && selectedItem && (
+      {modal && (
         <div
-          className="fixed inset-0 z-[90] bg-black/45 backdrop-blur-[2px] flex items-center justify-center p-4"
-          onClick={closeClaimModal}
+          className="fixed inset-0 z-[95] flex items-center justify-center bg-[rgba(15,23,42,0.58)] p-4 backdrop-blur-[6px]"
+          onClick={modal.dismissible ? closeModal : undefined}
           role="presentation"
         >
           <div
-            className="w-full max-w-6xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)] p-5 sm:p-6"
+            className="relative w-full max-w-lg overflow-hidden rounded-[28px] border border-white/35 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,245,240,0.97))] p-7 shadow-[0_28px_90px_rgba(15,23,42,0.28)] sm:p-8"
             onClick={(event) => event.stopPropagation()}
             role="dialog"
             aria-modal="true"
-            aria-label="Anonymous goods claim form"
+            aria-labelledby="gallery-notice-title"
+            aria-describedby="gallery-notice-message"
           >
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h3 className="text-2xl font-bold">Claim Anonymous Goods</h3>
-                <p className="mt-2 text-sm text-[color:var(--text-muted)]">
-                  Type the full tracking number and submit your ownership claim for this selected item.
-                </p>
-              </div>
+            <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[rgba(255,106,0,0.16)] blur-2xl" />
+            {modal.dismissible && (
               <button
                 type="button"
-                onClick={closeClaimModal}
-                className="text-2xl leading-none text-[color:var(--text-muted)] hover:text-[color:var(--text)]"
-                aria-label="Close claim modal"
+                onClick={closeModal}
+                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--border)] bg-white/80 text-[color:var(--text-muted)] transition-colors hover:text-[color:var(--text)]"
+                aria-label="Close modal"
               >
-                ×
+                <FiX className="text-lg" />
               </button>
+            )}
+
+            <div className="relative">
+              <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgba(255,106,0,0.12)] text-[color:var(--accent)]">
+                <modal.icon className="text-[30px]" />
+              </div>
+              <p className="mt-5 text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--accent)]">
+                {modal.eyebrow}
+              </p>
+              <h2
+                id="gallery-notice-title"
+                className="mt-3 text-3xl font-bold leading-tight text-[color:var(--text)]"
+              >
+                {modal.title}
+              </h2>
+              <p
+                id="gallery-notice-message"
+                className="mt-4 text-base leading-7 text-[color:var(--text-muted)]"
+              >
+                {modal.message}
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={() => handleModalAction(modal.primaryAction)}
+                  className="inline-flex flex-1 items-center justify-center rounded-xl bg-[color:var(--accent)] px-5 py-3 font-semibold text-[color:var(--accent-contrast)] transition-colors hover:bg-[color:var(--accent-hover)]"
+                >
+                  {modal.primaryLabel}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleModalAction(modal.secondaryAction)}
+                  className="inline-flex flex-1 items-center justify-center rounded-xl border border-[color:var(--border)] bg-white/80 px-5 py-3 font-semibold text-[color:var(--text)] transition-colors hover:bg-white"
+                >
+                  {modal.secondaryLabel}
+                </button>
+              </div>
             </div>
-
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <section className="rounded-xl p-4">
-                <SafeImage
-                  src={activeImage}
-                  alt={selectedItem.title}
-                  wrapperClassName="w-full h-64 rounded-lg bg-black/10"
-                  className="w-full h-64 object-contain rounded-lg p-6"
-                  onError={() => removeBrokenImage(activeImage)}
-                />
-
-                {selectedItemImages.length > 1 && (
-                  <div className="mt-3 grid grid-cols-4 gap-2">
-                    {selectedItemImages.map((url, index) => (
-                      <button
-                        key={`${url}-${index}`}
-                        type="button"
-                        onClick={() => setActiveImage(url)}
-                        className={`rounded-md overflow-hidden border ${
-                          activeImage === url
-                            ? "border-[color:var(--accent)]"
-                            : "border-[color:var(--border)]"
-                        }`}
-                        aria-label={`View image ${index + 1}`}
-                      >
-                        <SafeImage
-                          src={url}
-                          alt={`${selectedItem.title} ${index + 1}`}
-                          wrapperClassName="w-full h-16 bg-black/10"
-                          className="w-full h-16 object-cover"
-                          onError={() => removeBrokenImage(url)}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                <div className="mt-4 space-y-2 text-sm">
-                  <div className="flex justify-between gap-3">
-                    <span className="text-[color:var(--text-muted)]">Tracking Number</span>
-                    <span className="font-semibold text-right">
-                      {selectedItem.trackingNumberMasked || "-"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-3">
-                    <span className="text-[color:var(--text-muted)]">Title</span>
-                    <span className="font-semibold text-right">{selectedItem.title}</span>
-                  </div>
-                  <div className="flex justify-between gap-3">
-                    <span className="text-[color:var(--text-muted)]">Status</span>
-                    <span className="font-semibold text-right">{formatStatus(selectedItem.status)}</span>
-                  </div>
-                  <div>
-                    <p className="text-[color:var(--text-muted)]">Description</p>
-                    <p className="mt-1">{selectedItem.description || "No description provided."}</p>
-                  </div>
-                </div>
-              </section>
-
-              <section className="rounded-xl border border-[color:var(--border)] p-4">
-                <form onSubmit={handleSubmitClaim} className="space-y-4">
-                  <div>
-                    <label
-                      htmlFor="claim-typed-tracking"
-                      className="block text-sm font-medium text-[color:var(--text)] mb-1"
-                    >
-                      Full Tracking Number
-                    </label>
-                    <input
-                      id="claim-typed-tracking"
-                      name="typedTrackingNumber"
-                      value={claimForm.typedTrackingNumber}
-                      onChange={handleClaimChange}
-                      placeholder="Type full tracking number"
-                      className="w-full px-4 py-3 rounded-md border border-[color:var(--border)] bg-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="claim-full-name"
-                      className="block text-sm font-medium text-[color:var(--text)] mb-1"
-                    >
-                      Full Name
-                    </label>
-                    <input
-                      id="claim-full-name"
-                      name="fullName"
-                      value={claimForm.fullName}
-                      onChange={handleClaimChange}
-                      placeholder="Enter your full name"
-                      className="w-full px-4 py-3 rounded-md border border-[color:var(--border)] bg-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="claim-email"
-                      className="block text-sm font-medium text-[color:var(--text)] mb-1"
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="claim-email"
-                      name="email"
-                      value={claimForm.email}
-                      onChange={handleClaimChange}
-                      type="email"
-                      placeholder="Enter your email"
-                      className="w-full px-4 py-3 rounded-md border border-[color:var(--border)] bg-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="claim-phone"
-                      className="block text-sm font-medium text-[color:var(--text)] mb-1"
-                    >
-                      Phone
-                    </label>
-                    <input
-                      id="claim-phone"
-                      name="phone"
-                      value={claimForm.phone}
-                      onChange={handleClaimChange}
-                      placeholder="Enter your phone number"
-                      className="w-full px-4 py-3 rounded-md border border-[color:var(--border)] bg-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="claim-city"
-                      className="block text-sm font-medium text-[color:var(--text)] mb-1"
-                    >
-                      City
-                    </label>
-                    <input
-                      id="claim-city"
-                      name="city"
-                      value={claimForm.city}
-                      onChange={handleClaimChange}
-                      placeholder="Enter your city"
-                      className="w-full px-4 py-3 rounded-md border border-[color:var(--border)] bg-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="claim-country"
-                      className="block text-sm font-medium text-[color:var(--text)] mb-1"
-                    >
-                      Country
-                    </label>
-                    <input
-                      id="claim-country"
-                      name="country"
-                      value={claimForm.country}
-                      onChange={handleClaimChange}
-                      placeholder="Enter your country"
-                      className="w-full px-4 py-3 rounded-md border border-[color:var(--border)] bg-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="claim-message"
-                      className="block text-sm font-medium text-[color:var(--text)] mb-1"
-                    >
-                      Message
-                    </label>
-                    <textarea
-                      id="claim-message"
-                      name="message"
-                      value={claimForm.message}
-                      onChange={handleClaimChange}
-                      rows={3}
-                      placeholder="Tell us why this item is yours"
-                      className="w-full px-4 py-3 rounded-md border border-[color:var(--border)] bg-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="claim-proof-files"
-                      className="block text-sm font-medium text-[color:var(--text)] mb-1"
-                    >
-                      Proof Files
-                    </label>
-                    <input
-                      id="claim-proof-files"
-                      type="file"
-                      multiple
-                      onChange={(event) =>
-                        setProofFiles(
-                          Array.from(event.target.files || []).slice(0, MAX_CLAIM_PROOF_FILES)
-                        )
-                      }
-                      className="w-full text-sm"
-                    />
-                  </div>
-                  {proofFiles.length > 0 && (
-                    <p className="text-xs text-[color:var(--text-muted)]">
-                      {proofFiles.length} proof file{proofFiles.length > 1 ? "s" : ""} selected.
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={claimState.loading}
-                    className="w-full bg-[color:var(--accent)] text-[color:var(--accent-contrast)] font-semibold py-3 rounded-md hover:bg-[color:var(--accent-hover)] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    {claimState.loading ? "Submitting Claim..." : "Submit Claim"}
-                  </button>
-
-                  {claimState.type === "error" && claimState.message && (
-                    <p
-                      className="text-sm text-red-500"
-                    >
-                      {claimState.message}
-                    </p>
-                  )}
-                </form>
-              </section>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {toast.visible && (
-        <div className="fixed bottom-5 right-5 z-[95] w-[min(92vw,460px)]">
-          <div
-            className={`rounded-xl border p-4 shadow-xl ${
-              toast.type === "success"
-                ? "border-green-200 bg-green-50 text-green-800"
-                : toast.type === "info"
-                  ? "border-amber-200 bg-amber-50 text-amber-900"
-                : "border-red-200 bg-red-50 text-red-800"
-            }`}
-          >
-            <p className="text-sm font-semibold">
-              {toast.type === "success"
-                ? "Claim Submitted"
-                : toast.type === "info"
-                  ? "Please Try Again Later"
-                  : "Error"}
-            </p>
-            <p className="text-sm mt-1">{toast.message}</p>
           </div>
         </div>
       )}
 
       <Footer
-        topSpacingClass="mt-14 max-md:mt-10 max-sm:mt-8"
-        onTrackShipmentClick={showTemporaryNotice}
+        topSpacingClass="mt-0"
+        onTrackShipmentClick={() => openNoticeModal("track")}
       />
     </div>
   );
