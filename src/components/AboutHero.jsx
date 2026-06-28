@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import { DASHBOARD_URL } from "../constants/siteData";
+import { useFeatureAccess } from "../hooks/useFeatureAccess";
 
 const ABOUT_BG =
   "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1920&q=80";
 
 const AboutHero = () => {
+  const { openFeatureModal } = useFeatureAccess();
+
   return (
     <div
       className="
@@ -63,8 +65,9 @@ const AboutHero = () => {
         </p>
 
         <div className="flex gap-4 max-sm:flex-col max-sm:w-full">
-          <a
-            href={`${DASHBOARD_URL}/sign-up`}
+          <button
+            type="button"
+            onClick={() => openFeatureModal("signup")}
             className="
               inline-block bg-[color:var(--accent)] px-10 py-3 rounded-lg text-[color:var(--accent-contrast)] font-semibold
               transition hover:bg-[color:var(--accent-hover)]
@@ -73,7 +76,7 @@ const AboutHero = () => {
             "
           >
             Get Started
-          </a>
+          </button>
           <Link
             to="/contact"
             className="

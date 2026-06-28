@@ -5,19 +5,18 @@ import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "re
 import { CONTACT, SOCIAL_LINKS } from "../constants/siteData";
 import { publicApi } from "../api/publicApi";
 import { getUserFacingApiError } from "../api/errorUtils";
+import { useFeatureAccess } from "../hooks/useFeatureAccess";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const Footer = ({
-  topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24",
-  onTrackShipmentClick,
-}) => {
+const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterState, setNewsletterState] = useState({
     loading: false,
     type: "",
     message: "",
   });
+  const { openFeatureModal } = useFeatureAccess();
 
   const handleNewsletterSubmit = async (event) => {
     event.preventDefault();
@@ -93,17 +92,13 @@ const Footer = ({
                 <Link to="/shipment-calculator">Shipment Calculator</Link>
               </li>
               <li>
-                {onTrackShipmentClick ? (
-                  <button
-                    type="button"
-                    onClick={onTrackShipmentClick}
-                    className="text-left hover:text-[color:var(--accent)] transition-colors"
-                  >
-                    Track Shipment
-                  </button>
-                ) : (
-                  <Link to="/track-shipment">Track Shipment</Link>
-                )}
+                <button
+                  type="button"
+                  onClick={() => openFeatureModal("track")}
+                  className="text-left hover:text-[color:var(--accent)] transition-colors"
+                >
+                  Track Shipment
+                </button>
               </li>
             </ul>
           </div>

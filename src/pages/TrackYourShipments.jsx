@@ -1,16 +1,5 @@
-import React from "react";
-import Header from "../components/Header";
-import Track from "../components/Track";
-import Footer from "../components/Footer";
+import UnavailableFeaturePage from "../components/UnavailableFeaturePage";
 
-const TrackYourShipments = () => {
-  return (
-    <div>
-      <Header />
-      <Track />
-      <Footer />
-    </div>
-  );
-};
+const TrackYourShipments = () => <UnavailableFeaturePage feature="track" />;
 
 export default TrackYourShipments;

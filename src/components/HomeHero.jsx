@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { DASHBOARD_URL } from "../constants/siteData";
+import { useFeatureAccess } from "../hooks/useFeatureAccess";
 
 const SLIDES = [
   {
@@ -22,6 +22,7 @@ const SLIDES = [
 
 const HomeHero = () => {
   const [current, setCurrent] = useState(0);
+  const { openFeatureModal } = useFeatureAccess();
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % SLIDES.length);
@@ -97,8 +98,9 @@ const HomeHero = () => {
         </p>
 
         <div className="flex gap-4 max-sm:flex-col max-sm:w-full">
-          <a
-            href={`${DASHBOARD_URL}/sign-up`}
+          <button
+            type="button"
+            onClick={() => openFeatureModal("signup")}
             className="
               inline-block bg-[color:var(--accent)] px-10 py-3 rounded-lg text-[color:var(--accent-contrast)] font-semibold
               transition hover:bg-[color:var(--accent-hover)]
@@ -107,7 +109,7 @@ const HomeHero = () => {
             "
           >
             Get Started
-          </a>
+          </button>
           <Link
             to="/shipment-calculator"
             className="
