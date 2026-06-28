@@ -8,7 +8,10 @@ import { getUserFacingApiError } from "../api/errorUtils";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
+const Footer = ({
+  topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24",
+  onTrackShipmentClick,
+}) => {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterState, setNewsletterState] = useState({
     loading: false,
@@ -90,7 +93,17 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
                 <Link to="/shipment-calculator">Shipment Calculator</Link>
               </li>
               <li>
-                <Link to="/track-shipment">Track Shipment</Link>
+                {onTrackShipmentClick ? (
+                  <button
+                    type="button"
+                    onClick={onTrackShipmentClick}
+                    className="text-left hover:text-[color:var(--accent)] transition-colors"
+                  >
+                    Track Shipment
+                  </button>
+                ) : (
+                  <Link to="/track-shipment">Track Shipment</Link>
+                )}
               </li>
             </ul>
           </div>

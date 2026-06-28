@@ -5,7 +5,12 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { NAV_LINKS, DASHBOARD_URL } from "../constants/siteData";
 
-const NavBar = ({ isScrolled }) => {
+const NavBar = ({
+  isScrolled,
+  onTrackShipmentClick,
+  onSignInClick,
+  onGetStartedClick,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinkClass = ({ isActive }) =>
@@ -31,19 +36,49 @@ const NavBar = ({ isScrolled }) => {
         </div>
 
         <div className="hidden lg:flex text-[color:var(--text)] text-[13px] font-heading font-medium items-center gap-4 whitespace-nowrap">
-          <NavLink to="/track-shipment" className={navLinkClass}>
-            Track your shipment
-          </NavLink>
+          {onTrackShipmentClick ? (
+            <button
+              type="button"
+              onClick={onTrackShipmentClick}
+              className="pb-1 hover:text-[color:var(--accent)] transition-colors"
+            >
+              Track your shipment
+            </button>
+          ) : (
+            <NavLink to="/track-shipment" className={navLinkClass}>
+              Track your shipment
+            </NavLink>
+          )}
           <p className="text-[color:var(--text-muted)]">|</p>
-          <a href={`${DASHBOARD_URL}/sign-in`} className="pb-1 hover:text-[color:var(--accent)] transition-colors">
-            Sign in
-          </a>
-          <a
-            href={`${DASHBOARD_URL}/sign-up`}
-            className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-5 py-2 rounded-lg hover:bg-[color:var(--accent-hover)] transition-colors"
-          >
-            Get Started
-          </a>
+          {onSignInClick ? (
+            <button
+              type="button"
+              onClick={onSignInClick}
+              className="pb-1 hover:text-[color:var(--accent)] transition-colors"
+            >
+              Sign in
+            </button>
+          ) : (
+            <a href={`${DASHBOARD_URL}/sign-in`} className="pb-1 hover:text-[color:var(--accent)] transition-colors">
+              Sign in
+            </a>
+          )}
+          {onGetStartedClick ? (
+            <button
+              type="button"
+              onClick={onGetStartedClick}
+              className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-5 py-2 rounded-lg hover:bg-[color:var(--accent-hover)] transition-colors"
+            >
+              Get Started
+            </button>
+          ) : (
+            <a
+              href={`${DASHBOARD_URL}/sign-up`}
+              className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-5 py-2 rounded-lg hover:bg-[color:var(--accent-hover)] transition-colors"
+            >
+              Get Started
+            </a>
+          )}
         </div>
 
         {/* Mobile Layout */}
@@ -84,27 +119,66 @@ const NavBar = ({ isScrolled }) => {
 
           {/* Mobile actions */}
           <div className="flex flex-col gap-3 mt-6 text-[color:var(--text)] text-sm font-heading font-medium border-t border-gray-600 pt-4">
-            <NavLink
-              to="/track-shipment"
-              className={navLinkClass}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Track your shipment
-            </NavLink>
-            <a
-              href={`${DASHBOARD_URL}/sign-in`}
-              className="text-left"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Sign in
-            </a>
-            <a
-              href={`${DASHBOARD_URL}/sign-up`}
-              className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg text-left hover:bg-[color:var(--accent-hover)] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Get Started
-            </a>
+            {onTrackShipmentClick ? (
+              <button
+                type="button"
+                className="text-left pb-1 hover:text-[color:var(--accent)] transition-colors"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  onTrackShipmentClick();
+                }}
+              >
+                Track your shipment
+              </button>
+            ) : (
+              <NavLink
+                to="/track-shipment"
+                className={navLinkClass}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Track your shipment
+              </NavLink>
+            )}
+            {onSignInClick ? (
+              <button
+                type="button"
+                className="text-left hover:text-[color:var(--accent)] transition-colors"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  onSignInClick();
+                }}
+              >
+                Sign in
+              </button>
+            ) : (
+              <a
+                href={`${DASHBOARD_URL}/sign-in`}
+                className="text-left"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign in
+              </a>
+            )}
+            {onGetStartedClick ? (
+              <button
+                type="button"
+                className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg text-left hover:bg-[color:var(--accent-hover)] transition-colors"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  onGetStartedClick();
+                }}
+              >
+                Get Started
+              </button>
+            ) : (
+              <a
+                href={`${DASHBOARD_URL}/sign-up`}
+                className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg text-left hover:bg-[color:var(--accent-hover)] transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Get Started
+              </a>
+            )}
           </div>
         </div>
       )}

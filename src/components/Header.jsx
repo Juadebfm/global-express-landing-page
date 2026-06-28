@@ -5,7 +5,7 @@ import { CiMail } from "react-icons/ci";
 import NavBar from "../components/NavBar";
 import { CONTACT } from "../constants/siteData";
 
-const Header = () => {
+const Header = ({ navProps }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const contactBarRef = useRef(null);
   const [barHeight, setBarHeight] = useState(0);
@@ -61,7 +61,7 @@ const Header = () => {
           </a>
         </div>
       </div>
-      <NavBar isScrolled={isScrolled} />
+      <NavBar isScrolled={isScrolled} {...navProps} />
     </div>
   );
 };

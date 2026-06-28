@@ -4,11 +4,13 @@ import Footer from "../components/Footer";
 import { publicApi } from "../api/publicApi";
 import { extractRawApiError, getUserFacingApiError } from "../api/errorUtils";
 
-const ANONYMOUS_ITEMS_PER_PAGE = 10;
+const ANONYMOUS_ITEMS_PER_PAGE = 6;
 const MAX_CLAIM_PROOF_FILES = 5;
+const MAX_VISIBLE_ADVERTS = 3;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FALLBACK_IMG = "/images/gallery-fallback.svg";
 const IMAGE_TIMEOUT_MS = 5000;
+const TEMPORARY_NOTICE = "That option is taking a quick breather right now. Please try again later.";
 
 const unwrapData = (payload) => payload?.data || payload || {};
 const toList = (value) => (Array.isArray(value) ? value : []);
@@ -318,6 +320,11 @@ const PublicGallery = () => {
     [advertsResponse]
   );
 
+  const visibleAdverts = useMemo(
+    () => adverts.slice(0, MAX_VISIBLE_ADVERTS),
+    [adverts]
+  );
+
   const totalPages = Math.max(
     1,
     Math.ceil(anonymousGoods.length / ANONYMOUS_ITEMS_PER_PAGE)
@@ -392,6 +399,14 @@ const PublicGallery = () => {
   const handleClaimChange = (event) => {
     const { name, value } = event.target;
     setClaimForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const showTemporaryNotice = () => {
+    setToast({
+      visible: true,
+      type: "info",
+      message: TEMPORARY_NOTICE,
+    });
   };
 
   const handleSubmitClaim = async (event) => {
@@ -564,11 +579,22 @@ const PublicGallery = () => {
 
   return (
     <div className="min-h-screen bg-[color:var(--bg)] text-[color:var(--text)]">
-      <Header />
+      <Header
+        navProps={{
+          onTrackShipmentClick: showTemporaryNotice,
+          onSignInClick: showTemporaryNotice,
+          onGetStartedClick: showTemporaryNotice,
+        }}
+      />
       <main className="pt-24 lg:pt-20 max-sm:pt-16 px-4 sm:px-8 lg:px-16 pb-0">
         <section>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <h2 className="text-2xl font-bold">Anonymous Goods</h2>
+            <div>
+              <h2 className="text-2xl font-bold">Anonymous Goods</h2>
+              <p className="mt-1 text-sm text-[color:var(--text-muted)]">
+                A shorter snapshot of recent unclaimed items.
+              </p>
+            </div>
             <button
               type="button"
               onClick={() => window.location.reload()}
@@ -739,15 +765,15 @@ const PublicGallery = () => {
           )}
         </section>
 
-        <section className="mt-12">
+        <section className="mt-10">
           <h2 className="text-2xl font-bold">Adverts</h2>
-          {adverts.length === 0 ? (
+          {visibleAdverts.length === 0 ? (
             <p className="mt-4 text-sm text-[color:var(--text-muted)]">
               No adverts are available right now.
             </p>
           ) : (
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-              {adverts.map((advert) => (
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {visibleAdverts.map((advert) => (
                 <article
                   key={advert.id}
                   className="rounded-xl border border-[color:var(--border)] overflow-hidden bg-[color:var(--surface)]"
@@ -755,13 +781,13 @@ const PublicGallery = () => {
                   <SafeImage
                     src={advert.imageUrl}
                     alt={advert.title}
-                    wrapperClassName="w-full h-40 bg-black/10"
-                    className="w-full h-40 object-cover"
+                    wrapperClassName="w-full h-32 bg-black/10"
+                    className="w-full h-32 object-cover"
                   />
                   <div className="p-4">
                     <h3 className="font-semibold">{advert.title}</h3>
                     {advert.text && (
-                      <p className="mt-2 text-sm text-[color:var(--text-muted)]">
+                      <p className="mt-2 text-sm text-[color:var(--text-muted)] line-clamp-3">
                         {advert.text}
                       </p>
                     )}
@@ -1040,18 +1066,27 @@ const PublicGallery = () => {
             className={`rounded-xl border p-4 shadow-xl ${
               toast.type === "success"
                 ? "border-green-200 bg-green-50 text-green-800"
+                : toast.type === "info"
+                  ? "border-amber-200 bg-amber-50 text-amber-900"
                 : "border-red-200 bg-red-50 text-red-800"
             }`}
           >
             <p className="text-sm font-semibold">
-              {toast.type === "success" ? "Claim Submitted" : "Error"}
+              {toast.type === "success"
+                ? "Claim Submitted"
+                : toast.type === "info"
+                  ? "Please Try Again Later"
+                  : "Error"}
             </p>
             <p className="text-sm mt-1">{toast.message}</p>
           </div>
         </div>
       )}
 
-      <Footer topSpacingClass="mt-14 max-md:mt-10 max-sm:mt-8" />
+      <Footer
+        topSpacingClass="mt-14 max-md:mt-10 max-sm:mt-8"
+        onTrackShipmentClick={showTemporaryNotice}
+      />
     </div>
   );
 };
