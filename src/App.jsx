@@ -5,20 +5,20 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import Home from "./pages/Home";
-import About from "./pages/About";
-
-import ContactUS from "./pages/ContactUs";
-import GetaQuote from "./pages/GetaQuote";
-import Services from "./pages/Services";
-import ShipmentCalculator from "./pages/ShipmentCalculator";
-import TrackYourShipments from "./pages/TrackYourShipments";
-import Blog from "./pages/Blog";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsConditions from "./pages/TermsConditions";
-import PublicGallery from "./pages/PublicGallery";
 import { FeatureAccessProvider } from "./contexts/FeatureAccessContext";
+
+const About = lazy(() => import("./pages/About"));
+const ContactUS = lazy(() => import("./pages/ContactUs"));
+const GetaQuote = lazy(() => import("./pages/GetaQuote"));
+const Services = lazy(() => import("./pages/Services"));
+const ShipmentCalculator = lazy(() => import("./pages/ShipmentCalculator"));
+const TrackYourShipments = lazy(() => import("./pages/TrackYourShipments"));
+const Blog = lazy(() => import("./pages/Blog"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsConditions = lazy(() => import("./pages/TermsConditions"));
+const PublicGallery = lazy(() => import("./pages/PublicGallery"));
 
 function NotFound() {
   return (
@@ -52,20 +52,22 @@ function App() {
     <Router>
       <ScrollToTop />
       <FeatureAccessProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<ContactUS />} />
-          <Route path="/get-a-quote" element={<GetaQuote />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/shipment-calculator" element={<ShipmentCalculator />} />
-          <Route path="/track-shipment" element={<TrackYourShipments />} />
-          <Route path="/gallery" element={<PublicGallery />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-and-conditions" element={<TermsConditions />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<ContactUS />} />
+            <Route path="/get-a-quote" element={<GetaQuote />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/shipment-calculator" element={<ShipmentCalculator />} />
+            <Route path="/track-shipment" element={<TrackYourShipments />} />
+            <Route path="/gallery" element={<PublicGallery />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsConditions />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </FeatureAccessProvider>
     </Router>
   );

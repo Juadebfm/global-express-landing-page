@@ -179,6 +179,7 @@ const Quote = () => {
         <img
           src={calculate}
           alt=""
+          loading="lazy"
           className="w-full h-auto max-lg:max-w-md max-sm:max-w-sm"
         />
       </div>

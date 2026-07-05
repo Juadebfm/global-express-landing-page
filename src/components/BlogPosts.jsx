@@ -74,6 +74,7 @@ const BlogPosts = () => {
             <img
               src={post.image}
               alt={post.title}
+              loading="lazy"
               className="w-full h-44 md:h-52 object-cover rounded-lg lg:rounded-none"
             />
 

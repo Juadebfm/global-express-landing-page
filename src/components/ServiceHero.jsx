@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import service from "../assets/service.png";
+import service from "../assets/service.webp";
 
 const ServiceHero = () => {
   return (

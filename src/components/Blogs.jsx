@@ -19,27 +19,25 @@ const Blogs = () => {
             <img
               src={ship1}
               alt="Ship 1"
+              loading="lazy"
               className="w-full rounded-lg lg:rounded-none"
             />
             <p className="text-[color:var(--accent)] text-[12px] mt-4 md:mt-5 lg:mt-6 font-semibold">
-              Sunday , 1 Jan 2023
+              Monday, 3 Mar 2025
             </p>
             <h6 className="text-lg md:text-xl lg:text-xl font-semibold mt-3 lg:mt-4">
-              UX review presentations
+              How Air Freight Works: Korea to Nigeria in 5–7 Days
             </h6>
             <p className="mt-3 lg:mt-4 text-sm w-full text-[color:var(--text-muted)]">
-              How do you create compelling presentations that wow your
-              colleagues and impress your managers?
+              We break down the full air freight journey — from pickup in Seoul
+              to doorstep delivery in Lagos — and what affects your transit time.
             </p>
             <div className="flex items-center flex-wrap lg:flex-nowrap gap-3 lg:gap-4 mt-4 lg:mt-6 text-xs md:text-sm lg:text-sm">
-              <button className="text-[color:var(--accent)] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
-                Design
+              <button className="text-[color:var(--accent)] bg-[#FFF4EE] px-3 lg:px-4 py-1 rounded-2xl">
+                Air Freight
               </button>
               <button className="text-[#3538CD] bg-[#EEF4FF] px-3 lg:px-4 py-1 rounded-2xl">
-                Research
-              </button>
-              <button className="text-[#C14315] bg-[#FDF2FA] px-3 lg:px-4 py-1 rounded-2xl">
-                Presentation
+                Nigeria
               </button>
             </div>
           </div>
@@ -53,26 +51,27 @@ const Blogs = () => {
               <img
                 src={ship2}
                 alt="Ship 2"
+                loading="lazy"
                 className="w-full h-full lg:h-auto object-cover lg:object-fill"
               />
             </div>
             <div className="flex-1">
               <p className="text-[color:var(--accent)] text-[12px] font-semibold">
-                Sunday , 1 Jan 2023
+                Wednesday, 19 Mar 2025
               </p>
               <h6 className="text-base md:text-lg lg:text-xl font-semibold mt-2 md:mt-3 lg:mt-4">
-                Migrating to Linear 101
+                Sea Freight vs. Air Freight: Which Is Right for Your Cargo?
               </h6>
               <p className="mt-2 md:mt-3 lg:mt-4 text-xs md:text-sm lg:text-sm w-full text-[color:var(--text-muted)]">
-                Linear helps streamline software projects, sprints, tasks, and
-                bug tracking. Here's how to get...
+                Cost, weight, urgency, and item type all factor in. Here's how
+                to choose the right mode for your next shipment.
               </p>
               <div className="flex flex-wrap gap-2 md:gap-3 lg:gap-4 mt-3 md:mt-4 lg:mt-6 text-xs md:text-sm lg:text-sm">
-                <button className="text-[color:var(--accent)] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
-                  Design
+                <button className="text-[#3538CD] bg-[#EEF4FF] px-3 lg:px-4 py-1 rounded-2xl">
+                  Sea Freight
                 </button>
-                <button className="text-[#C14315] bg-[#FDF2FA] px-3 lg:px-4 py-1 rounded-2xl">
-                  Research
+                <button className="text-[color:var(--accent)] bg-[#FFF4EE] px-3 lg:px-4 py-1 rounded-2xl">
+                  Air Freight
                 </button>
               </div>
             </div>
@@ -84,26 +83,27 @@ const Blogs = () => {
               <img
                 src={ship3}
                 alt="Ship 3"
+                loading="lazy"
                 className="w-full h-full lg:h-auto object-cover lg:object-fill"
               />
             </div>
             <div className="flex-1">
               <p className="text-[color:var(--accent)] text-[12px] font-semibold">
-                Sunday , 1 Jan 2023
+                Tuesday, 1 Apr 2025
               </p>
               <h6 className="text-base md:text-lg lg:text-xl font-semibold mt-2 md:mt-3 lg:mt-4">
-                Migrating to Linear 101
+                Nigerian Customs Clearance: A Step-by-Step Guide
               </h6>
               <p className="mt-2 md:mt-3 lg:mt-4 text-xs md:text-sm lg:text-sm w-full text-[color:var(--text-muted)]">
-                Linear helps streamline software projects, sprints, tasks, and
-                bug tracking. Here's how to get...
+                Navigating SON, NAFDAC, and NCS requirements doesn't have to be
+                stressful. Here's what to prepare.
               </p>
               <div className="flex flex-wrap gap-2 md:gap-3 lg:gap-4 mt-3 md:mt-4 lg:mt-6 text-xs md:text-sm lg:text-sm">
-                <button className="text-[color:var(--accent)] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
-                  Design
-                </button>
                 <button className="text-[#C14315] bg-[#FDF2FA] px-3 lg:px-4 py-1 rounded-2xl">
-                  Research
+                  Customs
+                </button>
+                <button className="text-[#3538CD] bg-[#EEF4FF] px-3 lg:px-4 py-1 rounded-2xl">
+                  Nigeria
                 </button>
               </div>
             </div>
@@ -117,28 +117,27 @@ const Blogs = () => {
           className="w-full md:w-1/2 rounded-lg lg:rounded-none"
           src={ship4}
           alt="Ship 4"
+          loading="lazy"
         />
         <div className="w-full md:w-1/2">
           <p className="text-[color:var(--accent)] text-[12px] font-semibold">
-            Sunday , 1 Jan 2023
+            Friday, 18 Apr 2025
           </p>
           <h6 className="text-lg md:text-xl lg:text-xl font-semibold mt-3 lg:mt-4">
-            Grid system for better Design User Interface
+            Understanding CBM: How We Calculate Sea Freight Rates
           </h6>
           <p className="mt-3 lg:mt-4 text-sm w-full text-[color:var(--text-muted)]">
-            A grid system is a design tool used to arrange content on a webpage.
-            It is a series of vertical and horizontal lines that create a matrix
-            of intersecting points, which can be used to align and organize page
-            elements. Grid systems are used to create a consistent look and feel
-            across a website, and can help to make the layout more visually
-            appealing and easier to navigate.
+            Cubic metre (CBM) pricing can be confusing. We explain how ocean
+            freight is measured and priced so you can estimate your costs
+            accurately before shipping. Knowing your CBM helps you choose
+            between LCL and FCL and avoid surprises on your invoice.
           </p>
           <div className="flex flex-wrap gap-3 lg:gap-4 mt-4 md:mt-6 lg:mt-8 text-xs md:text-sm lg:text-sm">
-            <button className="text-[color:var(--accent)] bg-[#F9F5FF] px-3 lg:px-4 py-1 rounded-2xl">
-              Design
+            <button className="text-[#3538CD] bg-[#EEF4FF] px-3 lg:px-4 py-1 rounded-2xl">
+              Sea Freight
             </button>
-            <button className="text-[#C14315] bg-[#FDF2FA] px-3 lg:px-4 py-1 rounded-2xl">
-              Research
+            <button className="text-[color:var(--accent)] bg-[#FFF4EE] px-3 lg:px-4 py-1 rounded-2xl">
+              Pricing
             </button>
           </div>
         </div>
