@@ -83,7 +83,9 @@ const HomeAbout = () => {
           <img
             src={achievementImage}
             alt="Shipping containers at port"
+            loading="lazy"
             className="max-w-full h-auto max-md:max-w-[500px] max-sm:max-w-full"
+            onError={(e) => { e.target.style.display = "none"; }}
           />
         </div>
       </div>

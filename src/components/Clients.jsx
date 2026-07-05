@@ -40,7 +40,7 @@ const Clients = () => {
   return (
     <div
       className="bg-cover bg-center bg-no-repeat h-[450px] mt-24 max-w-[92%] mx-auto relative mb-16 max-md:h-auto max-md:mt-20 max-md:mb-12 max-sm:mt-16 max-sm:mb-8 max-sm:max-w-full max-sm:flex max-sm:items-center max-sm:justify-center max-sm:py-12"
-      style={{ backgroundImage: `url(${BG_IMAGE})` }}
+      style={{ backgroundImage: `url(${BG_IMAGE})`, backgroundColor: "#0d1f35" }}
     >
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40" />

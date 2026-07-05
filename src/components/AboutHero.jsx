@@ -22,7 +22,7 @@ const AboutHero = () => {
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${ABOUT_BG})` }}
+        style={{ backgroundImage: `url(${ABOUT_BG})`, backgroundColor: "#0d1f35" }}
       />
 
       {/* Dark overlay */}

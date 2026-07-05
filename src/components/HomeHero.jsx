@@ -52,6 +52,7 @@ const HomeHero = () => {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out"
           style={{
             backgroundImage: `url(${slide.image})`,
+            backgroundColor: "#0d1f35",
             opacity: i === current ? 1 : 0,
           }}
           aria-hidden={i !== current}

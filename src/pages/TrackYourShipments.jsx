@@ -1,5 +1,3 @@
-import UnavailableFeaturePage from "../components/UnavailableFeaturePage";
+import Track from "../components/Track";
 
-const TrackYourShipments = () => <UnavailableFeaturePage feature="track" />;
-
-export default TrackYourShipments;
+export default Track;

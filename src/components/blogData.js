@@ -1,381 +1,153 @@
-// Make sure these paths match your actual folder structure
 import ship1 from "../assets/ship1.png";
 import ship2 from "../assets/ship2.png";
 import ship3 from "../assets/ship3.png";
 import ship4 from "../assets/ship4.png";
 
+const images = [ship1, ship2, ship3, ship4];
+
 export const blogPosts = [
   {
     id: 1,
-    image: ship1,
-    date: "Sunday, 1 Jan 2023",
-    title: "UX review presentations",
+    image: images[0],
+    date: "Monday, 3 Mar 2025",
+    title: "How Air Freight Works: Korea to Nigeria in 5–7 Days",
     description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
+      "We break down the full air freight journey — from pickup in Seoul to doorstep delivery in Lagos — and what affects your transit time.",
     tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Research", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      {
-        name: "Presentation",
-        color: "text-[#C14315]",
-        bgColor: "bg-[#FDF2FA]",
-      },
+      { name: "Air Freight", color: "text-[#FF6600]", bgColor: "bg-[#FFF4EE]" },
+      { name: "Nigeria", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
     ],
   },
   {
     id: 2,
-    image: ship2,
-    date: "Monday, 2 Jan 2023",
-    title: "Migrating to Linear 101",
+    image: images[1],
+    date: "Wednesday, 19 Mar 2025",
+    title: "Sea Freight vs. Air Freight: Which Is Right for Your Cargo?",
     description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking. Here's how to get started.",
+      "Cost, weight, urgency, and item type all factor into the decision. Here's how to choose the right mode for your next shipment.",
     tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Research", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Sea Freight", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
+      { name: "Air Freight", color: "text-[#FF6600]", bgColor: "bg-[#FFF4EE]" },
     ],
   },
   {
     id: 3,
-    image: ship3,
-    date: "Tuesday, 3 Jan 2023",
-    title: "Building your API Stack",
+    image: images[2],
+    date: "Tuesday, 1 Apr 2025",
+    title: "Nigerian Customs Clearance: A Step-by-Step Guide for Importers",
     description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
+      "Navigating SON, NAFDAC, and NCS requirements doesn't have to be stressful. Here's what to expect and how to prepare your documentation.",
     tags: [
-      { name: "Development", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "API", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
+      { name: "Customs", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Nigeria", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
     ],
   },
   {
     id: 4,
-    image: ship4,
-    date: "Wednesday, 4 Jan 2023",
-    title: "Grid system for better Design User Interface",
+    image: images[3],
+    date: "Friday, 18 Apr 2025",
+    title: "Understanding CBM: How We Calculate Sea Freight Rates",
     description:
-      "A grid system is a design tool used to arrange content on a webpage. It creates consistency across layouts.",
+      "Cubic metre (CBM) pricing can be confusing. We explain how ocean freight is measured and priced so you can estimate costs before you ship.",
     tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Interface", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Sea Freight", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
+      { name: "Pricing", color: "text-[#FF6600]", bgColor: "bg-[#FFF4EE]" },
     ],
   },
   {
     id: 5,
-    image: ship1,
-    date: "Thursday, 5 Jan 2023",
-    title: "Introduction to Wireframing",
+    image: images[0],
+    date: "Monday, 5 May 2025",
+    title: "Door-to-Door Shipping from Korea: What's Included",
     description:
-      "Wireframing is an essential part of the design process. Learn the basics and best practices.",
+      "Our D2D service covers collection, export customs, sea or air transit, import clearance, and last-mile delivery. Here's exactly what that means for you.",
     tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "UX", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
+      { name: "D2D", color: "text-[#FF6600]", bgColor: "bg-[#FFF4EE]" },
+      { name: "Korea", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
     ],
   },
   {
     id: 6,
-    image: ship2,
-    date: "Friday, 6 Jan 2023",
-    title: "Understanding Color Theory",
+    image: images[1],
+    date: "Thursday, 22 May 2025",
+    title: "Shipping Electronics from Korea: Compliance Requirements",
     description:
-      "Color theory is both the science and art of using color. Learn how to use it effectively in your designs.",
+      "Consumer electronics face strict NAFDAC and SON requirements at Nigerian ports. We walk through what approvals are needed before your goods ship.",
     tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Theory", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Electronics", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
+      { name: "Compliance", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
     ],
   },
   {
     id: 7,
-    image: ship3,
-    date: "Saturday, 7 Jan 2023",
-    title: "Responsive Web Design Basics",
+    image: images[2],
+    date: "Tuesday, 10 Jun 2025",
+    title: "Tracking Your Shipment in Real Time: How It Works",
     description:
-      "Creating websites that work seamlessly across all devices is crucial in today's mobile-first world.",
+      "Every shipment on our platform gets a live tracking number. Here's how we update status from warehouse receipt through customs release to final delivery.",
     tags: [
-      { name: "Development", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "Responsive", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
+      { name: "Tracking", color: "text-[#FF6600]", bgColor: "bg-[#FFF4EE]" },
+      { name: "Operations", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
     ],
   },
   {
     id: 8,
-    image: ship4,
-    date: "Sunday, 8 Jan 2023",
-    title: "Typography in Modern Design",
+    image: images[3],
+    date: "Monday, 30 Jun 2025",
+    title: "Prohibited and Restricted Items: What You Cannot Ship",
     description:
-      "Good typography is invisible, bad typography is everywhere. Learn the fundamentals of great typography.",
+      "Certain goods are barred by Korean export law or Nigerian import regulations. This list covers the most common restricted categories for Korea–Nigeria routes.",
     tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Typography", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Compliance", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Customs", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
     ],
   },
   {
     id: 9,
-    image: ship1,
-    date: "Monday, 9 Jan 2023",
-    title: "Mastering CSS Flexbox",
+    image: images[0],
+    date: "Wednesday, 16 Jul 2025",
+    title: "How to Pack Fragile Items for International Sea Freight",
     description:
-      "Flexbox is a powerful layout tool that makes it easier to design flexible responsive layout structure.",
+      "Ocean transit is long and container conditions vary. Here are the packing standards we recommend for glassware, ceramics, and fragile machinery parts.",
     tags: [
-      { name: "CSS", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "Development", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
+      { name: "Sea Freight", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
+      { name: "Packaging", color: "text-[#FF6600]", bgColor: "bg-[#FFF4EE]" },
     ],
   },
   {
     id: 10,
-    image: ship2,
-    date: "Tuesday, 10 Jan 2023",
-    title: "Design Systems 101",
+    image: images[1],
+    date: "Friday, 1 Aug 2025",
+    title: "FCL vs. LCL: When Does a Full Container Load Make Sense?",
     description:
-      "A design system is a collection of reusable components guided by clear standards for building products.",
+      "Full Container Load is more cost-effective above a certain volume. We explain when to upgrade from LCL and how lead time changes with each option.",
     tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Systems", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Sea Freight", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
+      { name: "Pricing", color: "text-[#FF6600]", bgColor: "bg-[#FFF4EE]" },
     ],
   },
   {
     id: 11,
-    image: ship3,
-    date: "Wednesday, 11 Jan 2023",
-    title: "User Research Methods",
+    image: images[2],
+    date: "Tuesday, 19 Aug 2025",
+    title: "Supplier Coordination: How We Pick Up From Korean Manufacturers",
     description:
-      "Understanding your users is key to creating successful products. Explore various research methods.",
+      "Our Korean office manages supplier pickups across Seoul, Incheon, Busan, and Goyang. Here's how the supplier booking and collection process works.",
     tags: [
-      { name: "Research", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "UX", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
+      { name: "Korea", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Operations", color: "text-[#FF6600]", bgColor: "bg-[#FFF4EE]" },
     ],
   },
   {
     id: 12,
-    image: ship4,
-    date: "Thursday, 12 Jan 2023",
-    title: "Accessibility in Web Design",
+    image: images[3],
+    date: "Thursday, 4 Sep 2025",
+    title: "Invoice and Duty Planning: Avoiding Delays at the Port",
     description:
-      "Making the web accessible to everyone is not just good practice, it's essential for inclusive design.",
+      "Incorrect commercial invoices are one of the top causes of customs hold-ups in Nigeria. Here's how to prepare your paperwork correctly the first time.",
     tags: [
-      {
-        name: "Accessibility",
-        color: "text-[#FF6600]",
-        bgColor: "bg-[#F9F5FF]",
-      },
-      { name: "Web", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
-    ],
-  },
-  {
-    id: 13,
-    image: ship1,
-    date: "Friday, 13 Jan 2023",
-    title: "Prototyping Best Practices",
-    description:
-      "Prototyping helps you test and validate ideas before full development. Learn the best practices.",
-    tags: [
-      { name: "Prototyping", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-    ],
-  },
-  {
-    id: 14,
-    image: ship2,
-    date: "Saturday, 14 Jan 2023",
-    title: "Mobile-First Design Approach",
-    description:
-      "Starting with mobile design first ensures your product works great on smaller screens and scales up.",
-    tags: [
-      { name: "Mobile", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Design", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
-    ],
-  },
-  {
-    id: 15,
-    image: ship3,
-    date: "Sunday, 15 Jan 2023",
-    title: "Animation in UI Design",
-    description:
-      "Thoughtful animations can enhance user experience by providing feedback and guiding attention.",
-    tags: [
-      { name: "Animation", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "UI", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-    ],
-  },
-  {
-    id: 16,
-    image: ship4,
-    date: "Monday, 16 Jan 2023",
-    title: "Dark Mode Design Patterns",
-    description:
-      "Dark mode is more than just inverting colors. Learn how to design effective dark mode experiences.",
-    tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "UI", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
-    ],
-  },
-  {
-    id: 17,
-    image: ship1,
-    date: "Tuesday, 17 Jan 2023",
-    title: "Information Architecture",
-    description:
-      "Organizing and structuring content effectively is crucial for usability and findability.",
-    tags: [
-      { name: "IA", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "UX", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-    ],
-  },
-  {
-    id: 18,
-    image: ship2,
-    date: "Wednesday, 18 Jan 2023",
-    title: "Microinteractions Design",
-    description:
-      "Small details make a big difference. Learn how to design delightful microinteractions.",
-    tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Interaction", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
-    ],
-  },
-  {
-    id: 19,
-    image: ship3,
-    date: "Thursday, 19 Jan 2023",
-    title: "Component-Driven Development",
-    description:
-      "Building UIs with components improves reusability, consistency, and development speed.",
-    tags: [
-      { name: "Development", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "Components", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-    ],
-  },
-  {
-    id: 20,
-    image: ship4,
-    date: "Friday, 20 Jan 2023",
-    title: "Design Handoff Process",
-    description:
-      "Smooth handoffs between design and development teams are essential for successful product delivery.",
-    tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Process", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
-    ],
-  },
-  {
-    id: 21,
-    image: ship1,
-    date: "Saturday, 21 Jan 2023",
-    title: "Usability Testing Methods",
-    description:
-      "Testing with real users reveals issues and opportunities you might never discover otherwise.",
-    tags: [
-      { name: "Testing", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "UX", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-    ],
-  },
-  {
-    id: 22,
-    image: ship2,
-    date: "Sunday, 22 Jan 2023",
-    title: "Design Thinking Process",
-    description:
-      "Design thinking is a human-centered approach to innovation that puts the user at the center.",
-    tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Thinking", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
-    ],
-  },
-  {
-    id: 23,
-    image: ship3,
-    date: "Monday, 23 Jan 2023",
-    title: "Performance Optimization",
-    description:
-      "Fast-loading websites provide better user experience and rank higher in search results.",
-    tags: [
-      { name: "Performance", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "Web", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-    ],
-  },
-  {
-    id: 24,
-    image: ship4,
-    date: "Tuesday, 24 Jan 2023",
-    title: "Content Strategy Basics",
-    description:
-      "Good content strategy ensures your message reaches the right people at the right time.",
-    tags: [
-      { name: "Content", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Strategy", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
-    ],
-  },
-  {
-    id: 25,
-    image: ship1,
-    date: "Wednesday, 25 Jan 2023",
-    title: "Version Control for Designers",
-    description:
-      "Version control isn't just for developers. Learn how designers can benefit from Git and similar tools.",
-    tags: [
-      { name: "Tools", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-    ],
-  },
-  {
-    id: 26,
-    image: ship2,
-    date: "Thursday, 26 Jan 2023",
-    title: "Design Critique Guidelines",
-    description:
-      "Effective design critiques help teams improve their work and grow as designers.",
-    tags: [
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Critique", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
-    ],
-  },
-  {
-    id: 27,
-    image: ship3,
-    date: "Friday, 27 Jan 2023",
-    title: "Inclusive Design Principles",
-    description:
-      "Designing for diversity and inclusion makes products better for everyone.",
-    tags: [
-      { name: "Inclusive", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-    ],
-  },
-  {
-    id: 28,
-    image: ship4,
-    date: "Saturday, 28 Jan 2023",
-    title: "Design Documentation",
-    description:
-      "Good documentation ensures design decisions are understood and implemented correctly.",
-    tags: [
-      {
-        name: "Documentation",
-        color: "text-[#FF6600]",
-        bgColor: "bg-[#F9F5FF]",
-      },
-      { name: "Process", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
-    ],
-  },
-  {
-    id: 29,
-    image: ship1,
-    date: "Sunday, 29 Jan 2023",
-    title: "Designing for Emotion",
-    description:
-      "Emotional design creates connections between users and products that go beyond functionality.",
-    tags: [
-      { name: "Emotion", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
-      { name: "Design", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-    ],
-  },
-  {
-    id: 30,
-    image: ship2,
-    date: "Monday, 30 Jan 2023",
-    title: "The Future of Design",
-    description:
-      "Emerging technologies and trends are shaping the future of design in exciting new ways.",
-    tags: [
-      { name: "Future", color: "text-[#FF6600]", bgColor: "bg-[#F9F5FF]" },
-      { name: "Trends", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Customs", color: "text-[#C14315]", bgColor: "bg-[#FDF2FA]" },
+      { name: "Documentation", color: "text-[#3538CD]", bgColor: "bg-[#EEF4FF]" },
     ],
   },
 ];

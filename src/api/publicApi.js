@@ -62,11 +62,19 @@ export const publicApi = {
     return response.data;
   },
 
-  submitCarPurchaseAttempt: async (trackingNumber, payload) => {
+  submitCarPurchaseAttempt: async (trackingNumber, payload, captchaToken) => {
     const response = await apiClient.post(
       `/public/gallery/cars/${encodeURIComponent(trackingNumber)}/purchase-attempt`,
-      payload
+      payload,
+      { headers: captchaToken ? { 'cf-turnstile-response': captchaToken } : {} }
     );
+    return response.data;
+  },
+
+  submitContactInquiry: async (payload, captchaToken) => {
+    const response = await apiClient.post('/public/contact', payload, {
+      headers: captchaToken ? { 'cf-turnstile-response': captchaToken } : {},
+    });
     return response.data;
   },
 };

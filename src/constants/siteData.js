@@ -55,9 +55,9 @@ export const SERVICE_CARDS = [
 ];
 
 export const SOCIAL_LINKS = {
-  youtube: "#",
-  facebook: "#",
-  twitter: "#",
-  instagram: "#",
-  linkedin: "#",
+  youtube: "",
+  facebook: "",
+  twitter: "",
+  instagram: "",
+  linkedin: "",
 };

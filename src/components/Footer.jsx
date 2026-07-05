@@ -162,21 +162,31 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
           Globalexpress@2026. All rights reserved.
         </small>
         <div className="flex items-center gap-6 max-sm:gap-4">
-          <a href={SOCIAL_LINKS.youtube} aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-            <FaYoutube className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
-          </a>
-          <a href={SOCIAL_LINKS.facebook} aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-            <FaFacebookF className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
-          </a>
-          <a href={SOCIAL_LINKS.twitter} aria-label="Twitter" target="_blank" rel="noopener noreferrer">
-            <FaTwitter className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
-          </a>
-          <a href={SOCIAL_LINKS.instagram} aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <FaInstagram className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
-          </a>
-          <a href={SOCIAL_LINKS.linkedin} aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-            <FaLinkedinIn className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
-          </a>
+          {SOCIAL_LINKS.youtube && (
+            <a href={SOCIAL_LINKS.youtube} aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+              <FaYoutube className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
+            </a>
+          )}
+          {SOCIAL_LINKS.facebook && (
+            <a href={SOCIAL_LINKS.facebook} aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+              <FaFacebookF className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
+            </a>
+          )}
+          {SOCIAL_LINKS.twitter && (
+            <a href={SOCIAL_LINKS.twitter} aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+              <FaTwitter className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
+            </a>
+          )}
+          {SOCIAL_LINKS.instagram && (
+            <a href={SOCIAL_LINKS.instagram} aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+              <FaInstagram className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
+            </a>
+          )}
+          {SOCIAL_LINKS.linkedin && (
+            <a href={SOCIAL_LINKS.linkedin} aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+              <FaLinkedinIn className="cursor-pointer hover:text-[color:var(--accent)] transition max-sm:text-sm" />
+            </a>
+          )}
         </div>
       </div>
     </div>

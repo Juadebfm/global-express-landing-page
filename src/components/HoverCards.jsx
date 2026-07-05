@@ -37,7 +37,7 @@ const HoverCards = () => {
           {/* Background Image */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${card.image})` }}
+            style={{ backgroundImage: `url(${card.image})`, backgroundColor: "#0d1f35" }}
           ></div>
 
           {/* Dark overlay */}
