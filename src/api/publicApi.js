@@ -21,13 +21,17 @@ export const publicApi = {
     return response.data;
   },
 
-  submitD2DIntake: async (payload) => {
-    const response = await apiClient.post('/public/d2d/intake', payload);
+  submitD2DIntake: async (payload, captchaToken) => {
+    const response = await apiClient.post('/public/d2d/intake', payload, {
+      headers: captchaToken ? { 'cf-turnstile-response': captchaToken } : {},
+    });
     return response.data;
   },
 
-  subscribeNewsletter: async (email) => {
-    const response = await apiClient.post('/public/newsletter/subscribe', { email });
+  subscribeNewsletter: async (email, captchaToken) => {
+    const response = await apiClient.post('/public/newsletter/subscribe', { email }, {
+      headers: captchaToken ? { 'cf-turnstile-response': captchaToken } : {},
+    });
     return response.data;
   },
 

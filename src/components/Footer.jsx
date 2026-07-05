@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import footerImage from "../assets/footerImage.png";
 import { Link } from "react-router-dom";
 import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
@@ -6,6 +6,7 @@ import { CONTACT, SOCIAL_LINKS } from "../constants/siteData";
 import { publicApi } from "../api/publicApi";
 import { getUserFacingApiError } from "../api/errorUtils";
 import { useFeatureAccess } from "../hooks/useFeatureAccess";
+import { TurnstileWidget } from "./TurnstileWidget";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -16,6 +17,8 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
     type: "",
     message: "",
   });
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const handleCaptchaToken = useCallback((token) => setCaptchaToken(token), []);
   const { openFeatureModal } = useFeatureAccess();
 
   const handleNewsletterSubmit = async (event) => {
@@ -37,7 +40,7 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
         type: "",
         message: "",
       });
-      await publicApi.subscribeNewsletter(email);
+      await publicApi.subscribeNewsletter(email, captchaToken);
       setNewsletterEmail("");
       setNewsletterState({
         loading: false,
@@ -125,6 +128,7 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
               Get shipment updates and route alerts in your inbox.
             </p>
             <form onSubmit={handleNewsletterSubmit} className="space-y-2 max-w-[280px]">
+              <TurnstileWidget onToken={handleCaptchaToken} className="mb-1" />
               <input
                 type="email"
                 value={newsletterEmail}

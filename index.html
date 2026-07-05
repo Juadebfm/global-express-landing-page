@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Global Express — 20+ years of international freight forwarding and logistics services connecting Korea, China, and Nigeria. Air cargo, ocean shipping, customs clearing, and door-to-door delivery." />
     <title>Global Express — International Freight & Logistics</title>
+    <script>
+      window.onloadTurnstileCallback = function () {
+        window.dispatchEvent(new Event('turnstile:loaded'))
+      }
+    </script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
   </head>
   <body>
     <div id="root"></div>

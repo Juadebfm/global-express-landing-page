@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import calculator from "../assets/calculator.png";
 import Footer from "../components/Footer";
 import { publicApi } from "../api/publicApi";
+import { TurnstileWidget } from "../components/TurnstileWidget";
 
 const INPUT_CLASS =
   "w-full px-4 py-3 bg-transparent border border-[color:var(--border)] rounded-md focus:outline-none focus:ring-2 focus:ring-[color:var(--accent)] text-[color:var(--text)]";
@@ -282,6 +283,8 @@ const ShipmentCalculator = () => {
     heightCm: "",
   });
   const [d2dForm, setD2dForm] = useState(DEFAULT_D2D_FORM);
+  const [d2dCaptchaToken, setD2dCaptchaToken] = useState(null);
+  const handleD2dCaptchaToken = useCallback((token) => setD2dCaptchaToken(token), []);
   const [result, setResult] = useState(null);
   const [intakeResult, setIntakeResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -733,7 +736,7 @@ const ShipmentCalculator = () => {
           payload.estimatedCbm = Number(resolvedCbm.toFixed(6));
         }
 
-        const response = await publicApi.submitD2DIntake(payload);
+        const response = await publicApi.submitD2DIntake(payload, d2dCaptchaToken);
         setIntakeResult(response?.data || null);
         setToast({ visible: false, message: "" });
       } else {
@@ -1558,7 +1561,12 @@ const ShipmentCalculator = () => {
                   </div>
                 )}
 
-                <div className="flex justify-center pt-10 max-sm:pt-6">
+                {isIntakeMode && (
+                  <div className="flex justify-center pt-6">
+                    <TurnstileWidget onToken={handleD2dCaptchaToken} />
+                  </div>
+                )}
+                <div className="flex justify-center pt-4 max-sm:pt-4">
                   <button
                     type="submit"
                     disabled={loading}
