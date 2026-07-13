@@ -44,6 +44,28 @@ body {
   }
 }
 
+@layer components {
+  .page-shell {
+    @apply px-4 sm:px-8 lg:px-16;
+  }
+
+  .page-frame {
+    @apply mx-auto w-full max-w-7xl;
+  }
+
+  .page-frame-wide {
+    @apply mx-auto w-full max-w-5xl;
+  }
+
+  .page-frame-narrow {
+    @apply mx-auto w-full max-w-4xl;
+  }
+
+  .page-frame-tight {
+    @apply mx-auto w-full max-w-[980px];
+  }
+}
+
 .theme-number {
   filter: invert(1);
 }

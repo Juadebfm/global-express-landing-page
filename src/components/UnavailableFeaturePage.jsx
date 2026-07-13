@@ -21,9 +21,9 @@ const UnavailableFeaturePage = ({ feature }) => {
     <div className="min-h-screen bg-[color:var(--bg)] text-[color:var(--text)]">
       <Header />
 
-      <main className="pt-24 lg:pt-20 max-sm:pt-16 px-4 sm:px-8 lg:px-16 pb-0">
+      <main className="page-shell pt-24 pb-0 lg:pt-20 max-sm:pt-16">
         <section className="min-h-[68vh] flex items-center justify-center py-10">
-          <div className="relative w-full max-w-5xl overflow-hidden rounded-[32px] border border-[color:var(--border)] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(247,241,236,0.92))] p-8 shadow-[0_28px_90px_rgba(15,23,42,0.12)] sm:p-10 lg:p-14">
+          <div className="relative page-frame-wide overflow-hidden rounded-[32px] border border-[color:var(--border)] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(247,241,236,0.92))] p-8 shadow-[0_28px_90px_rgba(15,23,42,0.12)] sm:p-10 lg:p-14">
             <div className="absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,rgba(255,106,0,0.18),transparent_55%)] pointer-events-none" />
             <div className="relative max-w-2xl">
               <p className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--accent)]">

@@ -27,8 +27,8 @@ const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <div className="pt-32 lg:pt-28 px-4 sm:px-8 lg:px-16 pb-12">
-        <div className="max-w-4xl">
+      <div className="page-shell pt-32 pb-12 lg:pt-28">
+        <div className="page-frame-narrow">
           <h1 className="text-[30px] font-bold text-[color:var(--accent)] max-md:text-3xl max-sm:text-2xl">
             Privacy Policy
           </h1>

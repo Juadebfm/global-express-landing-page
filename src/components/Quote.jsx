@@ -43,19 +43,20 @@ const Quote = () => {
   };
 
   return (
-    <div className="px-8 md:px-16 text-[color:var(--text)] pt-32 flex justify-between gap-8 max-lg:flex-col max-md:pt-24 max-sm:pt-16 max-sm:px-4 max-sm:gap-6">
-      <div className="w-[50%] max-lg:w-full">
-        <div className="mb-8 max-sm:mb-6">
-          <h1 className="text-[color:var(--accent)] text-[40px] font-bold max-md:text-3xl max-sm:text-2xl">
-            Shipping Calculator
-          </h1>
-          <p className="max-sm:text-sm">
-            Get a quick quote for your item with an estimated cost.
-          </p>
-        </div>
+    <div className="page-shell pt-32 text-[color:var(--text)] max-md:pt-24 max-sm:pt-16">
+      <div className="page-frame flex justify-between gap-8 max-lg:flex-col max-sm:gap-6">
+        <div className="flex-1 max-w-2xl max-lg:max-w-full">
+          <div className="mb-8 max-sm:mb-6">
+            <h1 className="text-[color:var(--accent)] text-[40px] font-bold max-md:text-3xl max-sm:text-2xl">
+              Shipping Calculator
+            </h1>
+            <p className="max-sm:text-sm">
+              Get a quick quote for your item with an estimated cost.
+            </p>
+          </div>
 
-        <div>
-          <form onSubmit={handleSubmit} className="space-y-6 max-sm:space-y-4">
+          <div>
+            <form onSubmit={handleSubmit} className="space-y-6 max-sm:space-y-4">
             {/* Logistic Type */}
             <div>
               <label
@@ -70,7 +71,7 @@ const Quote = () => {
                 value={formData.logisticType}
                 onChange={handleChange}
                 required
-                className="w-full max-w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none max-md:max-w-full text-[color:var(--text)] max-lg:w-full max-sm:py-3 max-sm:text-sm"
+                className="w-full rounded-lg border border-[color:var(--border)] bg-transparent px-4 py-4 text-[color:var(--text)] outline-none focus:border-transparent focus:ring-2 focus:ring-[#FF6600] max-sm:py-3 max-sm:text-sm"
                 style={{
                   colorScheme: "auto",
                 }}
@@ -106,7 +107,7 @@ const Quote = () => {
                 onChange={handleChange}
                 placeholder="20kg"
                 required
-                className="w-full max-w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none max-md:max-w-full placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
+                className="w-full rounded-lg border border-[color:var(--border)] bg-transparent px-4 py-4 outline-none placeholder:text-gray-400 focus:border-transparent focus:ring-2 focus:ring-[#FF6600] max-sm:py-3 max-sm:text-sm"
               />
             </div>
 
@@ -126,7 +127,7 @@ const Quote = () => {
                 onChange={handleChange}
                 placeholder="e.g General goods"
                 required
-                className="w-full max-w-[90%] px-4 py-4 border border-[color:var(--border)] bg-transparent rounded-lg focus:ring-2 focus:ring-[#FF6600] focus:border-transparent outline-none max-md:max-w-full placeholder:text-gray-400 max-lg:w-full max-sm:py-3 max-sm:text-sm"
+                className="w-full rounded-lg border border-[color:var(--border)] bg-transparent px-4 py-4 outline-none placeholder:text-gray-400 focus:border-transparent focus:ring-2 focus:ring-[#FF6600] max-sm:py-3 max-sm:text-sm"
               />
             </div>
 
@@ -134,54 +135,55 @@ const Quote = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full max-w-[90%] bg-[#FF6600] text-white font-medium py-3 px-4 rounded-lg hover:bg-[#e55a00] transition-colors duration-200 max-md:max-w-full max-sm:text-sm disabled:opacity-60"
+              className="w-full rounded-lg bg-[#FF6600] px-4 py-3 font-medium text-white transition-colors duration-200 hover:bg-[#e55a00] max-sm:text-sm disabled:opacity-60"
             >
               {loading ? "Calculating…" : "Check Cost"}
             </button>
           </form>
 
-          {error && (
-            <div className="mt-4 max-w-[90%] rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 max-md:max-w-full">
-              {error}
-            </div>
-          )}
+            {error && (
+              <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
 
-          {result && (
-            <div className="mt-6 max-w-[90%] rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)] p-5 space-y-3 max-md:max-w-full max-sm:text-sm">
-              <h3 className="font-semibold text-[color:var(--text)]">Estimate</h3>
-              {result.estimatedCostUsd != null ? (
-                <p className="text-2xl font-bold text-[#FF6600] max-sm:text-xl">
-                  ~${result.estimatedCostUsd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
-                </p>
-              ) : (
-                <p className="text-sm text-[color:var(--text-muted)]">
-                  {result.intake?.description ?? result.d2dIntake?.description ?? "Contact us for a tailored quote."}
-                </p>
-              )}
-              <div className="grid grid-cols-2 gap-2 text-sm text-[color:var(--text-muted)]">
-                {result.estimatedTransitDays != null && (
-                  <span>Transit: ~{result.estimatedTransitDays} days</span>
+            {result && (
+              <div className="mt-6 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)] p-5 space-y-3 max-sm:text-sm">
+                <h3 className="font-semibold text-[color:var(--text)]">Estimate</h3>
+                {result.estimatedCostUsd != null ? (
+                  <p className="text-2xl font-bold text-[#FF6600] max-sm:text-xl">
+                    ~${result.estimatedCostUsd.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+                  </p>
+                ) : (
+                  <p className="text-sm text-[color:var(--text-muted)]">
+                    {result.intake?.description ?? result.d2dIntake?.description ?? "Contact us for a tailored quote."}
+                  </p>
                 )}
-                {result.departureFrequency && (
-                  <span>Departures: {result.departureFrequency}</span>
+                <div className="grid grid-cols-2 gap-2 text-sm text-[color:var(--text-muted)]">
+                  {result.estimatedTransitDays != null && (
+                    <span>Transit: ~{result.estimatedTransitDays} days</span>
+                  )}
+                  {result.departureFrequency && (
+                    <span>Departures: {result.departureFrequency}</span>
+                  )}
+                </div>
+                {result.disclaimer && (
+                  <p className="text-xs text-[color:var(--text-muted)] border-t border-[color:var(--border)] pt-3">
+                    {result.disclaimer}
+                  </p>
                 )}
               </div>
-              {result.disclaimer && (
-                <p className="text-xs text-[color:var(--text-muted)] border-t border-[color:var(--border)] pt-3">
-                  {result.disclaimer}
-                </p>
-              )}
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
-      <div className="w-[40%] max-lg:w-full max-lg:flex max-lg:justify-center">
-        <img
-          src={calculate}
-          alt=""
-          loading="lazy"
-          className="w-full h-auto max-lg:max-w-md max-sm:max-w-sm"
-        />
+        <div className="w-full max-w-xl max-lg:flex max-lg:justify-center">
+          <img
+            src={calculate}
+            alt=""
+            loading="lazy"
+            className="h-auto w-full max-lg:max-w-md max-sm:max-w-sm"
+          />
+        </div>
       </div>
     </div>
   );

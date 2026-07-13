@@ -27,29 +27,31 @@ const features = [
 
 const Numbers = () => {
   return (
-    <div className="mx-16 mt-6 grid grid-cols-4 border-t border-b border-[color:var(--border)] max-md:mx-6 max-md:grid-cols-2 max-sm:mx-4 max-sm:grid-cols-1">
-      {features.map((feature, index) => (
-        <div
-          key={feature.number}
-          className={`flex flex-col p-6 py-12 max-sm:text-center
-            ${index < 3 ? "border-r border-[color:var(--border)]" : ""}
-            ${index % 2 !== 0 ? "max-md:border-r-0" : ""}
-            ${index < 2 ? "max-md:border-b" : ""}
-            max-sm:border-r-0
-            ${index < 3 ? "max-sm:border-b" : ""}
-          `}
-        >
-          <p className="text-[80px] font-heading font-extrabold leading-none text-[color:var(--accent)] max-sm:text-[60px]">
-            {feature.number}
-          </p>
-          <h3 className="mt-6 text-[color:var(--text)] text-xl font-heading font-bold">
-            {feature.title}
-          </h3>
-          <p className="text-[color:var(--text-muted)] mt-3 text-sm leading-relaxed flex-1">
-            {feature.description}
-          </p>
-        </div>
-      ))}
+    <div className="page-shell mt-6">
+      <div className="page-frame grid grid-cols-4 border-y border-[color:var(--border)] max-md:grid-cols-2 max-sm:grid-cols-1">
+        {features.map((feature, index) => (
+          <div
+            key={feature.number}
+            className={`flex flex-col p-6 py-12 max-sm:text-center
+              ${index < 3 ? "border-r border-[color:var(--border)]" : ""}
+              ${index % 2 !== 0 ? "max-md:border-r-0" : ""}
+              ${index < 2 ? "max-md:border-b" : ""}
+              max-sm:border-r-0
+              ${index < 3 ? "max-sm:border-b" : ""}
+            `}
+          >
+            <p className="text-[80px] font-heading font-extrabold leading-none text-[color:var(--accent)] max-sm:text-[60px]">
+              {feature.number}
+            </p>
+            <h3 className="mt-6 text-[color:var(--text)] text-xl font-heading font-bold">
+              {feature.title}
+            </h3>
+            <p className="text-[color:var(--text-muted)] mt-3 text-sm leading-relaxed flex-1">
+              {feature.description}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

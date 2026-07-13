@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Link,
+  Navigate,
   useLocation,
 } from "react-router-dom";
 import { useEffect, lazy, Suspense } from "react";
@@ -11,14 +12,13 @@ import { FeatureAccessProvider } from "./contexts/FeatureAccessContext";
 
 const About = lazy(() => import("./pages/About"));
 const ContactUS = lazy(() => import("./pages/ContactUs"));
-const GetaQuote = lazy(() => import("./pages/GetaQuote"));
+const ClaimPackage = lazy(() => import("./pages/ClaimPackage"));
 const Services = lazy(() => import("./pages/Services"));
+const Shop = lazy(() => import("./pages/Shop"));
 const ShipmentCalculator = lazy(() => import("./pages/ShipmentCalculator"));
 const TrackYourShipments = lazy(() => import("./pages/TrackYourShipments"));
-const Blog = lazy(() => import("./pages/Blog"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsConditions = lazy(() => import("./pages/TermsConditions"));
-const PublicGallery = lazy(() => import("./pages/PublicGallery"));
 
 function NotFound() {
   return (
@@ -47,22 +47,43 @@ function ScrollToTop() {
   return null;
 }
 
+function RouteLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-[color:var(--bg)] px-6 pb-16 pt-28">
+      <div className="mx-auto w-full max-w-[1200px] animate-pulse space-y-6">
+        <div className="h-4 w-28 rounded-full bg-[color:var(--muted)]" />
+        <div className="h-12 w-full max-w-2xl rounded-2xl bg-[color:var(--muted)]" />
+        <div className="h-4 w-full max-w-3xl rounded-full bg-[color:var(--muted)]" />
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="h-72 rounded-3xl bg-[color:var(--muted)]" />
+          <div className="h-72 rounded-3xl bg-[color:var(--muted)]" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   return (
     <Router>
       <ScrollToTop />
       <FeatureAccessProvider>
-        <Suspense fallback={null}>
+        <Suspense fallback={<RouteLoadingFallback />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<ContactUS />} />
-            <Route path="/get-a-quote" element={<GetaQuote />} />
+            <Route
+              path="/get-a-quote"
+              element={<Navigate to="/shipment-calculator" replace />}
+            />
+            <Route path="/claim-a-package" element={<ClaimPackage />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/shop" element={<Shop />} />
             <Route path="/shipment-calculator" element={<ShipmentCalculator />} />
             <Route path="/track-shipment" element={<TrackYourShipments />} />
-            <Route path="/gallery" element={<PublicGallery />} />
-            <Route path="/blog" element={<Blog />} />
+            <Route path="/gallery" element={<Navigate to="/shop" replace />} />
+            <Route path="/blog" element={<Navigate to="/" replace />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-and-conditions" element={<TermsConditions />} />
             <Route path="*" element={<NotFound />} />

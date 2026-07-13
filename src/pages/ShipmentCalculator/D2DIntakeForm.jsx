@@ -1,3 +1,4 @@
+import { LuChevronDown } from "react-icons/lu";
 import { DELIVERY_COUNTRY, INPUT_CLASS } from "./utils";
 
 const D2DIntakeForm = ({
@@ -9,63 +10,27 @@ const D2DIntakeForm = ({
   deliveryCities,
   citiesLoading,
   locationLoadError,
-  fieldErrors,
 }) => (
   <div className="mt-8 border border-[color:var(--border)] rounded-lg p-4 space-y-4">
     <h6 className="font-semibold text-[color:var(--text)]">
-      Door-to-Door Intake Details
+      Door-to-Door Route Details
     </h6>
+    <p className="text-sm text-[color:var(--text-muted)]">
+      Enter the route details once and we&apos;ll compare likely D2D pricing
+      for both air and ocean delivery.
+    </p>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          Full Name{isIntakeFieldRequired("fullName") && <span className="text-red-700">*</span>}
-        </label>
-        <input
-          type="text"
-          name="fullName"
-          value={d2dForm.fullName}
-          onChange={handleD2DChange}
-          placeholder="Enter full name"
-          className={getInputClass("fullName")}
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          Email{isIntakeFieldRequired("email") && <span className="text-red-700">*</span>}
-        </label>
-        <input
-          type="email"
-          name="email"
-          value={d2dForm.email}
-          onChange={handleD2DChange}
-          placeholder="Enter email address"
-          className={getInputClass("email")}
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          Phone Number{isIntakeFieldRequired("phone") && <span className="text-red-700">*</span>}
-        </label>
-        <input
-          type="text"
-          name="phone"
-          value={d2dForm.phone}
-          onChange={handleD2DChange}
-          placeholder="Enter phone number"
-          className={getInputClass("phone")}
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          City{isIntakeFieldRequired("city") && <span className="text-red-700">*</span>}
+          Pickup City{isIntakeFieldRequired("city") && <span className="text-red-700">*</span>}
         </label>
         <input
           type="text"
           name="city"
           value={d2dForm.city}
           onChange={handleD2DChange}
-          placeholder="Enter city"
-          className={getInputClass("city")}
+          readOnly
+          className={`${INPUT_CLASS} bg-gray-100/70 cursor-not-allowed`}
         />
       </div>
       <div>
@@ -77,21 +42,8 @@ const D2DIntakeForm = ({
           name="country"
           value={d2dForm.country}
           onChange={handleD2DChange}
-          placeholder="Enter origin country"
-          className={getInputClass("country")}
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          Delivery Phone{isIntakeFieldRequired("deliveryPhone") && <span className="text-red-700">*</span>}
-        </label>
-        <input
-          type="text"
-          name="deliveryPhone"
-          value={d2dForm.deliveryPhone}
-          onChange={handleD2DChange}
-          placeholder="Enter delivery contact phone"
-          className={getInputClass("deliveryPhone")}
+          readOnly
+          className={`${INPUT_CLASS} bg-gray-100/70 cursor-not-allowed`}
         />
       </div>
       <div>
@@ -107,82 +59,58 @@ const D2DIntakeForm = ({
       </div>
       <div>
         <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          Delivery City
+          Delivery State{isIntakeFieldRequired("deliveryState") && <span className="text-red-700">*</span>}
         </label>
-        <select
-          name="deliveryCity"
-          value={d2dForm.deliveryCity}
-          onChange={handleD2DChange}
-          className={getInputClass("deliveryCity")}
-          disabled={!d2dForm.deliveryState || citiesLoading}
-        >
-          <option value="">
-            {d2dForm.deliveryState
-              ? citiesLoading
-                ? "Loading cities..."
-                : "Select delivery city"
-              : "Select delivery state first"}
-          </option>
-          {deliveryCities.map((city) => (
-            <option key={city} value={city}>{city}</option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            name="deliveryState"
+            value={d2dForm.deliveryState}
+            onChange={handleD2DChange}
+            className={`${getInputClass("deliveryState")} appearance-none pr-12`}
+          >
+            <option value="">Select delivery state</option>
+            {nigeriaStates.map((state) => (
+              <option key={state.value} value={state.value}>
+                {state.label}
+              </option>
+            ))}
+          </select>
+          <LuChevronDown
+            size={18}
+            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]"
+            aria-hidden="true"
+          />
+        </div>
       </div>
       <div>
         <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          Delivery State
+          Delivery City{isIntakeFieldRequired("deliveryCity") && <span className="text-red-700">*</span>}
         </label>
-        <select
-          name="deliveryState"
-          value={d2dForm.deliveryState}
-          onChange={handleD2DChange}
-          className={getInputClass("deliveryState")}
-        >
-          <option value="">Select delivery state</option>
-          {nigeriaStates.map((state) => (
-            <option key={state} value={state}>{state}</option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          Delivery Postal Code
-        </label>
-        <input
-          type="text"
-          name="deliveryPostalCode"
-          value={d2dForm.deliveryPostalCode}
-          onChange={handleD2DChange}
-          placeholder="Enter postal code"
-          className={getInputClass("deliveryPostalCode")}
-        />
-      </div>
-      <div className="md:col-span-2">
-        <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          Delivery Address Line 1
-          {isIntakeFieldRequired("deliveryAddressLine1") && <span className="text-red-700">*</span>}
-        </label>
-        <input
-          type="text"
-          name="deliveryAddressLine1"
-          value={d2dForm.deliveryAddressLine1}
-          onChange={handleD2DChange}
-          placeholder="Enter delivery address"
-          className={getInputClass("deliveryAddressLine1")}
-        />
-      </div>
-      <div className="md:col-span-2">
-        <label className="block text-sm font-medium mb-2 text-[color:var(--text)]">
-          Delivery Landmark
-        </label>
-        <input
-          type="text"
-          name="deliveryLandmark"
-          value={d2dForm.deliveryLandmark}
-          onChange={handleD2DChange}
-          placeholder="Enter nearby landmark (optional)"
-          className={getInputClass("deliveryLandmark")}
-        />
+        <div className="relative">
+          <select
+            name="deliveryCity"
+            value={d2dForm.deliveryCity}
+            onChange={handleD2DChange}
+            className={`${getInputClass("deliveryCity")} appearance-none pr-12 disabled:bg-gray-100/70 disabled:text-[color:var(--text-muted)] disabled:cursor-not-allowed`}
+            disabled={!d2dForm.deliveryState || citiesLoading}
+          >
+            <option value="">
+              {d2dForm.deliveryState
+                ? citiesLoading
+                  ? "Loading cities..."
+                  : "Select delivery city"
+                : "Select delivery state first"}
+            </option>
+            {deliveryCities.map((city) => (
+              <option key={city} value={city}>{city}</option>
+            ))}
+          </select>
+          <LuChevronDown
+            size={18}
+            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]"
+            aria-hidden="true"
+          />
+        </div>
       </div>
     </div>
     {locationLoadError && (
@@ -202,37 +130,6 @@ const D2DIntakeForm = ({
         className={getInputClass("goodsDescription")}
       />
     </div>
-    <label
-      className={`flex items-center gap-2 text-sm text-[color:var(--text)] rounded-md px-2 py-1 ${
-        fieldErrors?.wantsAccount ? "border-2 border-red-600 bg-red-50/30" : ""
-      }`}
-    >
-      <input
-        type="checkbox"
-        name="wantsAccount"
-        checked={d2dForm.wantsAccount}
-        onChange={handleD2DChange}
-      />
-      I want to create an account after this request
-    </label>
-    <label
-      className={`flex items-start gap-2 text-sm text-[color:var(--text)] rounded-md px-2 py-1 ${
-        fieldErrors?.consentAcknowledgement ? "border-2 border-red-600 bg-red-50/30" : ""
-      }`}
-    >
-      <input
-        type="checkbox"
-        name="consentAcknowledgement"
-        checked={d2dForm.consentAcknowledgement}
-        onChange={handleD2DChange}
-        className="mt-1"
-      />
-      I confirm that the information provided is accurate and I consent to be
-      contacted for this shipment request.
-      {isIntakeFieldRequired("consentAcknowledgement") && (
-        <span className="text-red-700">*</span>
-      )}
-    </label>
   </div>
 );
 

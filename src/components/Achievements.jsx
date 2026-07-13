@@ -3,11 +3,6 @@ const achievementImage =
   "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80";
 import { LuMoveRight } from "react-icons/lu";
 
-const achievementGradient = {
-  background:
-    "linear-gradient(135deg, var(--achievement-gradient-start) 0%, var(--achievement-gradient-end) 100%)",
-};
-
 const achievements = [
   "20+ Years of Uninterrupted Service Since 2003",
   "3 Global Hubs: Korea, China, and Nigeria",
@@ -17,61 +12,59 @@ const achievements = [
 
 const Achievements = () => {
   return (
-    <div className="px-16 text-[color:var(--text)] mt-32 flex gap-12 max-md:px-6 max-md:flex-col max-md:gap-8 max-md:mt-20 max-sm:px-4 max-sm:mt-16">
-      {/* CONTENT */}
-      <div className="flex-1">
-        <div className="flex items-center gap-2">
-          <img src={horizontal} alt="horizontal line" />
-          <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide">Our Achievements</p>
+    <div className="page-shell mt-32 text-[color:var(--text)] max-md:mt-20 max-sm:mt-16">
+      <div className="page-frame flex gap-12 max-md:flex-col max-md:gap-8">
+        {/* CONTENT */}
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <img src={horizontal} alt="horizontal line" />
+            <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide">Our Achievements</p>
+          </div>
+
+          <h4 className="text-[32px] font-bold leading-tight mt-3 max-md:text-[28px] max-sm:text-[24px]">
+            WHY OUR MILESTONES MATTER TO YOU
+          </h4>
+
+          <p className="text-[17px] text-[color:var(--text-muted)] mt-4 max-w-[70%] max-md:max-w-full">
+            <span className="font-bold">Two Decades of Reliability</span> We
+            didn't just start yesterday. Registered as Hazyom Holdings in 2003, we
+            have spent over 20 years perfecting the trade routes between Asia and
+            Africa.
+          </p>
+
+          <p className="text-[17px] text-[color:var(--text-muted)] mt-4 max-w-[70%] max-md:max-w-full">
+            <span className="font-bold">Expert Customs Integration</span> Our
+            long-term relationship with Nigerian Customs isn't just a stat—it's
+            your guarantee. We've cleared thousands of shipments without the
+            typical delays that halt other businesses.
+          </p>
+
+          <p className="text-[17px] text-[color:var(--text-muted)] mt-4 max-w-[70%] max-md:max-w-full">
+            <span className="font-bold">Multimodal Versatility</span> From small
+            parcels to heavy machinery, we have successfully managed air, ocean,
+            and land freight for over 500+ corporate clients worldwide.
+          </p>
+
+          <p className="text-base mt-4">We have:</p>
+          {achievements.map((item, index) => (
+            <div key={index} className="w-full">
+              <div className="group flex items-center gap-3 cursor-pointer px-3 py-4 transition-colors duration-300 hover:bg-[color:var(--accent)] hover:text-white">
+                <LuMoveRight className="text-lg transition-transform duration-300 group-hover:translate-x-1" />
+                <p>{item}</p>
+              </div>
+              <hr className="border-gray-300" />
+            </div>
+          ))}
         </div>
 
-        <h4 className="text-[32px] font-bold leading-tight mt-3 max-md:text-[28px] max-sm:text-[24px]">
-          WHY OUR MILESTONES MATTER TO YOU
-        </h4>
-
-        <p className="text-[17px] text-[color:var(--text-muted)] mt-4 max-w-[70%] max-md:max-w-full">
-          <span className="font-bold">Two Decades of Reliability</span> We
-          didn't just start yesterday. Registered as Hazyom Holdings in 2003, we
-          have spent over 20 years perfecting the trade routes between Asia and
-          Africa.
-        </p>
-
-        <p className="text-[17px] text-[color:var(--text-muted)] mt-4 max-w-[70%] max-md:max-w-full">
-          <span className="font-bold">Expert Customs Integration</span> Our
-          long-term relationship with Nigerian Customs isn't just a stat—it's
-          your guarantee. We've cleared thousands of shipments without the
-          typical delays that halt other businesses.
-        </p>
-
-        <p className="text-[17px] text-[color:var(--text-muted)] mt-4 max-w-[70%] max-md:max-w-full">
-          <span className="font-bold">Multimodal Versatility</span> From small
-          parcels to heavy machinery, we have successfully managed air, ocean,
-          and land freight for over 500+ corporate clients worldwide.
-        </p>
-
-        <p className="text-base mt-4">We have:</p>
-        {achievements.map((item, index) => (
-          <div key={index} className="mt-4 md:w-[60%]">
-            <div className="group relative flex items-center gap-3 cursor-pointer px-3 py-2">
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
-                style={achievementGradient}
-              />
-              <LuMoveRight className="text-lg transition-transform duration-300 group-hover:translate-x-1 z-10" />
-              <p className="z-10">{item}</p>
-            </div>
-            <hr className="border-gray-300 mt-2" />
-          </div>
-        ))}
-      </div>
-
-      {/* IMAGE */}
-      <div className="flex-1 flex justify-end max-md:justify-center max-md:mt-4">
-        <img
-          src={achievementImage}
-          alt="Shipping containers at port"
-          className="max-w-full h-auto max-md:max-w-[500px] max-sm:max-w-full"
-        />
+        {/* IMAGE */}
+        <div className="flex-1 flex justify-end max-md:justify-center max-md:mt-4">
+          <img
+            src={achievementImage}
+            alt="Shipping containers at port"
+            className="max-w-full h-auto max-md:max-w-[500px] max-sm:max-w-full"
+          />
+        </div>
       </div>
     </div>
   );
