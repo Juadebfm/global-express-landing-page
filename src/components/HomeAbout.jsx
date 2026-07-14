@@ -16,9 +16,10 @@ const achievements = [
 
 const HomeAbout = () => {
   return (
-    <div className="mt-24 text-[color:var(--text)] max-sm:mt-16">
+    <div className="page-shell mt-24 text-[color:var(--text)] max-sm:mt-16">
+      <div className="page-frame">
       {/* Intro */}
-      <div className="px-16 max-md:px-6 max-sm:px-4">
+      <div>
         <div className="flex items-center gap-2">
           <img src={horizontal} alt="horizontal line" />
           <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide">About Us</p>
@@ -35,12 +36,12 @@ const HomeAbout = () => {
       </div>
 
       {/* Service Cards */}
-      <div className="px-16 mt-16 max-md:px-6 max-sm:px-4 max-sm:mt-12">
+      <div className="mt-16 max-sm:mt-12">
         <ServiceCards cards={SERVICE_CARDS} className="gap-32 max-md:gap-8" />
       </div>
 
       {/* Achievements */}
-      <div className="px-16 mt-24 flex gap-12 max-md:px-6 max-md:flex-col max-md:gap-8 max-md:mt-16 max-sm:px-4">
+      <div className="mt-24 flex gap-12 max-md:mt-16 max-md:flex-col max-md:gap-8">
         <div className="flex-1">
           <h4 className="text-[32px] font-bold leading-tight max-md:text-[28px] max-sm:text-[24px]">
             WHY OUR MILESTONES MATTER TO YOU
@@ -68,7 +69,7 @@ const HomeAbout = () => {
 
           <p className="text-base mt-4">We have:</p>
           {achievements.map((item, index) => (
-            <div key={index} className="md:w-[60%]">
+            <div key={index} className="w-full">
               <div className="group flex items-center gap-3 cursor-pointer px-3 py-4 transition-colors duration-300 hover:bg-[color:var(--accent)] hover:text-white">
                 <LuMoveRight className="text-lg transition-transform duration-300 group-hover:translate-x-1" />
                 <p>{item}</p>
@@ -88,6 +89,7 @@ const HomeAbout = () => {
             onError={(e) => { e.target.style.display = "none"; }}
           />
         </div>
+      </div>
       </div>
     </div>
   );

@@ -5,34 +5,36 @@ const MISSION_IMAGE =
 
 const OurMission = () => {
   return (
-    <div className="px-16 text-[color:var(--text)] flex justify-center items-center gap-8 mt-36 max-md:px-8 max-md:flex-col-reverse max-md:mt-16 max-sm:px-4 max-sm:mt-12 md:mb-48">
-      <div className="flex-1 flex justify-center max-md:w-full">
-        <img
-          src={MISSION_IMAGE}
-          alt="Business partnership"
-          className="w-[75%] max-w-[500px] h-auto max-md:w-full max-md:max-w-[400px] rounded-full object-cover aspect-square"
-        />
-      </div>
-      <div className="flex-1 max-md:w-full">
-        <div className="max-md:w-full">
-          <div className="flex items-center gap-2">
-            <img src={horizontal} alt="horizontal line" />
-            <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide max-sm:text-[13px]">About Us</p>
+    <div className="page-shell mt-36 text-[color:var(--text)] max-md:mt-16 max-sm:mt-12 md:mb-48">
+      <div className="page-frame flex items-center justify-center gap-8 max-md:flex-col-reverse">
+        <div className="flex-1 flex justify-center max-md:w-full">
+          <img
+            src={MISSION_IMAGE}
+            alt="Business partnership"
+            className="w-[75%] max-w-[500px] h-auto max-md:w-full max-md:max-w-[400px] rounded-full object-cover aspect-square"
+          />
+        </div>
+        <div className="flex-1 max-md:w-full">
+          <div className="max-md:w-full">
+            <div className="flex items-center gap-2">
+              <img src={horizontal} alt="horizontal line" />
+              <p className="text-sm font-semibold text-[color:var(--accent)] uppercase tracking-wide max-sm:text-[13px]">About Us</p>
+            </div>
+            <h4 className="text-[32px] font-bold leading-tight max-md:text-[28px] max-sm:text-[24px]">
+              TWO DECADES OF LOGISTICS EXCELLENCE
+            </h4>
+            <p className="mt-4 text-[17px] text-[color:var(--text-muted)] max-sm:text-[15px] leading-relaxed">
+              Our mission is to tailor our business to the requirements of our
+              clients -large and small- by providing accurate data management,
+              administrative support, and creative expertise to meet
+              transportation needs of all kinds.
+            </p>
+            <p className="mt-6 max-sm:mt-4 text-[17px] text-[color:var(--text-muted)] max-sm:text-[15px] leading-relaxed">
+              Global Express provides a unique blend of experience with air,
+              ocean, barge, rail, and truck transportation for the execution of
+              the most demanding shipping requirements.
+            </p>
           </div>
-          <h4 className="text-[32px] font-bold leading-tight max-md:text-[28px] max-sm:text-[24px]">
-            TWO DECADES OF LOGISTICS EXCELLENCE
-          </h4>
-          <p className="mt-4 text-[17px] text-[color:var(--text-muted)] max-sm:text-[15px] leading-relaxed">
-            Our mission is to tailor our business to the requirements of our
-            clients -large and small- by providing accurate data management,
-            administrative support, and creative expertise to meet
-            transportation needs of all kinds.
-          </p>
-          <p className="mt-6 max-sm:mt-4 text-[17px] text-[color:var(--text-muted)] max-sm:text-[15px] leading-relaxed">
-            Global Express provides a unique blend of experience with air,
-            ocean, barge, rail, and truck transportation for the execution of
-            the most demanding shipping requirements.
-          </p>
         </div>
       </div>
     </div>

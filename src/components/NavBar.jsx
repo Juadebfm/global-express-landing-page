@@ -16,12 +16,20 @@ const NavBar = ({ isScrolled }) => {
       : "pb-1 hover:text-[color:var(--accent)] transition-colors";
 
   return (
-    <div className={`w-full px-8 bg-[color:var(--nav-bg)] mx-auto absolute left-1/2 -translate-x-1/2 top-full ${isScrolled ? "lg:px-16" : "md:w-[92%] lg:-mt-6"} shadow-[0_4px_10px_rgba(128,128,128,0.5)] z-50 transition-[margin,width,padding] duration-300 ease-in-out`}>
+    <div
+      className={`absolute left-1/2 top-full z-50 w-full -translate-x-1/2 transition-[margin] duration-300 ease-in-out ${isScrolled ? "" : "lg:-mt-6"}`}
+    >
+      <div className="page-shell">
+        <div
+          className={`mx-auto bg-[color:var(--nav-bg)] px-6 sm:px-8 lg:px-10 shadow-[0_4px_10px_rgba(128,128,128,0.5)] ${
+            isScrolled ? "w-full" : "md:w-[92%]"
+          }`}
+        >
       <nav className="flex items-center justify-between">
         {/* Desktop Layout */}
-        <div className="hidden lg:flex items-center justify-between gap-16">
-          <img src={globallogo} alt="Global Express Logo" />
-          <ul className="text-[color:var(--text)] flex items-center gap-6 py-6 text-[13px] font-heading font-medium whitespace-nowrap">
+        <div className="hidden min-w-0 lg:flex items-center justify-between gap-10 xl:gap-16">
+          <img className="h-auto w-[170px] xl:w-auto" src={globallogo} alt="Global Express Logo" />
+          <ul className="flex items-center gap-4 whitespace-nowrap py-6 text-xs font-heading font-medium text-[color:var(--text)] xl:gap-6 xl:text-[13px]">
             {NAV_LINKS.map((link) => (
               <li key={link.to}>
                 <NavLink to={link.to} className={navLinkClass}>
@@ -32,7 +40,7 @@ const NavBar = ({ isScrolled }) => {
           </ul>
         </div>
 
-        <div className="hidden lg:flex text-[color:var(--text)] text-[13px] font-heading font-medium items-center gap-4 whitespace-nowrap">
+        <div className="hidden items-center gap-3 whitespace-nowrap text-xs font-heading font-medium text-[color:var(--text)] xl:gap-4 xl:text-[13px] lg:flex">
           <button
             type="button"
             onClick={() => openFeatureModal("track")}
@@ -58,10 +66,10 @@ const NavBar = ({ isScrolled }) => {
         </div>
 
         {/* Mobile Layout */}
-        <div className="lg:hidden w-full">
+        <div className="w-full lg:hidden">
           <div className="flex items-center justify-between py-4">
             <img
-              className="w-auto block"
+              className="block h-auto w-[170px] max-sm:w-[150px]"
               src={globallogo}
               alt="Global Express Logo"
             />
@@ -128,6 +136,8 @@ const NavBar = ({ isScrolled }) => {
           </div>
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 };

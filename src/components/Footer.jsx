@@ -34,6 +34,15 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
       return;
     }
 
+    if (!captchaToken) {
+      setNewsletterState({
+        loading: false,
+        type: "error",
+        message: "Please complete the verification check before subscribing.",
+      });
+      return;
+    }
+
     try {
       setNewsletterState({
         loading: true,
@@ -61,8 +70,10 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
   };
 
   return (
-    <div className={`${topSpacingClass} w-full overflow-hidden px-16 pb-8 text-[color:var(--footer-text)] bg-[color:var(--footer-bg)] max-md:px-6 max-sm:px-4`}>
-      <div className="flex items-start mt-12 max-md:flex-col max-md:gap-8 max-md:mt-8 max-sm:gap-6">
+    <div className={`${topSpacingClass} w-full overflow-hidden bg-[color:var(--footer-bg)] text-[color:var(--footer-text)]`}>
+      <div className="page-shell pb-8">
+      <div className="page-frame">
+      <div className="mt-12 flex items-start max-md:mt-8 max-md:flex-col max-md:gap-8 max-sm:gap-6">
         <div className="shrink-0 max-md:w-full max-md:flex max-md:justify-center max-sm:justify-start">
           <img
             src={footerImage}
@@ -81,7 +92,7 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
                 <Link to="/services">Services</Link>
               </li>
               <li>
-                <Link to="/blog">Blog</Link>
+                <Link to="/shop">Shop</Link>
               </li>
               <li>
                 <Link to="/contact">Contact Us</Link>
@@ -93,6 +104,9 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
             <ul className="text-[14px] text-[color:var(--footer-text)] font-[Lato] flex flex-col gap-6 max-sm:gap-4">
               <li>
                 <Link to="/shipment-calculator">Shipment Calculator</Link>
+              </li>
+              <li>
+                <Link to="/claim-a-package">Claim a Package</Link>
               </li>
               <li>
                 <button
@@ -156,8 +170,8 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
           </div>
         </div>
       </div>
-      <div className="w-full h-[0.5px] bg-[color:var(--accent)] mt-10 max-sm:mt-8"></div>
-      <div className="flex items-center justify-between mt-6 max-sm:flex-col max-sm:gap-4 max-sm:items-start">
+      <div className="mt-10 h-[0.5px] w-full bg-[color:var(--accent)] max-sm:mt-8"></div>
+      <div className="mt-6 flex items-center justify-between max-sm:flex-col max-sm:items-start max-sm:gap-4">
         <small className="max-sm:text-[11px]">
           Globalexpress@2026. All rights reserved.
         </small>
@@ -188,6 +202,8 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
             </a>
           )}
         </div>
+      </div>
+      </div>
       </div>
     </div>
   );

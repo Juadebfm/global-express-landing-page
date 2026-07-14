@@ -9,33 +9,23 @@ export const DEFAULT_SHIPMENT_TYPES = [
   { key: "d2d", label: "Door-to-Door (D2D)", coreShipmentType: "d2d", estimatorMode: "INTAKE" },
 ];
 
+export const ORIGIN_COUNTRY = "South Korea";
+export const ORIGIN_CITY = "Goyang-si";
+
 export const DEFAULT_D2D_FORM = {
-  fullName: "",
-  email: "",
-  phone: "",
-  city: "",
-  country: "",
+  city: ORIGIN_CITY,
+  country: ORIGIN_COUNTRY,
   goodsDescription: "",
-  deliveryPhone: "",
-  deliveryAddressLine1: "",
   deliveryState: "",
   deliveryCity: "",
-  deliveryPostalCode: "",
-  deliveryLandmark: "",
-  wantsAccount: false,
-  consentAcknowledgement: false,
 };
 
 export const DEFAULT_D2D_REQUIRED_FIELDS = [
-  "fullName",
-  "email",
-  "phone",
   "city",
   "country",
   "goodsDescription",
-  "deliveryPhone",
-  "deliveryAddressLine1",
-  "consentAcknowledgement",
+  "deliveryState",
+  "deliveryCity",
 ];
 
 export const RESULT_AUTO_REVERT_MS = 5 * 60 * 1000;
@@ -44,11 +34,43 @@ export const DELIVERY_COUNTRY = "Nigeria";
 export const LOCATIONS_API_BASE_URL = "https://countriesnow.space/api/v0.1";
 
 export const NIGERIA_STATES = [
-  "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue",
-  "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT",
-  "Gombe", "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi",
-  "Kwara", "Lagos", "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo",
-  "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara",
+  { label: "Abia", value: "Abia State" },
+  { label: "Adamawa", value: "Adamawa State" },
+  { label: "Akwa Ibom", value: "Akwa Ibom State" },
+  { label: "Anambra", value: "Anambra State" },
+  { label: "Bauchi", value: "Bauchi State" },
+  { label: "Bayelsa", value: "Bayelsa State" },
+  { label: "Benue", value: "Benue State" },
+  { label: "Borno", value: "Borno State" },
+  { label: "Cross River", value: "Cross River State" },
+  { label: "Delta", value: "Delta State" },
+  { label: "Ebonyi", value: "Ebonyi State" },
+  { label: "Edo", value: "Edo State" },
+  { label: "Ekiti", value: "Ekiti State" },
+  { label: "Enugu", value: "Enugu State" },
+  { label: "FCT", value: "Federal Capital Territory" },
+  { label: "Gombe", value: "Gombe State" },
+  { label: "Imo", value: "Imo State" },
+  { label: "Jigawa", value: "Jigawa State" },
+  { label: "Kaduna", value: "Kaduna State" },
+  { label: "Kano", value: "Kano State" },
+  { label: "Katsina", value: "Katsina State" },
+  { label: "Kebbi", value: "Kebbi State" },
+  { label: "Kogi", value: "Kogi State" },
+  { label: "Kwara", value: "Kwara State" },
+  { label: "Lagos", value: "Lagos State" },
+  { label: "Nasarawa", value: "Nasarawa State" },
+  { label: "Niger", value: "Niger State" },
+  { label: "Ogun", value: "Ogun State" },
+  { label: "Ondo", value: "Ondo State" },
+  { label: "Osun", value: "Osun State" },
+  { label: "Oyo", value: "Oyo State" },
+  { label: "Plateau", value: "Plateau State" },
+  { label: "Rivers", value: "Rivers State" },
+  { label: "Sokoto", value: "Sokoto State" },
+  { label: "Taraba", value: "Taraba State" },
+  { label: "Yobe", value: "Yobe State" },
+  { label: "Zamfara", value: "Zamfara State" },
 ];
 
 export const KNOWN_FORM_FIELDS = new Set([
@@ -58,20 +80,11 @@ export const KNOWN_FORM_FIELDS = new Set([
   "lengthCm",
   "widthCm",
   "heightCm",
-  "fullName",
-  "email",
-  "phone",
   "city",
   "country",
   "goodsDescription",
-  "deliveryPhone",
-  "deliveryAddressLine1",
   "deliveryState",
   "deliveryCity",
-  "deliveryPostalCode",
-  "deliveryLandmark",
-  "wantsAccount",
-  "consentAcknowledgement",
 ]);
 
 export const BACKEND_FIELD_ALIASES = {
@@ -82,29 +95,13 @@ export const BACKEND_FIELD_ALIASES = {
   length_cm: "lengthCm",
   width_cm: "widthCm",
   height_cm: "heightCm",
-  full_name: "fullName",
   goods_description: "goodsDescription",
-  delivery_phone: "deliveryPhone",
-  delivery_address_line1: "deliveryAddressLine1",
   delivery_state: "deliveryState",
   delivery_city: "deliveryCity",
-  delivery_postal_code: "deliveryPostalCode",
-  delivery_landmark: "deliveryLandmark",
-  "delivery.phone": "deliveryPhone",
-  "delivery.addressLine1": "deliveryAddressLine1",
   "delivery.state": "deliveryState",
   "delivery.city": "deliveryCity",
-  "delivery.postalCode": "deliveryPostalCode",
-  "delivery.landmark": "deliveryLandmark",
-  "delivery/phone": "deliveryPhone",
-  "delivery/addressLine1": "deliveryAddressLine1",
   "delivery/state": "deliveryState",
   "delivery/city": "deliveryCity",
-  "delivery/postalCode": "deliveryPostalCode",
-  "delivery/landmark": "deliveryLandmark",
-  addressLine1: "deliveryAddressLine1",
-  postalCode: "deliveryPostalCode",
-  landmark: "deliveryLandmark",
   estimatedWeightKg: "weightKg",
   estimated_weight_kg: "weightKg",
   estimatedCbm: "cbm",
@@ -118,20 +115,11 @@ export const FIELD_LABELS = {
   lengthCm: "length",
   widthCm: "width",
   heightCm: "height",
-  fullName: "full name",
-  email: "email",
-  phone: "phone number",
   city: "city",
   country: "country",
   goodsDescription: "goods description",
-  deliveryPhone: "delivery phone number",
-  deliveryAddressLine1: "delivery address",
   deliveryState: "delivery state",
   deliveryCity: "delivery city",
-  deliveryPostalCode: "delivery postal code",
-  deliveryLandmark: "delivery landmark",
-  wantsAccount: "account preference",
-  consentAcknowledgement: "consent acknowledgement",
 };
 
 export const CHARGE_BASIS_LABELS = {
@@ -235,12 +223,6 @@ export const formatFieldList = (fields) => {
   if (labels.length === 1) return labels[0];
   if (labels.length === 2) return `${labels[0]} and ${labels[1]}`;
   return `${labels.slice(0, -1).join(", ")}, and ${labels.at(-1)}`;
-};
-
-export const resolveIntakeFieldKey = (fieldConfig) => {
-  if (typeof fieldConfig === "string") return fieldConfig;
-  if (!fieldConfig || typeof fieldConfig !== "object") return null;
-  return fieldConfig.key || fieldConfig.name || fieldConfig.field || null;
 };
 
 export const getValidationDetailMessage = (validationError, mappedField) => {

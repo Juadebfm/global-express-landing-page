@@ -31,3 +31,4 @@ dist-ssr
 # Markdown policy: only README.md is allowed to be tracked.
 *.md
 !README.md
+!docs/CROSS_REPO_REFERENCE.md

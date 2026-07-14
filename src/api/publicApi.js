@@ -49,6 +49,20 @@ export const publicApi = {
     return response.data;
   },
 
+  getPublicShopVehicles: async (page = 1, limit = 20) => {
+    const response = await apiClient.get('/public/shop/vehicles', {
+      params: { page, limit },
+    });
+    return response.data;
+  },
+
+  getPublicShopItems: async (page = 1, limit = 20) => {
+    const response = await apiClient.get('/public/shop/items', {
+      params: { page, limit },
+    });
+    return response.data;
+  },
+
   presignGalleryClaimUpload: async (payload) => {
     const response = await apiClient.post('/public/gallery/claims/presign', payload);
     return response.data;
@@ -62,11 +76,22 @@ export const publicApi = {
     return response.data;
   },
 
-  submitCarPurchaseAttempt: async (trackingNumber, payload, captchaToken) => {
+  submitPublicVehicleInquiry: async (listingId, payload, captchaToken) => {
     const response = await apiClient.post(
-      `/public/gallery/cars/${encodeURIComponent(trackingNumber)}/purchase-attempt`,
+      `/public/shop/vehicles/${encodeURIComponent(listingId)}/inquiries`,
       payload,
       { headers: captchaToken ? { 'cf-turnstile-response': captchaToken } : {} }
+    );
+    return response.data;
+  },
+
+  submitAuthenticatedShopItemInquiry: async (listingId, payload) => {
+    const response = await apiClient.post(
+      `/shop/items/${encodeURIComponent(listingId)}/inquiries`,
+      payload,
+      {
+        meta: { requiresAuth: true },
+      }
     );
     return response.data;
   },

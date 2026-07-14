@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import { publicApi } from "../api/publicApi";
 import { getUserFacingApiError } from "../api/errorUtils";
 import { TurnstileWidget } from "../components/TurnstileWidget";
-import { useNavigate } from "react-router-dom";
+import { DASHBOARD_URL } from "../constants/siteData";
+
+const dashboardSignInUrl = `${DASHBOARD_URL.replace(/\/$/, "")}/sign-in`;
 
 const formatPrice = (price, currency) => {
   if (!price) return null;
@@ -52,11 +54,20 @@ function CarInquiryModal({ item, onClose }) {
 
   const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!captchaToken) {
+      setState({
+        loading: false,
+        error: "Please complete the verification check before submitting.",
+        success: false,
+      });
+      return;
+    }
+
     setState({ loading: true, error: null, success: false });
     try {
-      await publicApi.submitCarPurchaseAttempt(item.trackingNumber ?? item.id, {
+      await publicApi.submitPublicVehicleInquiry(item.id, {
         fullName: form.fullName,
         email: form.email,
         phone: form.phone,
@@ -77,8 +88,8 @@ function CarInquiryModal({ item, onClose }) {
         {state.success ? (
           <div className="text-center py-4">
             <p className="text-2xl mb-2">✓</p>
-            <h3 className="font-semibold text-[color:var(--text)] mb-1">Request received!</h3>
-            <p className="text-sm text-[color:var(--text-muted)] mb-4">Our team will be in touch shortly.</p>
+            <h3 className="font-semibold text-[color:var(--text)] mb-1">Inquiry received</h3>
+            <p className="text-sm text-[color:var(--text-muted)] mb-4">Our team will confirm availability and follow up shortly.</p>
             <button onClick={onClose} className="rounded-lg bg-[color:var(--accent)] px-6 py-2 text-sm font-semibold text-white">
               Close
             </button>
@@ -87,7 +98,7 @@ function CarInquiryModal({ item, onClose }) {
           <>
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="font-semibold text-[color:var(--text)]">Express Interest</h2>
+                <h2 className="font-semibold text-[color:var(--text)]">Make an Inquiry</h2>
                 <p className="text-sm text-[color:var(--text-muted)]">{item.title}</p>
               </div>
               <button onClick={onClose} className="text-[color:var(--text-muted)] hover:text-[color:var(--text)] ml-2">✕</button>
@@ -134,7 +145,6 @@ function CarInquiryModal({ item, onClose }) {
 }
 
 export default function PublicGallery() {
-  const navigate = useNavigate();
   const [gallery, setGallery] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -155,16 +165,18 @@ export default function PublicGallery() {
   return (
     <div className="text-[color:var(--text)] min-h-screen">
       {/* Hero */}
-      <section className="px-8 pt-32 pb-12 max-md:pt-24 max-sm:pt-16 max-sm:px-4">
-        <h1 className="text-4xl font-bold max-sm:text-2xl">Gallery</h1>
-        <p className="mt-3 text-[color:var(--text-muted)] max-w-xl max-sm:text-sm">
-          Browse available cars, items for sale, and goods awaiting claim. Our team follows up on every inquiry.
-        </p>
+      <section className="page-shell pt-32 pb-12 max-md:pt-24 max-sm:pt-16">
+        <div className="page-frame">
+          <h1 className="text-4xl font-bold max-sm:text-2xl">Gallery</h1>
+          <p className="mt-3 max-w-xl text-[color:var(--text-muted)] max-sm:text-sm">
+            Browse available cars, items for sale, and goods awaiting claim. Our team follows up on every inquiry.
+          </p>
+        </div>
       </section>
 
       {loading && (
-        <div className="px-8 max-sm:px-4 pb-16">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="page-shell pb-16">
+          <div className="page-frame grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="h-64 rounded-2xl bg-[color:var(--muted)] animate-pulse" />
             ))}
@@ -173,19 +185,22 @@ export default function PublicGallery() {
       )}
 
       {error && (
-        <div className="px-8 max-sm:px-4 pb-16">
-          <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+        <div className="page-shell pb-16">
+          <div className="page-frame">
+            <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+          </div>
         </div>
       )}
 
       {!loading && !error && (
-        <div className="px-8 pb-24 space-y-16 max-sm:px-4">
+        <div className="page-shell pb-24">
+          <div className="page-frame space-y-16">
           {/* Cars for sale */}
           {cars.length > 0 && (
             <section>
               <h2 className="text-2xl font-semibold mb-2 max-sm:text-xl">Cars for Sale</h2>
               <p className="text-sm text-[color:var(--text-muted)] mb-6">
-                First-come first-served. Express interest and we'll be in touch with payment details.
+                Browse available vehicles and send an inquiry. Our team will confirm availability and next steps.
               </p>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {cars.map((car) => (
@@ -197,7 +212,7 @@ export default function PublicGallery() {
                         onClick={() => setCarTarget(item)}
                         className="w-full rounded-lg bg-[color:var(--accent)] py-2 text-sm font-semibold text-white hover:opacity-90"
                       >
-                        Express Interest
+                        Make an Inquiry
                       </button>
                     )}
                   />
@@ -220,10 +235,12 @@ export default function PublicGallery() {
                     item={item}
                     renderAction={() => (
                       <button
-                        onClick={() => navigate("/sign-in")}
+                        onClick={() => {
+                          window.location.href = dashboardSignInUrl;
+                        }}
                         className="w-full rounded-lg border border-[color:var(--border)] py-2 text-sm font-medium text-[color:var(--text)] hover:bg-[color:var(--muted)]"
                       >
-                        Log in to Inquire
+                        Sign in to Inquire
                       </button>
                     )}
                   />
@@ -246,10 +263,12 @@ export default function PublicGallery() {
                     item={item}
                     renderAction={() => (
                       <button
-                        onClick={() => navigate("/sign-in")}
+                        onClick={() => {
+                          window.location.href = dashboardSignInUrl;
+                        }}
                         className="w-full rounded-lg border border-[color:var(--border)] py-2 text-sm font-medium text-[color:var(--text)] hover:bg-[color:var(--muted)]"
                       >
-                        Log in to Claim
+                        Sign in to Claim
                       </button>
                     )}
                   />
@@ -264,6 +283,7 @@ export default function PublicGallery() {
               <p className="text-sm mt-1">Check back soon for new listings.</p>
             </div>
           )}
+          </div>
         </div>
       )}
 
