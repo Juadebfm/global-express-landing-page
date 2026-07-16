@@ -63,19 +63,6 @@ export const publicApi = {
     return response.data;
   },
 
-  presignGalleryClaimUpload: async (payload) => {
-    const response = await apiClient.post('/public/gallery/claims/presign', payload);
-    return response.data;
-  },
-
-  submitAnonymousGalleryClaim: async (trackingNumber, payload) => {
-    const response = await apiClient.post(
-      `/public/gallery/anonymous/${encodeURIComponent(trackingNumber)}/claim`,
-      payload
-    );
-    return response.data;
-  },
-
   submitPublicVehicleInquiry: async (listingId, payload, captchaToken) => {
     const response = await apiClient.post(
       `/public/shop/vehicles/${encodeURIComponent(listingId)}/inquiries`,
