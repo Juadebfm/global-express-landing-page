@@ -10,6 +10,17 @@ const skeletonClass =
   "animate-pulse rounded-full bg-[#cfcfcf] dark:bg-[#bdbdbd]";
 const skeletonBlockClass = "animate-pulse bg-[#d7d7d7]";
 
+function formatAvailableUntil(value) {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return date.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 function buildClaimSignInUrl(item) {
   const nextUrl = new URL("/gallery", `${DASHBOARD_URL.replace(/\/$/, "")}/`);
   nextUrl.searchParams.set("intent", "claim");
@@ -46,9 +57,19 @@ function PackageRow({ item }) {
           {displayTitle}
         </p>
       </td>
+      <td className="border-r border-[color:var(--border)] px-4 py-3 pr-6">
+        <p className="text-sm leading-snug text-[color:var(--text-muted)]">
+          {item.description || "—"}
+        </p>
+      </td>
       <td className="border-r border-[color:var(--border)] px-4 py-3 whitespace-nowrap">
         <p className="text-sm font-medium tabular-nums leading-none text-[color:var(--text)]">
           {item.trackingNumberMasked || "Hidden"}
+        </p>
+      </td>
+      <td className="border-r border-[color:var(--border)] px-4 py-3 whitespace-nowrap">
+        <p className="text-sm text-[color:var(--text-muted)]">
+          {formatAvailableUntil(item.endsAt)}
         </p>
       </td>
       <td className="px-4 py-3">
@@ -65,6 +86,67 @@ function PackageRow({ item }) {
   );
 }
 
+function PackageCard({ item }) {
+  const displayTitle = item.title.replace(/^Unclaimed\s+/i, "");
+
+  return (
+    <div className="px-4 py-4">
+      <div className="flex gap-3">
+        {item.previewImageUrl ? (
+          <img
+            src={item.previewImageUrl}
+            alt={item.title}
+            className="h-14 w-14 shrink-0 rounded-md border border-[color:var(--border)] object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-[color:var(--muted)] text-[10px] text-[color:var(--text-muted)]">
+            No image
+          </div>
+        )}
+        <div className="min-w-0 flex-1">
+          <p className="text-[15px] font-semibold leading-tight text-[color:var(--text)]">
+            {displayTitle}
+          </p>
+          {item.description && (
+            <p className="mt-0.5 text-sm leading-snug text-[color:var(--text-muted)]">
+              {item.description}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2">
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-[color:var(--text-muted)]">
+            Tracking
+          </p>
+          <p className="text-sm font-medium tabular-nums text-[color:var(--text)]">
+            {item.trackingNumberMasked || "Hidden"}
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-[color:var(--text-muted)]">
+            Available until
+          </p>
+          <p className="text-sm text-[color:var(--text)]">
+            {formatAvailableUntil(item.endsAt)}
+          </p>
+        </div>
+      </div>
+
+      <button
+        onClick={() => {
+          window.location.href = buildClaimSignInUrl(item);
+        }}
+        className="mt-3 w-full rounded-md bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold leading-none text-white hover:opacity-90"
+      >
+        Claim
+      </button>
+    </div>
+  );
+}
+
 function PackageTableSkeletonRow() {
   return (
     <tr className="border-t border-[color:var(--border)] align-middle">
@@ -77,13 +159,38 @@ function PackageTableSkeletonRow() {
           <div className={`h-3 w-32 ${skeletonClass}`} />
         </div>
       </td>
+      <td className="border-r border-[color:var(--border)] px-4 py-3 pr-6">
+        <div className={`h-4 w-40 ${skeletonClass}`} />
+      </td>
       <td className="border-r border-[color:var(--border)] px-4 py-3">
         <div className={`h-4 w-28 ${skeletonClass}`} />
+      </td>
+      <td className="border-r border-[color:var(--border)] px-4 py-3">
+        <div className={`h-4 w-24 ${skeletonClass}`} />
       </td>
       <td className="px-4 py-3">
         <div className={`h-9 w-20 rounded-md ${skeletonBlockClass}`} />
       </td>
     </tr>
+  );
+}
+
+function PackageCardSkeleton() {
+  return (
+    <div className="px-4 py-4">
+      <div className="flex gap-3">
+        <div className={`h-14 w-14 shrink-0 rounded-md ${skeletonBlockClass}`} />
+        <div className="min-w-0 flex-1 space-y-2">
+          <div className={`h-4 w-40 ${skeletonClass}`} />
+          <div className={`h-3 w-full max-w-[220px] ${skeletonClass}`} />
+        </div>
+      </div>
+      <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2">
+        <div className={`h-3 w-20 ${skeletonClass}`} />
+        <div className={`h-3 w-20 ${skeletonClass}`} />
+      </div>
+      <div className={`mt-3 h-9 w-full rounded-md ${skeletonBlockClass}`} />
+    </div>
   );
 }
 
@@ -102,20 +209,34 @@ function PackageTableSkeleton() {
         <div className={`mt-2 h-4 w-full max-w-md ${skeletonClass}`} />
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Mobile: card skeletons */}
+      <div className="divide-y divide-[color:var(--border)] md:hidden">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <PackageCardSkeleton key={index} />
+        ))}
+      </div>
+
+      {/* Desktop: table skeleton */}
+      <div className="hidden overflow-x-auto md:block">
         <table className="w-full table-fixed text-left">
           <thead className="bg-[color:var(--surface-2)]">
             <tr className="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">
-              <th className="w-24 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+              <th className="w-20 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
                 Image
               </th>
-              <th className="w-[44%] border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+              <th className="w-[26%] border-r border-[color:var(--border)] px-4 py-3 font-semibold">
                 Package
               </th>
-              <th className="w-40 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+              <th className="w-[26%] border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+                Description
+              </th>
+              <th className="w-36 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
                 Tracking
               </th>
-              <th className="w-28 px-4 py-3 font-semibold">Action</th>
+              <th className="w-36 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+                Available until
+              </th>
+              <th className="w-24 px-4 py-3 font-semibold">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -234,20 +355,34 @@ export default function ClaimPackage() {
                 </p>
               </div>
 
-              <div className="overflow-x-auto">
+              {/* Mobile: card list */}
+              <div className="divide-y divide-[color:var(--border)] md:hidden">
+                {anonymousGoods.map((item) => (
+                  <PackageCard key={item.id} item={item} />
+                ))}
+              </div>
+
+              {/* Desktop: table */}
+              <div className="hidden overflow-x-auto md:block">
                 <table className="w-full table-fixed text-left">
                   <thead className="bg-[color:var(--surface-2)]">
                     <tr className="text-xs uppercase tracking-[0.12em] text-[color:var(--text-muted)]">
-                      <th className="w-24 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+                      <th className="w-20 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
                         Image
                       </th>
-                      <th className="w-[44%] border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+                      <th className="w-[26%] border-r border-[color:var(--border)] px-4 py-3 font-semibold">
                         Package
                       </th>
-                      <th className="w-40 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+                      <th className="w-[26%] border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+                        Description
+                      </th>
+                      <th className="w-36 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
                         Tracking
                       </th>
-                      <th className="w-28 px-4 py-3 font-semibold">
+                      <th className="w-36 border-r border-[color:var(--border)] px-4 py-3 font-semibold">
+                        Available until
+                      </th>
+                      <th className="w-24 px-4 py-3 font-semibold">
                         Action
                       </th>
                     </tr>
