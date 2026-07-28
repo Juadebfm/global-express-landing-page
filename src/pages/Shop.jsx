@@ -1,10 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { publicApi } from "../api/publicApi";
 import { getUserFacingApiError } from "../api/errorUtils";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { TurnstileWidget } from "../components/TurnstileWidget";
 import { DASHBOARD_URL } from "../constants/siteData";
 import { AUTH_TOKEN_STORAGE_KEY } from "../constants/auth";
 
@@ -129,51 +128,22 @@ function ShopSectionSkeleton({ title, description, cards = 3 }) {
   );
 }
 
-function CarInquiryModal({ item, onClose }) {
-  const [form, setForm] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [captchaToken, setCaptchaToken] = useState(null);
+function VehicleInquiryModal({ item, onClose }) {
+  const [message, setMessage] = useState("");
   const [state, setState] = useState({
     loading: false,
     error: null,
     success: false,
   });
 
-  const handleCaptchaToken = useCallback((token) => setCaptchaToken(token), []);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setForm((previous) => ({ ...previous, [name]: value }));
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!captchaToken) {
-      setState({
-        loading: false,
-        error: "Please complete the verification check before submitting.",
-        success: false,
-      });
-      return;
-    }
-
     setState({ loading: true, error: null, success: false });
 
     try {
-      await publicApi.submitPublicVehicleInquiry(
-        item.id,
-        {
-          fullName: form.fullName,
-          email: form.email,
-          phone: form.phone,
-          message: form.message || undefined,
-        },
-        captchaToken
-      );
+      await publicApi.submitAuthenticatedShopVehicleInquiry(item.id, {
+        message: message.trim() || undefined,
+      });
 
       setState({ loading: false, error: null, success: true });
     } catch (error) {
@@ -181,7 +151,7 @@ function CarInquiryModal({ item, onClose }) {
         loading: false,
         error: getUserFacingApiError(
           error,
-          "Failed to submit. Please try again."
+          "Failed to send your inquiry. Please try again."
         ),
         success: false,
       });
@@ -202,10 +172,10 @@ function CarInquiryModal({ item, onClose }) {
           <div className="py-4 text-center">
             <p className="mb-2 text-2xl">✓</p>
             <h3 className="mb-1 font-semibold text-[color:var(--text)]">
-              Inquiry received
+              Inquiry sent
             </h3>
             <p className="mb-4 text-sm text-[color:var(--text-muted)]">
-              Our team will confirm availability and share the next steps shortly.
+              Your request is now in the customer workflow. Our team will follow up from there.
             </p>
             <button
               onClick={onClose}
@@ -219,7 +189,7 @@ function CarInquiryModal({ item, onClose }) {
             <div className="mb-4 flex items-start justify-between">
               <div>
                 <h3 className="font-semibold text-[color:var(--text)]">
-                  Make an Inquiry
+                  Send Inquiry
                 </h3>
                 <p className="text-sm text-[color:var(--text-muted)]">
                   {item.title}
@@ -236,59 +206,17 @@ function CarInquiryModal({ item, onClose }) {
             <form onSubmit={handleSubmit} className="space-y-3">
               <div>
                 <label className="mb-1 block text-sm font-medium text-[color:var(--text)]">
-                  Full Name *
-                </label>
-                <input
-                  name="fullName"
-                  value={form.fullName}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-lg border border-[color:var(--border)] bg-transparent px-3 py-2 text-sm text-[color:var(--text)] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-[color:var(--text)]">
-                  Email *
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-lg border border-[color:var(--border)] bg-transparent px-3 py-2 text-sm text-[color:var(--text)] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-[color:var(--text)]">
-                  Phone *
-                </label>
-                <input
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleChange}
-                  minLength={5}
-                  required
-                  className="w-full rounded-lg border border-[color:var(--border)] bg-transparent px-3 py-2 text-sm text-[color:var(--text)] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-[color:var(--text)]">
                   Message
                 </label>
                 <textarea
-                  name="message"
-                  value={form.message}
-                  onChange={handleChange}
-                  rows={2}
+                  value={message}
+                  onChange={(event) => setMessage(event.target.value)}
+                  rows={3}
+                  placeholder="Share what you need to know about this vehicle."
                   className="w-full resize-none rounded-lg border border-[color:var(--border)] bg-transparent px-3 py-2 text-sm text-[color:var(--text)] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
                 />
               </div>
 
-              <TurnstileWidget onToken={handleCaptchaToken} />
               {state.error && (
                 <p className="text-sm text-red-500">{state.error}</p>
               )}
@@ -306,7 +234,7 @@ function CarInquiryModal({ item, onClose }) {
                   disabled={state.loading}
                   className="flex-1 rounded-lg bg-[color:var(--accent)] py-2 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-60"
                 >
-                  {state.loading ? "Submitting..." : "Submit"}
+                  {state.loading ? "Sending..." : "Send"}
                 </button>
               </div>
             </form>
@@ -591,10 +519,14 @@ export default function Shop() {
                     item={item}
                     action={() => (
                       <button
-                        onClick={() => setCarTarget(item)}
+                        onClick={() =>
+                          hasAuthToken
+                            ? setCarTarget(item)
+                            : (window.location.href = buildShopInquirySignInUrl(item))
+                        }
                         className="w-full rounded-lg bg-[color:var(--accent)] py-2 text-sm font-semibold text-white hover:opacity-90"
                       >
-                        Make an Inquiry
+                        {hasAuthToken ? "Make an Inquiry" : "Sign in to Inquire"}
                       </button>
                     )}
                   />
@@ -680,7 +612,7 @@ export default function Shop() {
       <Footer topSpacingClass="mt-24 max-md:mt-20 max-sm:mt-16" />
 
       {carTarget && (
-        <CarInquiryModal
+        <VehicleInquiryModal
           item={carTarget}
           onClose={() => setCarTarget(null)}
         />

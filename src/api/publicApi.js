@@ -63,11 +63,13 @@ export const publicApi = {
     return response.data;
   },
 
-  submitPublicVehicleInquiry: async (listingId, payload, captchaToken) => {
+  submitAuthenticatedShopVehicleInquiry: async (listingId, payload) => {
     const response = await apiClient.post(
-      `/public/shop/vehicles/${encodeURIComponent(listingId)}/inquiries`,
+      `/shop/vehicles/${encodeURIComponent(listingId)}/inquiries`,
       payload,
-      { headers: captchaToken ? { 'cf-turnstile-response': captchaToken } : {} }
+      {
+        meta: { requiresAuth: true },
+      }
     );
     return response.data;
   },
