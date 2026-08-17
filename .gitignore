@@ -23,10 +23,26 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment variables
+# Environment variables (only .env.example is tracked)
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+
+# AI agent / assistant tooling — local only, never pushed
+.claude/
+.cursor/
+.aider*
+.agent/
+AGENTS.md
+CLAUDE.md
+MEMORY.md
+
+# Test/build artifacts
+test-results/
+playwright-report/
+blob-report/
+coverage/
+.vite/
 
 # Markdown policy: only README.md is allowed to be tracked.
 *.md
