@@ -3,7 +3,7 @@ import globallogo from "../assets/globallogo.svg";
 import { NavLink } from "react-router-dom";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
-import { NAV_LINKS } from "../constants/siteData";
+import { DASHBOARD_URL, NAV_LINKS } from "../constants/siteData";
 import { useFeatureAccess } from "../hooks/useFeatureAccess";
 
 const NavBar = ({ isScrolled }) => {
@@ -49,20 +49,18 @@ const NavBar = ({ isScrolled }) => {
             Track your shipment
           </button>
           <p className="text-[color:var(--text-muted)]">|</p>
-          <button
-            type="button"
-            onClick={() => openFeatureModal("signin")}
+          <a
+            href={`${DASHBOARD_URL}/sign-in`}
             className="pb-1 hover:text-[color:var(--accent)] transition-colors"
           >
             Sign in
-          </button>
-          <button
-            type="button"
-            onClick={() => openFeatureModal("signup")}
+          </a>
+          <a
+            href={`${DASHBOARD_URL}/sign-up`}
             className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-5 py-2 rounded-lg hover:bg-[color:var(--accent-hover)] transition-colors"
           >
             Get Started
-          </button>
+          </a>
         </div>
 
         {/* Mobile Layout */}
@@ -113,26 +111,20 @@ const NavBar = ({ isScrolled }) => {
             >
               Track your shipment
             </button>
-            <button
-              type="button"
+            <a
+              href={`${DASHBOARD_URL}/sign-in`}
               className="text-left hover:text-[color:var(--accent)] transition-colors"
-              onClick={() => {
-                setIsMenuOpen(false);
-                openFeatureModal("signin");
-              }}
+              onClick={() => setIsMenuOpen(false)}
             >
               Sign in
-            </button>
-            <button
-              type="button"
+            </a>
+            <a
+              href={`${DASHBOARD_URL}/sign-up`}
               className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg text-left hover:bg-[color:var(--accent-hover)] transition-colors"
-              onClick={() => {
-                setIsMenuOpen(false);
-                openFeatureModal("signup");
-              }}
+              onClick={() => setIsMenuOpen(false)}
             >
               Get Started
-            </button>
+            </a>
           </div>
         </div>
       )}
