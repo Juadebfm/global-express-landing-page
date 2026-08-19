@@ -25,7 +25,22 @@ const GetInTouch = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.fullName.trim() || !form.message.trim()) return;
+    const payload = {
+      fullName: form.fullName.trim(),
+      email: form.email.trim(),
+      phone: form.phone.trim(),
+      message: form.message.trim(),
+    };
+
+    if (!payload.fullName || !payload.email || !payload.phone || !payload.message) {
+      setState({
+        loading: false,
+        success: false,
+        error: "Please complete all required fields before sending your message.",
+      });
+      return;
+    }
+
     if (!captchaToken) {
       setState({
         loading: false,
@@ -38,12 +53,7 @@ const GetInTouch = () => {
     setState({ loading: true, success: false, error: "" });
     try {
       await publicApi.submitContactInquiry(
-        {
-          fullName: form.fullName.trim(),
-          email: form.email.trim() || undefined,
-          phone: form.phone.trim() || undefined,
-          message: form.message.trim(),
-        },
+        payload,
         captchaToken,
       );
       setForm(INITIAL_FORM);
@@ -133,8 +143,9 @@ const GetInTouch = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Full name <span className="text-red-500">*</span></label>
+                    <label htmlFor="contact-full-name" className="block text-sm font-medium mb-1">Full name <span className="text-red-500">*</span></label>
                     <input
+                      id="contact-full-name"
                       type="text"
                       name="fullName"
                       value={form.fullName}
@@ -146,31 +157,36 @@ const GetInTouch = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Email</label>
+                    <label htmlFor="contact-email" className="block text-sm font-medium mb-1">Email <span className="text-red-500">*</span></label>
                     <input
+                      id="contact-email"
                       type="email"
                       name="email"
                       value={form.email}
                       onChange={handleChange}
+                      required
                       placeholder="you@company.com"
                       className={inputClass}
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Phone</label>
+                  <label htmlFor="contact-phone" className="block text-sm font-medium mb-1">Phone <span className="text-red-500">*</span></label>
                   <input
+                    id="contact-phone"
                     type="tel"
                     name="phone"
                     value={form.phone}
                     onChange={handleChange}
+                    required
                     placeholder="+234 900 000 0000"
                     className={inputClass}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Message <span className="text-red-500">*</span></label>
+                  <label htmlFor="contact-message" className="block text-sm font-medium mb-1">Message <span className="text-red-500">*</span></label>
                   <textarea
+                    id="contact-message"
                     name="message"
                     value={form.message}
                     onChange={handleChange}

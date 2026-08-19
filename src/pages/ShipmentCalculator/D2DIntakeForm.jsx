@@ -17,7 +17,8 @@ const D2DIntakeForm = ({
     </h6>
     <p className="text-sm text-[color:var(--text-muted)]">
       Enter the route details once and we&apos;ll compare likely D2D pricing
-      for both air and ocean delivery.
+      for both air and ocean delivery. This page provides estimates only; you
+      can continue your selected option in the customer dashboard.
     </p>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>

@@ -211,6 +211,7 @@ function VehicleInquiryModal({ item, onClose }) {
                 <textarea
                   value={message}
                   onChange={(event) => setMessage(event.target.value)}
+                  maxLength={2000}
                   rows={3}
                   placeholder="Share what you need to know about this vehicle."
                   className="w-full resize-none rounded-lg border border-[color:var(--border)] bg-transparent px-3 py-2 text-sm text-[color:var(--text)] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
@@ -328,6 +329,7 @@ function ItemInquiryModal({ item, onClose }) {
                 <textarea
                   value={message}
                   onChange={(event) => setMessage(event.target.value)}
+                  maxLength={2000}
                   rows={3}
                   placeholder="Share what you need to know about this item."
                   className="w-full resize-none rounded-lg border border-[color:var(--border)] bg-transparent px-3 py-2 text-sm text-[color:var(--text)] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"

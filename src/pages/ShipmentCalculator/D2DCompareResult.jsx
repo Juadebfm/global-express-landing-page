@@ -227,7 +227,9 @@ const D2DCompareResult = ({ comparisonResult, onReset }) => {
           Continue in the customer dashboard
         </h6>
         <p className="mt-2 text-sm text-[color:var(--text-muted)]">
-          Sign in if you already have an account, or create one to continue.
+          This public page provides estimates only. Sign in if you already have
+          an account, or create one to continue your D2D request in the
+          dashboard.
         </p>
 
         <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
