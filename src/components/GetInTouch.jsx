@@ -10,10 +10,17 @@ import { getUserFacingApiError } from "../api/errorUtils";
 import { TurnstileWidget } from "./TurnstileWidget";
 
 const INITIAL_FORM = { fullName: "", email: "", phone: "", message: "" };
+const E164_PHONE_PATTERN = /^\+[1-9]\d{7,14}$/;
+
+function normalizeNigerianPhone(phone) {
+  const compact = phone.trim().replace(/[\s()-]/g, "");
+  return /^0\d{10}$/.test(compact) ? `+234${compact.slice(1)}` : compact;
+}
 
 const GetInTouch = () => {
   const [form, setForm] = useState(INITIAL_FORM);
   const [captchaToken, setCaptchaToken] = useState(null);
+  const [captchaVersion, setCaptchaVersion] = useState(0);
   const [state, setState] = useState({ loading: false, success: false, error: "" });
 
   const handleCaptchaToken = useCallback((token) => setCaptchaToken(token), []);
@@ -28,15 +35,38 @@ const GetInTouch = () => {
     const payload = {
       fullName: form.fullName.trim(),
       email: form.email.trim(),
-      phone: form.phone.trim(),
+      phone: normalizeNigerianPhone(form.phone),
       message: form.message.trim(),
     };
 
-    if (!payload.fullName || !payload.email || !payload.phone || !payload.message) {
+    if (payload.fullName.length < 2 || payload.fullName.length > 100) {
       setState({
         loading: false,
         success: false,
-        error: "Please complete all required fields before sending your message.",
+        error: "Enter your full name using 2 to 100 characters.",
+      });
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      setState({ loading: false, success: false, error: "Enter a valid email address." });
+      return;
+    }
+
+    if (!E164_PHONE_PATTERN.test(payload.phone)) {
+      setState({
+        loading: false,
+        success: false,
+        error: "Enter a phone number in international format, for example +2347063110135.",
+      });
+      return;
+    }
+
+    if (payload.message.length < 10 || payload.message.length > 2000) {
+      setState({
+        loading: false,
+        success: false,
+        error: "Enter a message using 10 to 2,000 characters.",
       });
       return;
     }
@@ -57,9 +87,13 @@ const GetInTouch = () => {
         captchaToken,
       );
       setForm(INITIAL_FORM);
+      setCaptchaToken(null);
+      setCaptchaVersion((version) => version + 1);
       setState({ loading: false, success: true, error: "" });
     } catch (err) {
       const error = getUserFacingApiError(err, "Unable to send your message right now. Please try again.");
+      setCaptchaToken(null);
+      setCaptchaVersion((version) => version + 1);
       setState({ loading: false, success: false, error });
     }
   };
@@ -152,6 +186,7 @@ const GetInTouch = () => {
                       onChange={handleChange}
                       required
                       minLength={2}
+                      maxLength={100}
                       placeholder="Your name"
                       className={inputClass}
                     />
@@ -178,8 +213,9 @@ const GetInTouch = () => {
                     name="phone"
                     value={form.phone}
                     onChange={handleChange}
-                    required
-                    placeholder="+234 900 000 0000"
+                      required
+                      inputMode="tel"
+                      placeholder="+2347063110135 or 07063110135"
                     className={inputClass}
                   />
                 </div>
@@ -192,18 +228,19 @@ const GetInTouch = () => {
                     onChange={handleChange}
                     required
                     minLength={10}
+                    maxLength={2000}
                     rows={4}
                     placeholder="Tell us about your shipment or enquiry"
                     className={`${inputClass} resize-none`}
                   />
                 </div>
-                <TurnstileWidget onToken={handleCaptchaToken} />
+                <TurnstileWidget key={captchaVersion} onToken={handleCaptchaToken} />
                 {state.error && (
                   <p className="text-sm text-red-600">{state.error}</p>
                 )}
                 <button
                   type="submit"
-                  disabled={state.loading}
+                  disabled={state.loading || !captchaToken}
                   className="w-full bg-[color:var(--accent)] text-[color:var(--accent-contrast)] font-semibold py-3 rounded-lg transition-colors hover:bg-[color:var(--accent-hover)] disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {state.loading ? "Sending..." : "Send message"}

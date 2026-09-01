@@ -43,7 +43,7 @@ describe('GetInTouch', () => {
 
     await user.type(screen.getByLabelText(/full name/i), '  Jane Doe  ');
     await user.type(screen.getByLabelText(/email/i), '  jane@example.com  ');
-    await user.type(screen.getByLabelText(/phone/i), '  +234 900 000 0000  ');
+    await user.type(screen.getByLabelText(/phone/i), '  07063110135  ');
     await user.type(
       screen.getByLabelText(/message/i),
       '  I need help with a shipment.  '
@@ -55,7 +55,7 @@ describe('GetInTouch', () => {
         {
           fullName: 'Jane Doe',
           email: 'jane@example.com',
-          phone: '+234 900 000 0000',
+          phone: '+2347063110135',
           message: 'I need help with a shipment.',
         },
         'dev-bypass-token'

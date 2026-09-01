@@ -251,11 +251,19 @@ const ShipmentCalculator = () => {
 
   const handleD2DChange = (e) => {
     const { name, value } = e.target;
-    setD2dForm((prev) => ({ ...prev, [name]: value }));
+    setD2dForm((prev) =>
+      name === "deliveryState"
+        ? { ...prev, deliveryState: value, deliveryCity: "" }
+        : { ...prev, [name]: value }
+    );
     setFieldErrors((prev) => {
-      if (!prev[name]) return prev;
+      const fieldsToClear =
+        name === "deliveryState"
+          ? ["deliveryState", "deliveryCity"]
+          : [name];
+      if (!fieldsToClear.some((field) => prev[field])) return prev;
       const next = { ...prev };
-      delete next[name];
+      fieldsToClear.forEach((field) => delete next[field]);
       return next;
     });
   };

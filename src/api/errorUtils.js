@@ -8,7 +8,10 @@ const HTML_RESPONSE_PATTERN = /^\s*<!doctype html/i;
 // is a raw axios/browser string (e.g. "timeout of 10000ms exceeded") that was
 // never meant for end users, so it must never be treated as a safe message.
 export const extractRawApiError = (error) =>
-  error?.response?.data?.message || error?.response?.data?.error || "";
+  error?.response?.data?.detail ||
+  error?.response?.data?.message ||
+  error?.response?.data?.error ||
+  "";
 
 const isSafeUserMessage = (message) => {
   if (typeof message !== "string") return false;

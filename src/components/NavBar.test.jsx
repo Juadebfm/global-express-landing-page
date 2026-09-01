@@ -9,7 +9,7 @@ vi.mock('../hooks/useFeatureAccess', () => ({
 }));
 
 describe('NavBar dashboard links', () => {
-  it('links sign in and get started to the dashboard', () => {
+  it('links sign in and get started to the customer sign-in page', () => {
     render(
       <MemoryRouter>
         <NavBar isScrolled={false} />
@@ -24,7 +24,7 @@ describe('NavBar dashboard links', () => {
     expect(
       screen
         .getAllByRole('link', { name: 'Get Started' })
-        .every((link) => link.href === `${DASHBOARD_URL}/sign-up`)
+        .every((link) => link.href === `${DASHBOARD_URL}/sign-in`)
     ).toBe(true);
   });
 });

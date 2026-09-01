@@ -56,7 +56,7 @@ const NavBar = ({ isScrolled }) => {
             Sign in
           </a>
           <a
-            href={`${DASHBOARD_URL}/sign-up`}
+            href={`${DASHBOARD_URL}/sign-in`}
             className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-5 py-2 rounded-lg hover:bg-[color:var(--accent-hover)] transition-colors"
           >
             Get Started
@@ -119,7 +119,7 @@ const NavBar = ({ isScrolled }) => {
               Sign in
             </a>
             <a
-              href={`${DASHBOARD_URL}/sign-up`}
+              href={`${DASHBOARD_URL}/sign-in`}
               className="bg-[color:var(--accent)] text-[color:var(--accent-contrast)] px-4 py-2 rounded-lg text-left hover:bg-[color:var(--accent-hover)] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
