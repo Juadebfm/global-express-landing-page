@@ -94,7 +94,7 @@ const TrackYourShipments = () => {
               <input
                 className="min-w-0 flex-1 rounded-lg border border-[color:var(--border)] bg-transparent px-4 py-3 text-[12px] placeholder:text-gray-400 max-sm:text-xs sm:rounded-r-none"
                 type="text"
-                placeholder="e.g., GEX-20260307-164E284A"
+                placeholder="e.g., 20260727-P8SM"
                 value={trackingNumber}
                 onChange={(e) => setTrackingNumber(e.target.value)}
               />
