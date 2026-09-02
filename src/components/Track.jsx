@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import horizontal from "../assets/horizontal.png";
 import { publicApi } from "../api/publicApi";
 import { getUserFacingApiError } from "../api/errorUtils";
+import { DASHBOARD_URL } from "../constants/siteData";
 
 const trackImage =
   "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80";
@@ -21,11 +22,14 @@ const formatDate = (value) => {
   return date.toLocaleString();
 };
 
+const hasValue = (value) => value !== null && value !== undefined && value !== "";
+
 const TrackYourShipments = () => {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const dashboardSignInUrl = `${DASHBOARD_URL.replace(/\/$/, "")}/sign-in`;
 
   const handleTrack = async (e) => {
     e.preventDefault();
@@ -140,6 +144,35 @@ const TrackYourShipments = () => {
                 </div>
               )}
 
+              {result.cargoMetrics &&
+                [
+                  result.cargoMetrics.packageCount,
+                  result.cargoMetrics.totalWeightKg,
+                  result.cargoMetrics.totalCbm,
+                ].some(hasValue) && (
+                  <div className="pt-4 border-t border-[color:var(--border)] space-y-2">
+                    <h6 className="font-bold text-sm">Verified Cargo Metrics</h6>
+                    {hasValue(result.cargoMetrics.packageCount) && (
+                      <div className="flex justify-between text-sm gap-3">
+                        <span className="text-[color:var(--text-muted)]">Packages</span>
+                        <span className="font-semibold text-right">{result.cargoMetrics.packageCount}</span>
+                      </div>
+                    )}
+                    {hasValue(result.cargoMetrics.totalWeightKg) && (
+                      <div className="flex justify-between text-sm gap-3">
+                        <span className="text-[color:var(--text-muted)]">Verified Weight (kg)</span>
+                        <span className="font-semibold text-right">{result.cargoMetrics.totalWeightKg}</span>
+                      </div>
+                    )}
+                    {hasValue(result.cargoMetrics.totalCbm) && (
+                      <div className="flex justify-between text-sm gap-3">
+                        <span className="text-[color:var(--text-muted)]">Total CBM</span>
+                        <span className="font-semibold text-right">{result.cargoMetrics.totalCbm}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
               {result.timeline && result.timeline.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-[color:var(--border)]">
                   <h6 className="font-bold text-sm mb-3">Timeline</h6>
@@ -179,6 +212,13 @@ const TrackYourShipments = () => {
                   </div>
                 </div>
               )}
+
+              <a
+                href={dashboardSignInUrl}
+                className="block w-full rounded-lg border border-[color:var(--accent)] px-4 py-3 text-center text-sm font-semibold text-[color:var(--accent)] transition hover:bg-[color:var(--accent)] hover:text-[color:var(--accent-contrast)]"
+              >
+                For more information, sign in to your dashboard
+              </a>
 
               <button
                 type="button"
