@@ -63,9 +63,9 @@ const TrackYourShipments = () => {
   };
 
   return (
-    <div className="page-shell pt-32 text-[color:var(--text)] max-sm:pt-20">
+    <div className="page-shell pt-24 text-[color:var(--text)] max-lg:pt-20 max-sm:pt-16">
       <div className="page-frame">
-        <div className="flex items-center justify-between gap-16 max-lg:flex-col max-lg:gap-10">
+        <div className="flex items-center justify-between gap-16 max-lg:flex-col max-lg:gap-10 max-sm:gap-8">
         <div className="flex-1 max-lg:w-full">
           <div className="max-md:w-full">
             <div className="flex items-center gap-2">
@@ -78,7 +78,7 @@ const TrackYourShipments = () => {
                 Track Shipment
               </p>
             </div>
-            <h4 className="text-[32px] font-bold max-md:text-[28px] max-sm:text-[24px]">
+            <h4 className="text-[32px] font-bold leading-tight max-md:text-[28px] max-sm:text-[24px]">
               WHERE IS YOUR CARGO?
             </h4>
           </div>
