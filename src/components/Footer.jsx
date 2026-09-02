@@ -5,7 +5,6 @@ import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "re
 import { CONTACT, SOCIAL_LINKS } from "../constants/siteData";
 import { publicApi } from "../api/publicApi";
 import { getUserFacingApiError } from "../api/errorUtils";
-import { useFeatureAccess } from "../hooks/useFeatureAccess";
 import { TurnstileWidget } from "./TurnstileWidget";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -19,7 +18,6 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
   });
   const [captchaToken, setCaptchaToken] = useState(null);
   const handleCaptchaToken = useCallback((token) => setCaptchaToken(token), []);
-  const { openFeatureModal } = useFeatureAccess();
 
   const handleNewsletterSubmit = async (event) => {
     event.preventDefault();
@@ -109,13 +107,12 @@ const Footer = ({ topSpacingClass = "mt-48 max-md:mt-32 max-sm:mt-24" }) => {
                 <Link to="/claim-a-package">Claim a Package</Link>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={() => openFeatureModal("track")}
+                <Link
+                  to="/track-shipment"
                   className="text-left hover:text-[color:var(--accent)] transition-colors"
                 >
                   Track Shipment
-                </button>
+                </Link>
               </li>
             </ul>
           </div>

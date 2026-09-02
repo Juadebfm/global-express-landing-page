@@ -4,11 +4,9 @@ import { NavLink } from "react-router-dom";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { DASHBOARD_URL, NAV_LINKS } from "../constants/siteData";
-import { useFeatureAccess } from "../hooks/useFeatureAccess";
 
 const NavBar = ({ isScrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { openFeatureModal } = useFeatureAccess();
 
   const navLinkClass = ({ isActive }) =>
     isActive
@@ -41,13 +39,12 @@ const NavBar = ({ isScrolled }) => {
         </div>
 
         <div className="hidden items-center gap-3 whitespace-nowrap text-xs font-heading font-medium text-[color:var(--text)] xl:gap-4 xl:text-[13px] lg:flex">
-          <button
-            type="button"
-            onClick={() => openFeatureModal("track")}
+          <NavLink
+            to="/track-shipment"
             className="pb-1 hover:text-[color:var(--accent)] transition-colors"
           >
             Track your shipment
-          </button>
+          </NavLink>
           <p className="text-[color:var(--text-muted)]">|</p>
           <a
             href={`${DASHBOARD_URL}/sign-in`}
@@ -101,16 +98,13 @@ const NavBar = ({ isScrolled }) => {
 
           {/* Mobile actions */}
           <div className="flex flex-col gap-3 mt-6 text-[color:var(--text)] text-sm font-heading font-medium border-t border-gray-600 pt-4">
-            <button
-              type="button"
+            <NavLink
+              to="/track-shipment"
               className="text-left pb-1 hover:text-[color:var(--accent)] transition-colors"
-              onClick={() => {
-                setIsMenuOpen(false);
-                openFeatureModal("track");
-              }}
+              onClick={() => setIsMenuOpen(false)}
             >
               Track your shipment
-            </button>
+            </NavLink>
             <a
               href={`${DASHBOARD_URL}/sign-in`}
               className="text-left hover:text-[color:var(--accent)] transition-colors"

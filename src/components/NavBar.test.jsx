@@ -1,12 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import NavBar from './NavBar';
 import { DASHBOARD_URL } from '../constants/siteData';
-
-vi.mock('../hooks/useFeatureAccess', () => ({
-  useFeatureAccess: () => ({ openFeatureModal: vi.fn() }),
-}));
 
 describe('NavBar dashboard links', () => {
   it('links sign in and get started to the customer sign-in page', () => {
@@ -26,5 +22,12 @@ describe('NavBar dashboard links', () => {
         .getAllByRole('link', { name: 'Get Started' })
         .every((link) => link.href === `${DASHBOARD_URL}/sign-in`)
     ).toBe(true);
+    fireEvent.click(screen.getByRole('button', { name: 'Toggle navigation menu' }));
+
+    const trackingLinks = screen.getAllByRole('link', { name: 'Track your shipment' });
+    expect(trackingLinks).toHaveLength(2);
+    expect(trackingLinks.every((link) => link.getAttribute('href') === '/track-shipment')).toBe(
+      true
+    );
   });
 });
