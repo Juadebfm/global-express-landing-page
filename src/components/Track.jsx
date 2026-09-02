@@ -29,12 +29,12 @@ const TrackYourShipments = () => {
 
   const handleTrack = async (e) => {
     e.preventDefault();
-    const trimmed = trackingNumber.trim();
-    if (!trimmed) {
+    const normalized = trackingNumber.trim().toUpperCase();
+    if (!normalized) {
       setError("Please enter a tracking number.");
       return;
     }
-    if (trimmed.toUpperCase().startsWith("GEX-MASTER-")) {
+    if (/^(AIR|SEA)-/.test(normalized)) {
       setError("Master tracking references are internal and cannot be tracked on the public page.");
       return;
     }
@@ -44,12 +44,11 @@ const TrackYourShipments = () => {
     setLoading(true);
 
     try {
-      const response = await publicApi.trackShipment(trimmed);
+      const response = await publicApi.trackShipment(normalized);
       setResult(response?.data || response);
     } catch (err) {
-      const upper = trimmed.toUpperCase();
-      if (err.response?.status === 404 && upper.startsWith("GEX-MASTER-")) {
-        setError("Master tracking references are internal and cannot be tracked on the public page.");
+      if (err.response?.status === 404) {
+        setError("Shipment not found");
       } else {
         const msg = getUserFacingApiError(
           err,
@@ -87,14 +86,15 @@ const TrackYourShipments = () => {
             Seoul and Guangzhou to its destination.
           </p>
           <form onSubmit={handleTrack} className="mt-8 max-w-2xl max-sm:mt-6">
-            <label className="text-[13px] max-sm:text-xs">
+            <label htmlFor="tracking-number" className="text-[13px] max-sm:text-xs">
               Enter your Tracking Number
             </label>
             <div className="mt-2 flex flex-col gap-2 sm:flex-row">
               <input
+                id="tracking-number"
                 className="min-w-0 flex-1 rounded-lg border border-[color:var(--border)] bg-transparent px-4 py-3 text-[12px] placeholder:text-gray-400 max-sm:text-xs sm:rounded-r-none"
                 type="text"
-                placeholder="e.g., 20260727-P8SM"
+                placeholder="e.g., 20260902-AB12"
                 value={trackingNumber}
                 onChange={(e) => setTrackingNumber(e.target.value)}
               />
@@ -126,20 +126,6 @@ const TrackYourShipments = () => {
                 </div>
               )}
 
-              {result.origin && (
-                <div className="flex justify-between text-sm gap-3">
-                  <span className="text-[color:var(--text-muted)]">Origin</span>
-                  <span className="font-semibold text-right">{result.origin}</span>
-                </div>
-              )}
-
-              {result.destination && (
-                <div className="flex justify-between text-sm gap-3">
-                  <span className="text-[color:var(--text-muted)]">Destination</span>
-                  <span className="font-semibold text-right">{result.destination}</span>
-                </div>
-              )}
-
               {result.lastLocation && (
                 <div className="flex justify-between text-sm gap-3">
                   <span className="text-[color:var(--text-muted)]">Last Location</span>
@@ -151,72 +137,6 @@ const TrackYourShipments = () => {
                 <div className="flex justify-between text-sm gap-3">
                   <span className="text-[color:var(--text-muted)]">Last Update</span>
                   <span className="font-semibold text-right">{result.lastUpdate}</span>
-                </div>
-              )}
-
-              {result.estimatedDelivery && (
-                <div className="flex justify-between text-sm gap-3">
-                  <span className="text-[color:var(--text-muted)]">Estimated Delivery</span>
-                  <span className="font-semibold text-right">{result.estimatedDelivery}</span>
-                </div>
-              )}
-
-              {result.paymentStatus && (
-                <div className="flex justify-between text-sm gap-3">
-                  <span className="text-[color:var(--text-muted)]">Payment Status</span>
-                  <span className="font-semibold text-right">
-                    {formatStatus(result.paymentStatus)}
-                  </span>
-                </div>
-              )}
-
-              {result.shipmentCost && (
-                <div className="pt-4 border-t border-[color:var(--border)] space-y-2">
-                  <h6 className="font-bold text-sm">Shipment Cost</h6>
-                  <div className="flex justify-between text-sm gap-3">
-                    <span className="text-[color:var(--text-muted)]">USD</span>
-                    <span className="font-semibold text-right">
-                      ${result.shipmentCost.usd || "0.00"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm gap-3">
-                    <span className="text-[color:var(--text-muted)]">NGN</span>
-                    <span className="font-semibold text-right">
-                      ₦{result.shipmentCost.ngn || "0.00"}
-                    </span>
-                  </div>
-                  {result.shipmentCost.invoiceStatus && (
-                    <div className="flex justify-between text-sm gap-3">
-                      <span className="text-[color:var(--text-muted)]">Invoice</span>
-                      <span className="font-semibold text-right">
-                        {formatStatus(result.shipmentCost.invoiceStatus)}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {result.cargoMetrics && (
-                <div className="pt-4 border-t border-[color:var(--border)] space-y-2">
-                  <h6 className="font-bold text-sm">Cargo Metrics</h6>
-                  <div className="flex justify-between text-sm gap-3">
-                    <span className="text-[color:var(--text-muted)]">Packages</span>
-                    <span className="font-semibold text-right">
-                      {result.cargoMetrics.packageCount ?? 0}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm gap-3">
-                    <span className="text-[color:var(--text-muted)]">Total Weight (kg)</span>
-                    <span className="font-semibold text-right">
-                      {result.cargoMetrics.totalWeightKg || "0.000"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm gap-3">
-                    <span className="text-[color:var(--text-muted)]">Total CBM</span>
-                    <span className="font-semibold text-right">
-                      {result.cargoMetrics.totalCbm || "0.000000"}
-                    </span>
-                  </div>
                 </div>
               )}
 

@@ -17,7 +17,8 @@ export const publicApi = {
   },
 
   trackShipment: async (trackingNumber) => {
-    const response = await apiClient.get(`/orders/track/${encodeURIComponent(trackingNumber)}`);
+    const normalizedTrackingNumber = trackingNumber.trim().toUpperCase();
+    const response = await apiClient.get(`/orders/track/${encodeURIComponent(normalizedTrackingNumber)}`);
     return response.data;
   },
 

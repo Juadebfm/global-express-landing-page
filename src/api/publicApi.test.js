@@ -1,15 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { post } = vi.hoisted(() => ({ post: vi.fn() }));
+const { get, post } = vi.hoisted(() => ({ get: vi.fn(), post: vi.fn() }));
 
 vi.mock('./apiConfig', () => ({
-  default: { post },
+  default: { get, post },
 }));
 
 import { publicApi } from './publicApi';
 
 describe('publicApi contact contract', () => {
   beforeEach(() => {
+    get.mockReset();
     post.mockReset();
   });
 
@@ -31,5 +32,13 @@ describe('publicApi contact contract', () => {
 
   it('does not expose a public D2D intake request', () => {
     expect(publicApi.submitD2DIntake).toBeUndefined();
+  });
+
+  it('normalizes an order tracking number before calling the public endpoint', async () => {
+    get.mockResolvedValue({ data: { data: { trackingNumber: '20260902-AB12' } } });
+
+    await publicApi.trackShipment(' 20260902-ab12 ');
+
+    expect(get).toHaveBeenCalledWith('/orders/track/20260902-AB12');
   });
 });
